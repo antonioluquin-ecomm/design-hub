@@ -61,7 +61,8 @@
   .mod-sizes-multi,
   .mod-sizes-single,
   .mod-acc-marketplace,
-  .mod-acc-propio { display: none; }
+  .mod-acc-propio,
+  .mod-acc-generico { display: none; }
 
   body[data-video="on"] .mod-video { display: block; }
   body[data-stock="last"] .mod-stock { display: flex; }
@@ -74,9 +75,10 @@
   body[data-sizes="single"] .mod-sizes-single { display: flex; }
   body[data-seller="marketplace"] .mod-acc-marketplace { display: block; }
   body[data-seller="propio"] .mod-acc-propio { display: block; }
+  body[data-seller="generico"] .mod-acc-generico { display: block; }
 </style>
 </head>
-<body data-seller="marketplace" data-video="on" data-discount="off" data-sizes="multi" data-stock="normal" data-coupon="ok">
+<body data-seller="generico" data-video="on" data-discount="off" data-sizes="multi" data-stock="normal" data-coupon="ok">
 
   <aside class="ctrl-panel card">
     <div class="ctrl-panel-head">
@@ -89,7 +91,8 @@
 
       <fieldset class="ctrl-group">
         <legend>Vendedor</legend>
-        <label class="ctrl-option"><input type="radio" name="seller" value="marketplace" checked /> Seller externo (marketplace)</label>
+        <label class="ctrl-option"><input type="radio" name="seller" value="generico" checked /> Genérico (sin seller especial)</label>
+        <label class="ctrl-option"><input type="radio" name="seller" value="marketplace" /> Seller externo (marketplace)</label>
         <label class="ctrl-option"><input type="radio" name="seller" value="propio" /> Tienda propia (Sporting)</label>
       </fieldset>
 
@@ -154,7 +157,8 @@
   <div class="sp-breadcrumb">
     <a href="index.html">Inicio</a><span class="sep">›</span>
     <a href="index.html">Sporting</a><span class="sep">›</span>
-    <a href="#" onclick="return false;">Running</a><span class="sep">›</span>
+    <a href="#" onclick="return false;">Calzado</a><span class="sep">›</span>
+    <a href="#" onclick="return false;">Zapatillas</a><span class="sep">›</span>
     Zapatilla Running Pro X 2026
   </div>
 
@@ -165,6 +169,8 @@
         <img src="https://placehold.co/64x64/e8f0ea/1a2a6c?text=2" />
         <img src="https://placehold.co/64x64/e8f0ea/1a2a6c?text=3" />
         <img src="https://placehold.co/64x64/e8f0ea/1a2a6c?text=4" />
+        <img src="https://placehold.co/64x64/e8f0ea/1a2a6c?text=5" />
+        <img src="https://placehold.co/64x64/e8f0ea/1a2a6c?text=6" />
       </div>
       <div class="sp-main-image">
         <img src="https://placehold.co/560x680/e8f0ea/1a2a6c?text=Zapatilla+Running+Pro+X" />
@@ -283,16 +289,20 @@
       </div>
     </div>
     <div class="sp-accordion-item">
-      <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">Especificaciones <span class="chev">⌄</span></div>
-      <div class="sp-accordion-body">Composición, cuidado del producto y ficha técnica.</div>
-    </div>
-    <div class="sp-accordion-item">
       <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">Detalles <span class="chev">⌄</span></div>
       <div class="sp-accordion-body">Detalles adicionales del producto.</div>
     </div>
     <div class="sp-accordion-item">
+      <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">Especificaciones <span class="chev">⌄</span></div>
+      <div class="sp-accordion-body">Composición, cuidado del producto y ficha técnica.</div>
+    </div>
+    <div class="sp-accordion-item">
       <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">Envíos gratis | desde $149.990 <span class="chev">⌄</span></div>
       <div class="sp-accordion-body">Política de envíos gratis a partir del monto mínimo indicado.</div>
+    </div>
+    <div class="sp-accordion-item mod-acc-generico">
+      <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">Primer cambio | gratis <span class="chev">⌄</span></div>
+      <div class="sp-accordion-body">Primer cambio sin cargo dentro de los plazos habituales. Producto sin regla de seller especial.</div>
     </div>
     <div class="sp-accordion-item mod-acc-marketplace">
       <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">No se admiten cambios directos <span class="chev">⌄</span></div>
@@ -315,6 +325,44 @@
       <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">Reseñas (58) <span class="sp-stars">★★★★★</span> 4.7 <span class="chev">⌄</span></div>
       <div class="sp-accordion-body">Listado de reseñas de compradores verificados.</div>
     </div>
+  </div>
+
+  <div class="sp-section">
+    <div class="sp-section-title">Productos similares</div>
+    <div class="sp-carousel-row">
+      <button class="sp-carousel-arrow" onclick="return false;">‹</button>
+      <div class="sp-carousel-track">
+        <div class="sp-product-card">
+          <div class="sp-product-media"><span class="sp-product-brand">●</span><img src="https://placehold.co/300x300/e8e8e8/999?text=Running+Pro+X+5" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatilla Running Pro X 5 De Hombre</div>
+            <div class="sp-product-price">$89.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $15.000</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+        <div class="sp-product-card">
+          <div class="sp-product-media"><img src="https://placehold.co/300x300/e8e8e8/999?text=Response+2" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatilla Running Response 2 De Hombre</div>
+            <div class="sp-product-price">$139.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $23.333</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+        <div class="sp-product-card">
+          <div class="sp-product-media"><img src="https://placehold.co/300x300/e8e8e8/999?text=Duramo+SL+2" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatilla Running Duramo SL 2 De Hombre</div>
+            <div class="sp-product-price">$129.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $21.667</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+      </div>
+      <button class="sp-carousel-arrow" onclick="return false;">›</button>
+    </div>
+    <div class="sp-carousel-dots"><span></span><span></span><span></span><span></span><span></span></div>
   </div>
 
   <div class="sp-footer">
