@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maqueta — Login Gestión de Pedidos</title>
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
+<style>
+  /*
+   * Réplica visual del login real en https://gestiondepedidos.sporting.com.ar/login
+   * (fuente: navegación en vivo, 2026-07-16). Colores y tipografía tomados con
+   * getComputedStyle del sitio real, no inventados.
+   */
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #ebebeb; font-family: 'Lato', sans-serif; color: #333; }
+
+  .banner {
+    position: relative;
+    height: 130px;
+    background: linear-gradient(90deg, #0a4a5c 0%, #0d5f76 45%, #1a7fa0 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 14px 24px;
+    overflow: hidden;
+  }
+  .banner-top { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; z-index: 1; }
+  .banner-top .icon { width: 20px; height: 20px; border-radius: 4px; background: rgba(255,255,255,.25); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; }
+  .banner-brands { margin-top: 26px; display: flex; gap: 18px; align-items: center; z-index: 1; }
+  .banner-brands .brand { font-weight: 700; letter-spacing: .04em; font-size: 13px; opacity: .95; }
+
+  .login-wrap { display: flex; justify-content: center; padding-top: 40px; }
+  .login-card {
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.15);
+    padding: 24px 28px;
+    width: 320px;
+  }
+  .login-card h2 { font-size: 15px; font-weight: 700; margin: 0 0 16px; line-height: 1.35; color: #222; }
+
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 11px; color: #757575; margin-bottom: 2px; }
+  .field input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 4px 0;
+    font-size: 13px;
+    font-family: 'Lato', sans-serif;
+    outline: none;
+  }
+  .field input:focus { border-bottom-color: #007e9e; }
+  .field-hint { font-size: 10px; color: #007e9e; margin-top: 2px; }
+
+  button.primary {
+    width: 100%;
+    background: #007e9e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 16px;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  button.primary:hover { background: #006a86; }
+</style>
+</head>
+<body>
+  <div class="banner">
+    <div class="banner-top"><span class="icon">▦</span> Gestión de Pedidos</div>
+    <div class="banner-brands">
+      <span class="brand">SPORTING</span>
+      <span class="brand">W WOKER</span>
+    </div>
+  </div>
+
+  <div class="login-wrap">
+    <div class="login-card">
+      <h2>Ingresá tu DNI y número de pedido</h2>
+      <div class="field">
+        <label>DNI</label>
+        <input type="text" />
+      </div>
+      <div class="field">
+        <label>N° de Pedido</label>
+        <input type="text" />
+        <div class="field-hint">Ejemplo: 1053900229102-01</div>
+      </div>
+      <button class="primary">Ingresar</button>
+    </div>
+  </div>
+</body>
+</html>
