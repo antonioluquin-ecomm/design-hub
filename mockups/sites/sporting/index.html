@@ -5,10 +5,85 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Maqueta — Sporting (Home)</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../../design-system/tokens.css" />
 <link rel="stylesheet" href="sporting.css" />
+<style>
+  /*
+    Esta hoja NO describe el sitio real: es el chrome del panel de control
+    y las reglas de on/off de esta herramienta interna. Por eso usa
+    design-system/tokens.css (igual criterio que producto-modular.html),
+    a diferencia de sporting.css que deliberadamente no usa tokens porque
+    replica la marca del sitio real.
+  */
+  .ctrl-panel {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 272px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    z-index: 100;
+    font-family: var(--font), sans-serif;
+  }
+  .ctrl-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 4px; }
+  .ctrl-panel h2 { font-size: 13px; margin: 0; }
+  .ctrl-collapse-btn { width: auto !important; margin: 0 !important; padding: 4px 8px !important; font-size: 14px !important; line-height: 1; flex-shrink: 0; }
+  .ctrl-panel .ctrl-hint { font-size: 11.5px; color: var(--muted); margin: 0 0 16px; line-height: 1.4; }
+  .ctrl-group { margin-bottom: 16px; }
+  .ctrl-group legend { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); padding: 0 0 8px; }
+  .ctrl-option { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 4px 0; cursor: pointer; }
+  .ctrl-option input { cursor: pointer; }
+  .ctrl-panel button { width: 100%; font-size: 12.5px; margin-top: 4px; }
+  .ctrl-copied { font-size: 11.5px; color: var(--success); margin-top: 8px; display: none; }
+  .ctrl-copied.show { display: block; }
+
+  .ctrl-panel.collapsed { width: auto; }
+  .ctrl-panel.collapsed .ctrl-panel-body { display: none; }
+  .ctrl-panel.collapsed .ctrl-panel-head { margin: 0; }
+  .ctrl-panel.collapsed h2 { display: none; }
+
+  @media (max-width: 1180px) {
+    .ctrl-panel { position: static; width: auto; margin: 16px 28px; max-height: none; }
+    .ctrl-panel.collapsed { margin: 16px 28px; }
+  }
+
+  /* --- Reglas on/off: cada sección se oculta según el data-* del <body>
+     que actualiza el panel. --- */
+  body[data-announce="off"] .mod-announce,
+  body[data-hero="off"] .mod-hero,
+  body[data-categorias="off"] .mod-categorias,
+  body[data-novedades="off"] .mod-novedades,
+  body[data-disciplinas="off"] .mod-disciplinas,
+  body[data-footerbenefit="off"] .mod-footerbenefit { display: none; }
+</style>
 </head>
-<body>
-  <div class="sp-announce">Hoy envíos gratis a todo el país a partir de $149.990 <a href="#" onclick="return false;">Ver más</a></div>
+<body data-announce="on" data-hero="on" data-categorias="on" data-novedades="on" data-disciplinas="on" data-footerbenefit="on">
+
+  <aside class="ctrl-panel card">
+    <div class="ctrl-panel-head">
+      <h2>Panel de control — Home</h2>
+      <button type="button" id="collapseBtn" class="secondary ctrl-collapse-btn" title="Colapsar panel" aria-expanded="true">‹</button>
+    </div>
+
+    <div class="ctrl-panel-body">
+      <p class="ctrl-hint">Prendé y apagá secciones para ver cualquier versión de la home. El estado queda en la URL, así que podés compartir el link de una combinación puntual.</p>
+
+      <fieldset class="ctrl-group">
+        <legend>Secciones</legend>
+        <label class="ctrl-option"><input type="checkbox" name="announce" checked /> Announcement bar</label>
+        <label class="ctrl-option"><input type="checkbox" name="hero" checked /> Hero banner promocional</label>
+        <label class="ctrl-option"><input type="checkbox" name="categorias" checked /> Elegí tu categoría</label>
+        <label class="ctrl-option"><input type="checkbox" name="novedades" checked /> Novedades</label>
+        <label class="ctrl-option"><input type="checkbox" name="disciplinas" checked /> Disciplinas</label>
+        <label class="ctrl-option"><input type="checkbox" name="footerbenefit" checked /> Barra "Envío gratis" del footer</label>
+      </fieldset>
+
+      <button type="button" id="copyLinkBtn" class="secondary">Copiar link de esta vista</button>
+      <div class="ctrl-copied" id="copiedMsg">¡Link copiado!</div>
+    </div>
+  </aside>
+
+  <div class="sp-announce mod-announce">Hoy envíos gratis a todo el país a partir de $149.990 <a href="#" onclick="return false;">Ver más</a></div>
 
   <div class="sp-header">
     <div class="sp-left">
@@ -24,14 +99,14 @@
 
   <div class="sp-locationbar">📍 Ingresá: Tu ubicación</div>
 
-  <div class="sp-hero">
+  <div class="sp-hero mod-hero">
     <div class="sp-coupon">🎟 Cupón FINALISSIMA</div>
     <div class="sp-off">20% OFF</div>
     <p style="margin:0 0 18px;opacity:.9;">Con tope de $15.000 para todo el sitio</p>
     <button class="sp-btn">Comprar</button>
   </div>
 
-  <div class="sp-section">
+  <div class="sp-section mod-categorias">
     <div class="sp-section-title">Elegí tu categoría</div>
     <div class="sp-grid">
       <a class="sp-cat-card" href="#">
@@ -51,7 +126,7 @@
     </div>
   </div>
 
-  <div class="sp-section">
+  <div class="sp-section mod-novedades">
     <div class="sp-section-title"><span class="badge">NEW</span> Novedades</div>
     <div class="sp-grid">
       <div class="sp-product-card">
@@ -89,7 +164,7 @@
     </div>
   </div>
 
-  <div class="sp-section">
+  <div class="sp-section mod-disciplinas">
     <div class="sp-section-title">🏆 Preparate para rendir en cada disciplina</div>
     <div class="sp-grid">
       <div class="sp-disc-card">
@@ -106,7 +181,7 @@
   </div>
 
   <div class="sp-footer">
-    <div class="sp-footer-benefit">🚚 Envío gratis</div>
+    <div class="sp-footer-benefit mod-footerbenefit">🚚 Envío gratis</div>
     <div class="sp-footer-links">
       <div>
         <h4>Ayuda</h4>
@@ -129,5 +204,103 @@
     </div>
     <div class="sp-footer-bottom">© Sporting — maqueta de referencia, no es el sitio real</div>
   </div>
+
+<script>
+  // --- Panel de control: cada sección se maneja como un par data-* en
+  // <body>, leído por las reglas CSS de arriba. El estado se sincroniza
+  // con el hash de la URL para poder compartir el link de una combinación
+  // puntual.
+  const MODULES = {
+    announce:      { name: 'announce',      onValue: 'on', offValue: 'off' },
+    hero:          { name: 'hero',          onValue: 'on', offValue: 'off' },
+    categorias:    { name: 'categorias',    onValue: 'on', offValue: 'off' },
+    novedades:     { name: 'novedades',     onValue: 'on', offValue: 'off' },
+    disciplinas:   { name: 'disciplinas',   onValue: 'on', offValue: 'off' },
+    footerbenefit: { name: 'footerbenefit', onValue: 'on', offValue: 'off' },
+  };
+
+  function readState() {
+    const state = {};
+    for (const key in MODULES) {
+      const mod = MODULES[key];
+      const box = document.querySelector(`input[name="${mod.name}"]`);
+      state[key] = box && box.checked ? mod.onValue : mod.offValue;
+    }
+    return state;
+  }
+
+  function applyState(state) {
+    for (const key in state) {
+      document.body.setAttribute('data-' + key, state[key]);
+    }
+  }
+
+  function stateToHash(state) {
+    return Object.keys(state).map(k => `${k}=${state[k]}`).join('&');
+  }
+
+  function hashToState() {
+    const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+    const state = {};
+    for (const key in MODULES) {
+      const val = params.get(key);
+      if (val) state[key] = val;
+    }
+    return state;
+  }
+
+  function syncControlsFromState(state) {
+    for (const key in state) {
+      const mod = MODULES[key];
+      if (!mod) continue;
+      const box = document.querySelector(`input[name="${mod.name}"]`);
+      if (box) box.checked = state[key] === mod.onValue;
+    }
+  }
+
+  function updateFromControls() {
+    const state = readState();
+    applyState(state);
+    history.replaceState(null, '', '#' + stateToHash(state));
+  }
+
+  document.querySelectorAll('.ctrl-panel input').forEach(input => {
+    input.addEventListener('change', updateFromControls);
+  });
+
+  document.getElementById('copyLinkBtn').addEventListener('click', () => {
+    navigator.clipboard.writeText(location.href).then(() => {
+      const msg = document.getElementById('copiedMsg');
+      msg.classList.add('show');
+      setTimeout(() => msg.classList.remove('show'), 1800);
+    });
+  });
+
+  // --- Colapsar panel: estado persistido en localStorage para que se
+  // mantenga colapsado/abierto entre visitas.
+  const COLLAPSE_KEY = 'sp-home-panel-collapsed';
+  const panel = document.querySelector('.ctrl-panel');
+  const collapseBtn = document.getElementById('collapseBtn');
+
+  function setCollapsed(collapsed) {
+    panel.classList.toggle('collapsed', collapsed);
+    collapseBtn.textContent = collapsed ? '›' : '‹';
+    collapseBtn.title = collapsed ? 'Expandir panel' : 'Colapsar panel';
+    collapseBtn.setAttribute('aria-expanded', String(!collapsed));
+    localStorage.setItem(COLLAPSE_KEY, collapsed ? '1' : '0');
+  }
+
+  collapseBtn.addEventListener('click', () => setCollapsed(!panel.classList.contains('collapsed')));
+  setCollapsed(localStorage.getItem(COLLAPSE_KEY) === '1');
+
+  // Estado inicial: hash de la URL (si viene con combinación) o defaults del panel.
+  const initialState = hashToState();
+  if (Object.keys(initialState).length) {
+    syncControlsFromState(initialState);
+    applyState(initialState);
+  } else {
+    updateFromControls();
+  }
+</script>
 </body>
 </html>
