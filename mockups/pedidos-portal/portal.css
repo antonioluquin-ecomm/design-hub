@@ -159,3 +159,39 @@ body {
 /* Botones */
 .pp-btn { background: var(--pp-teal); color: #fff; border: none; border-radius: 4px; padding: 10px 20px; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: 'Lato', sans-serif; }
 .pp-btn:hover { background: var(--pp-teal-hover); }
+.pp-btn.muted { background: #7fb9c7; cursor: default; }
+.pp-btn-link { background: none; border: none; color: var(--pp-teal); font-size: 13.5px; font-family: 'Lato', sans-serif; cursor: pointer; padding: 10px 4px; }
+
+/* Checklist (términos previos a una gestión) */
+.pp-checklist { list-style: none; padding: 0; margin: 0 0 20px; }
+.pp-checklist li { display: flex; gap: 12px; padding: 9px 0; font-size: 14.5px; line-height: 1.5; }
+.pp-checklist li .check { color: var(--pp-teal); font-weight: 700; flex-shrink: 0; }
+.pp-checklist + p { font-size: 13.5px; color: var(--pp-text); }
+.pp-checklist + p a { color: var(--pp-teal); }
+.pp-actions-row { display: flex; align-items: center; gap: 14px; margin-top: 20px; }
+
+/* Steps breadcrumb (flujo de varios pasos) */
+.pp-steps { font-size: 13px; color: var(--pp-muted); margin-bottom: 10px; }
+.pp-steps a { color: var(--pp-teal); text-decoration: none; }
+.pp-steps .sep { margin: 0 6px; }
+.pp-steps .current { color: var(--pp-muted); }
+
+/* Tabla de productos a devolver */
+.pp-table { width: 100%; border-collapse: collapse; }
+.pp-table th { text-align: left; font-size: 12px; color: var(--pp-muted); font-weight: 600; padding-bottom: 10px; border-bottom: 1px solid var(--pp-line); }
+.pp-table td { padding: 14px 0; border-bottom: 1px solid var(--pp-line); font-size: 14px; vertical-align: middle; }
+.pp-table tr:last-child td { border-bottom: none; }
+.pp-table td.producto { font-weight: 600; max-width: 260px; }
+.pp-table td.motivo { color: var(--pp-muted); font-size: 13px; }
+.pp-table td.acciones { text-align: right; white-space: nowrap; }
+.pp-icon-btn { width: 32px; height: 32px; border-radius: 6px; background: var(--pp-teal); color: #fff; border: none; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px; }
+.pp-icon-btn.danger { background: #e53935; }
+.pp-motivo-input { border: 1px solid var(--pp-line); border-radius: 4px; padding: 7px 10px; font-size: 12.5px; font-family: 'Lato', sans-serif; margin-right: 8px; width: 160px; }
+
+/* Formulario de datos (confirmar devolución) */
+.pp-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 32px; }
+.pp-form-grid.cols-3 { grid-template-columns: 2fr 1fr 1fr 1fr; }
+.pp-form-field label { display: block; font-size: 12px; color: var(--pp-teal); font-weight: 600; margin-bottom: 5px; }
+.pp-form-field .val { font-size: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--pp-line); min-height: 20px; }
+.pp-form-field .val.placeholder { color: var(--pp-muted); font-style: italic; }
+.pp-form-section-title { font-size: 15px; font-weight: 700; margin: 0 0 16px; }

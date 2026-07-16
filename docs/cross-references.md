@@ -5,6 +5,6 @@ Mapa explícito de qué maqueta de este repo depende de qué documentación exte
 | Doc origen (sitio/portal) | Sección | Maqueta afectada | Nota |
 |---------------------------|---------|-------------------|------|
 | `../project-standards/style_guide.md` | §3 Colores, §4 Tipografía, §8 Botones | `design-system/tokens.css` + todas las maquetas | Fuente única de tokens visuales — cualquier cambio acá debe reflejarse en `tokens.css` |
-| `gestiondepedidos.sporting.com.ar` (portal en vivo, sin doc propia todavía) | Login, menú de acciones, detalle de pedido, cambios y devoluciones | `mockups/pedidos-portal/{login,menu,detalle-pedido,devolucion-opciones}.html` | Réplica visual confirmada con el usuario 2026-07-16. Si el proceso de devoluciones/cambios cambia en el sitio real, revisar estas 4 maquetas. |
+| `gestiondepedidos.sporting.com.ar` (portal en vivo, sin doc propia todavía) | Login, menú de acciones, detalle de pedido, cambios y devoluciones, flujo de devolución por garantía | `mockups/pedidos-portal/{login,menu,detalle-pedido,devolucion-opciones,garantia-terminos,garantia-productos,garantia-confirmar}.html` | Réplica visual confirmada con el usuario 2026-07-16. Si el proceso de devoluciones/cambios cambia en el sitio real, revisar estas maquetas. |
 
 > Formato de fila: **Doc origen** = archivo y ruta relativa · **Sección** = encabezado o § concreto · **Maqueta afectada** = carpeta bajo `mockups/` · **Nota** = por qué están relacionados o qué falta.

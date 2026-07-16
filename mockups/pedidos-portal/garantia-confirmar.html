@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maqueta — Confirmar devolución</title>
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
+<link rel="stylesheet" href="portal.css" />
+</head>
+<body>
+  <!--
+    Datos de ejemplo (NO son los reales del usuario): design-hub es un
+    repo público en GitHub, así que esta maqueta usa un nombre y
+    dirección genéricos en vez de reproducir DNI/teléfono/domicilio
+    reales capturados en la sesión de prueba.
+  -->
+  <div class="pp-topbar">
+    <div class="pp-brand"><span class="pp-icon">▦</span> Gestión de Pedidos</div>
+    <span class="pp-logout">⏻</span>
+  </div>
+
+  <div class="pp-layout">
+    <div class="pp-main">
+      <div class="pp-steps">
+        <a href="garantia-productos.html">Productos a devolver</a><span class="sep">›</span>
+        <a href="garantia-productos.html">Motivo de la devolución</a><span class="sep">›</span>
+        <span class="current">Confirmar devolución</span>
+      </div>
+      <h1 class="pp-title">Verificá tus datos antes de confirmar</h1>
+
+      <div class="pp-card">
+        <div class="pp-form-section-title">Datos de envío</div>
+        <div class="pp-form-grid">
+          <div class="pp-form-field"><label>Nombres</label><div class="val">Juan</div></div>
+          <div class="pp-form-field"><label>Apellidos</label><div class="val">Pérez</div></div>
+          <div class="pp-form-field"><label>Tipo de Documento</label><div class="val">DNI</div></div>
+          <div class="pp-form-field"><label>Número de Documento</label><div class="val">00000000</div></div>
+          <div class="pp-form-field"><label>Teléfono</label><div class="val">+5490000000000</div></div>
+        </div>
+
+        <div class="pp-form-grid cols-3" style="margin-top:18px;">
+          <div class="pp-form-field"><label>Calle</label><div class="val">Av. Ejemplo</div></div>
+          <div class="pp-form-field"><label>Número</label><div class="val">1234</div></div>
+          <div class="pp-form-field"><label>Piso</label><div class="val placeholder">Ej: 1</div></div>
+          <div class="pp-form-field"><label>Departamento</label><div class="val placeholder">Ej: A</div></div>
+        </div>
+
+        <div class="pp-form-grid" style="margin-top:18px;">
+          <div class="pp-form-field" style="grid-column: 1 / -1;"><label>Referencia</label><div class="val placeholder">Ej: Entre calles 12 de Octubre y Lucas Córdoba</div></div>
+          <div class="pp-form-field"><label>Localidad</label><div class="val">Ciudad Ejemplo</div></div>
+          <div class="pp-form-field"><label>Código Postal</label><div class="val">0000</div></div>
+          <div class="pp-form-field"><label>Provincia</label><div class="val">Tucumán</div></div>
+          <div class="pp-form-field"><label>País</label><div class="val">Argentina</div></div>
+        </div>
+      </div>
+
+      <button class="pp-btn" onclick="alert('Maqueta — no envía datos reales.')">Finalizar gestión</button>
+    </div>
+
+    <div class="pp-sidebar">
+      <h3>Detalle de la compra</h3>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Musculosa Atlét Running De Hombre Color: Verde - Talle: XL</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Remera Atlét Lisa De Hombre Color: Azul Marino - Talle: XL</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Remera Atlét Lisa De Hombre Color: Gris - Talle: XL</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Zapatillas adidas Runblaze De Mujer Color: Blanco - Talle: 36</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
