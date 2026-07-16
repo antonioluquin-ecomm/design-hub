@@ -26,6 +26,23 @@ body {
 }
 
 /*
+ * Corrección 2026-07-16 — filtrado de azul institucional: tokens.css
+ * (cargado en las páginas modulares para el chrome del panel de
+ * control) define `button:hover`/`:focus-visible`/`:disabled` a nivel
+ * global con más especificidad CSS que las reglas de hover propias de
+ * abajo (ej. `.sp-size-btn:hover`), así que sin este reset cualquier
+ * botón del sitio (talles, agregar al carrito, flechas de carrusel,
+ * etc.) se ponía azul al pasar el mouse o al hacer foco — el sitio
+ * real no tiene eso. `:not(.ctrl-panel *)` excluye los botones del
+ * panel (que sí deben usar el azul de tokens.css) y sube la
+ * especificidad lo suficiente para ganarle a tokens.css sin tocar ese
+ * archivo compartido. Los `:hover` de cada componente más abajo
+ * repiten este mismo sufijo para que su color propio gane.
+ */
+button:focus-visible:not(.ctrl-panel *) { outline: 2px solid var(--sp-green); outline-offset: 2px; }
+button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
+
+/*
  * Slider principal — corregido 2026-07-16: SÍ existe (se había pasado
  * por alto en la primera pasada, que buscaba texto en el DOM y este
  * slider es puro gráfico/imagen sin alt). Confirmado por screenshot:
@@ -40,6 +57,7 @@ body {
 .sp-hero-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.9); border: none; cursor: pointer; font-size: 16px; z-index: 2; }
 .sp-hero-arrow.left { left: 16px; }
 .sp-hero-arrow.right { right: 16px; }
+.sp-hero-arrow:hover:not(:disabled):not(.ctrl-panel *) { background: rgba(255,255,255,.9); transform: translateY(-50%); }
 .sp-hero-dots { position: absolute; bottom: 14px; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; }
 .sp-hero-dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.5); }
 .sp-hero-dots span.active { background: #fff; }
@@ -66,6 +84,7 @@ body {
    slide real (alcanza para maquetación). */
 .sp-carousel-row { display: flex; align-items: center; gap: 12px; }
 .sp-carousel-arrow { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--sp-line); background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; }
+.sp-carousel-arrow:hover:not(:disabled):not(.ctrl-panel *) { background: #fff; transform: none; }
 .sp-carousel-track { display: flex; gap: 16px; overflow-x: auto; flex: 1; }
 .sp-carousel-track .sp-product-card { min-width: 220px; flex-shrink: 0; }
 .sp-carousel-dots { display: flex; justify-content: center; gap: 6px; margin-top: 14px; }
@@ -78,6 +97,7 @@ body {
 .sp-banner-card img { width: 100%; height: 180px; object-fit: cover; display: block; }
 .sp-banner-card .cta { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px; text-align: center; }
 .sp-banner-card .cta button { width: 100%; background: #fff; color: var(--sp-text); border: none; border-radius: 4px; padding: 9px; font-weight: 700; font-size: 11.5px; letter-spacing: .03em; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-banner-card .cta button:hover:not(:disabled):not(.ctrl-panel *) { background: #fff; transform: none; }
 
 /* Barra de beneficios — última sección de la home antes del footer real */
 .sp-benefits-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 28px; border-top: 1px solid var(--sp-line); text-align: center; }
@@ -94,6 +114,7 @@ body {
 .sp-cat-card .sp-cat-body { padding: 16px; text-align: center; }
 .sp-cat-card .sp-cat-title { font-weight: 700; font-size: 16px; margin-bottom: 10px; }
 .sp-cat-card .sp-btn-outline { background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 9px 20px; font-weight: 700; font-size: 12.5px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-btn-outline:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
 
 /* Discipline card */
 .sp-disc-card { border-radius: 8px; overflow: hidden; background: var(--sp-bg); }
@@ -115,7 +136,7 @@ body {
 .sp-product-cuotas { font-size: 11.5px; color: var(--sp-muted); margin-bottom: 4px; }
 .sp-product-envio { font-size: 11.5px; color: var(--sp-green-dark); font-weight: 700; margin-bottom: 10px; }
 .sp-btn-select { width: 100%; background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 10px; font-weight: 700; font-size: 12px; letter-spacing: .03em; cursor: pointer; font-family: 'Poppins', sans-serif; }
-.sp-btn-select:hover { background: var(--sp-green-dark); }
+.sp-btn-select:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
 
 /* Header completo (PDP / listados) — más rico que el header simplificado de home */
 .sp-topline { background: var(--sp-black); color: rgba(255,255,255,.8); display: flex; align-items: center; justify-content: space-between; padding: 8px 28px; font-size: 12px; }
@@ -187,16 +208,17 @@ body {
 .sp-size-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
 .sp-size-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
 .sp-size-btn { border: 1px solid var(--sp-line); background: #fff; border-radius: 6px; padding: 10px 16px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Poppins', sans-serif; }
-.sp-size-btn:hover, .sp-size-btn.selected { border-color: var(--sp-text); }
+.sp-size-btn:hover:not(:disabled):not(.ctrl-panel *), .sp-size-btn.selected { border-color: var(--sp-text); background: #fff; transform: none; }
 .sp-size-links { display: flex; gap: 18px; font-size: 12px; margin-bottom: 18px; }
 .sp-size-links a { color: var(--sp-text); text-decoration: none; display: flex; align-items: center; gap: 5px; }
 
 .sp-qty-row { display: flex; gap: 14px; margin-bottom: 18px; }
 .sp-qty-stepper { display: flex; align-items: center; border: 1px solid var(--sp-line); border-radius: 6px; overflow: hidden; }
 .sp-qty-stepper button { border: none; background: #fff; width: 34px; height: 40px; font-size: 15px; cursor: pointer; }
+.sp-qty-stepper button:hover:not(:disabled):not(.ctrl-panel *) { background: #fff; transform: none; }
 .sp-qty-stepper span { width: 34px; text-align: center; font-weight: 600; }
 .sp-add-cart-btn { flex: 1; background: var(--sp-green); color: #fff; border: none; border-radius: 6px; font-weight: 800; font-size: 13.5px; letter-spacing: .03em; cursor: pointer; font-family: 'Poppins', sans-serif; }
-.sp-add-cart-btn:hover { background: var(--sp-green-dark); }
+.sp-add-cart-btn:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
 
 .sp-seller-box { display: flex; align-items: center; gap: 10px; background: var(--sp-bg); border-radius: 6px; padding: 12px 14px; font-size: 13px; margin-bottom: 14px; cursor: pointer; }
 .sp-seller-box b { color: var(--sp-text); }
@@ -207,6 +229,7 @@ body {
 .sp-postal-row { display: flex; gap: 10px; }
 .sp-postal-row input { flex: 1; border: 1px solid var(--sp-line); border-radius: 4px; padding: 9px 12px; font-family: 'Poppins', sans-serif; font-size: 12.5px; }
 .sp-postal-row button { background: var(--sp-green); color: #fff; border: none; border-radius: 4px; padding: 0 16px; font-weight: 700; font-size: 12px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-postal-row button:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
 .sp-postal-link { font-size: 12px; color: var(--sp-green-dark); font-weight: 600; margin-top: 8px; display: inline-block; }
 
 /* Acordeón de info */
@@ -268,6 +291,7 @@ body {
 .sp-newsletter-field input { border: 1px solid rgba(255,255,255,.5); border-radius: 4px; padding: 10px 12px; font-family: 'Poppins', sans-serif; font-size: 13px; background: rgba(255,255,255,.1); color: #fff; }
 .sp-newsletter-field input::placeholder { color: rgba(255,255,255,.75); }
 .sp-newsletter-btn { background: var(--sp-black); color: #fff; border: none; border-radius: 4px; padding: 10px 24px; font-weight: 700; font-size: 13px; cursor: pointer; font-family: 'Poppins', sans-serif; flex-shrink: 0; }
+.sp-newsletter-btn:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-black); transform: none; }
 .sp-newsletter-checkbox { color: #fff; font-size: 12px; display: flex; align-items: center; gap: 8px; }
 
 .sp-footer-columns { background: var(--sp-black); padding: 32px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
