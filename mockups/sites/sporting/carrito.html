@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maqueta — Sporting (Carrito mobile)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="sporting.css" />
+</head>
+<body>
+
+  <div class="sp-topline">
+    <a href="#" onclick="return false;">W WOKER</a>
+    <span class="sp-topline-center">Hasta 12 Cuotas con Macro (Miércoles y Sábados) <a href="#" onclick="return false;">Ver términos</a></span>
+    <a href="#" onclick="return false;">Segui tu pedido ⬅</a>
+  </div>
+
+  <div class="sp-header-full">
+    <button type="button" class="sp-hamburger-btn" onclick="return false;" title="Menú" aria-label="Abrir menú">☰</button>
+    <a class="sp-logo-full" href="index.html">SPORTING</a>
+    <div class="sp-searchbar">🔍 <input type="text" placeholder="Buscar..." /></div>
+    <button type="button" class="sp-search-icon-btn" onclick="return false;" title="Buscar" aria-label="Buscar">🔍</button>
+    <div class="sp-header-actions">
+      <span class="sp-loc">📍 Ingresá: Tu ubicación</span>
+      <div class="sp-icons">
+        <a class="sp-login-link" href="#" onclick="return false;">Entrar</a>
+        <span>♡</span>
+        <button type="button" class="sp-cart-reopen-btn" id="reopenCartBtn" title="Ver carrito" aria-label="Ver carrito">🛒<span class="sp-cart-badge">1</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sp-navbar">
+    <a href="#" onclick="return false;">HOMBRE</a>
+    <a href="#" onclick="return false;">MUJER</a>
+    <a href="#" onclick="return false;">NIÑOS</a>
+    <a href="#" onclick="return false;">DEPORTES</a>
+    <a href="#" onclick="return false;">MARCAS</a>
+    <a href="#" class="offers" onclick="return false;">OFERTAS</a>
+    <a href="#" class="novedades" onclick="return false;">NOVEDADES</a>
+    <div class="sp-navbar-badges">
+      <a href="#" class="sp-navbar-badge" onclick="return false;" title="Adidas Seller">ADIDAS</a>
+      <a href="#" class="sp-navbar-badge" onclick="return false;" title="Botón de evento (campaña estacional, ver NOTAS.md)">EVENTO</a>
+    </div>
+  </div>
+
+  <div class="sp-cart-page-hint" style="margin:20px;padding:14px 16px;border:1px solid var(--sp-line);border-radius:6px;background:var(--sp-bg);">
+    <p style="margin:0;font-size:13px;color:var(--sp-muted);">Maqueta del carrito (minicart) de Sporting — se abre como panel deslizante al agregar un producto. Usá el botón 🛒 del header para volver a abrirlo si lo cerrás.</p>
+  </div>
+
+  <div class="sp-cart-backdrop open" id="cartBackdrop"></div>
+
+  <aside class="sp-cart-drawer open" id="cartDrawer">
+    <div class="sp-cart-drawer-header">
+      <h2>Carrito</h2>
+      <button type="button" class="sp-cart-close-btn" id="closeCartBtn" title="Cerrar carrito" aria-label="Cerrar carrito">✕</button>
+    </div>
+
+    <div class="sp-cart-drawer-body">
+      <div class="sp-cart-shipping-msg">🚚 Te faltan <b>$59.991</b> para tener envío gratis.</div>
+
+      <div class="sp-cart-item">
+        <button type="button" class="sp-cart-item-remove" onclick="return false;" title="Quitar" aria-label="Quitar producto">✕</button>
+        <img src="https://placehold.co/90x90/e8f0ea/1a2a6c?text=Zapatilla" />
+        <div class="sp-cart-item-body">
+          <div class="sp-cart-item-name">Zapatillas adidas Runblaze De Hombre</div>
+          <div class="sp-cart-item-size">Talle: 38</div>
+          <div class="sp-cart-item-row">
+            <div class="sp-qty-stepper">
+              <button onclick="return false;">－</button>
+              <span>1</span>
+              <button onclick="return false;">＋</button>
+            </div>
+            <div class="sp-cart-item-price">$89.999</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sp-cart-upsell-row">
+        <div class="sp-cart-upsell-card">
+          <img src="https://placehold.co/64x64/e8e8e8/999?text=Gorra" />
+          <div class="sp-cart-upsell-name">Gorra Atlét Running Unisex</div>
+          <div class="sp-cart-upsell-price">$19.999 <span class="old">$27.999</span></div>
+          <button class="sp-cart-upsell-btn" onclick="return false;">Agregar al carrito</button>
+        </div>
+        <div class="sp-cart-upsell-card">
+          <img src="https://placehold.co/64x64/e8e8e8/999?text=Gorra+2" />
+          <div class="sp-cart-upsell-name">Gorra Saucony Fast And Light</div>
+          <div class="sp-cart-upsell-price">$25.999</div>
+          <button class="sp-cart-upsell-btn" onclick="return false;">Agregar al carrito</button>
+        </div>
+        <div class="sp-cart-upsell-card">
+          <img src="https://placehold.co/64x64/e8e8e8/999?text=Rinonera" />
+          <div class="sp-cart-upsell-name">Riñonera Saucony Outpace Run Unisex</div>
+          <div class="sp-cart-upsell-price">$29.999</div>
+          <button class="sp-cart-upsell-btn" onclick="return false;">Agregar al carrito</button>
+        </div>
+        <div class="sp-cart-upsell-card">
+          <img src="https://placehold.co/64x64/e8e8e8/999?text=Rinonera+2" />
+          <div class="sp-cart-upsell-name">Riñonera adidas Running WB 0.75 Litros</div>
+          <div class="sp-cart-upsell-price">$24.999</div>
+          <button class="sp-cart-upsell-btn" onclick="return false;">Agregar al carrito</button>
+        </div>
+      </div>
+
+      <div class="sp-cart-total-row">
+        <span>Total</span>
+        <span>$89.999</span>
+      </div>
+      <button class="sp-cart-checkout-btn" onclick="return false;">IR AL CHECKOUT</button>
+      <div class="sp-cart-footnote">Las promociones y costo de envío lo verás aplicado en el carrito</div>
+    </div>
+  </aside>
+
+<script>
+  const drawer = document.getElementById('cartDrawer');
+  const backdrop = document.getElementById('cartBackdrop');
+  const reopenBtn = document.getElementById('reopenCartBtn');
+  const closeBtn = document.getElementById('closeCartBtn');
+
+  function closeCart() {
+    drawer.classList.remove('open');
+    backdrop.classList.remove('open');
+  }
+  function openCart() {
+    drawer.classList.add('open');
+    backdrop.classList.add('open');
+  }
+
+  closeBtn.addEventListener('click', closeCart);
+  backdrop.addEventListener('click', closeCart);
+  reopenBtn.addEventListener('click', openCart);
+</script>
+</body>
+</html>

@@ -524,3 +524,77 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
   .sp-hero-slider img { height: 220px; }
   .mod-disciplinas, .mod-elegiviendo, .mod-ultimas, .mod-clubes, .sp-benefits-bar { display: none !important; }
 }
+
+/*
+ * Carrito (minicart) mobile — capturado en vivo 2026-07-16 agregando
+ * "Zapatillas adidas Runblaze De Hombre" al carrito desde la PDP en
+ * viewport 375x812. Es un panel deslizante (VTEX `minicart-2-x-drawer`),
+ * no una página propia: se abre automáticamente sobre un fondo oscuro al
+ * agregar un producto. Estructura real confirmada de arriba a abajo:
+ *   1. Header del panel: título "Carrito" + botón de cierre ✕.
+ *   2. Mensaje de envío gratis con ícono de camión: "Te faltan $X para
+ *      tener envío gratis." — texto plano, **no** hay barra de progreso
+ *      visual (se buscó explícitamente y no existe).
+ *   3. Línea de producto: miniatura de 90×90, nombre, talle, selector de
+ *      cantidad (stepper -/+, reusa `.sp-qty-stepper` de la PDP) y
+ *      precio — con un botón de quitar (✕ pequeño) en la esquina superior
+ *      derecha de la línea.
+ *   4. Fila de cross-sell horizontal (scroll, sin título visible arriba):
+ *      accesorios (gorras, riñoneras) con miniatura chica (~64px), precio
+ *      (a veces con descuento) y botón "Agregar al carrito" propio —
+ *      confirmado que hay bastantes más de los que entran en pantalla
+ *      (imágenes con `x` mucho más allá de los 375px de ancho real).
+ *   5. Total + botón "IR AL CHECKOUT" (ancho completo, sin sticky — es
+ *      `position:static`, parte del scroll normal del panel, no fijo).
+ *   6. Nota al pie: "Las promociones y costo de envío lo verás aplicado
+ *      en el carrito".
+ * El panel ocupa ~85% del ancho de pantalla (318.75px de 375px reales),
+ * deslizando desde la derecha — mismo patrón que el panel de filtros de
+ * `plp.html`, aunque son componentes VTEX distintos (minicart vs.
+ * search-result filter) que coinciden en esta convención de UI.
+ *
+ * Solo se maquetó la vista mobile (pedido explícito) — el carrito de
+ * desktop y el checkout completo quedan pendientes, ver NOTAS.md.
+ */
+.sp-cart-reopen-btn { position: relative; background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; padding: 0; }
+.sp-cart-reopen-btn:hover:not(:disabled):not(.ctrl-panel *) { background: none; transform: none; }
+.sp-cart-badge { position: absolute; top: -8px; right: -10px; background: var(--sp-black); color: #fff; font-size: 9.5px; font-weight: 800; min-width: 15px; height: 15px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0 3px; }
+
+.sp-cart-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 190; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+.sp-cart-backdrop.open { display: block; opacity: 1; pointer-events: auto; }
+
+.sp-cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 85%; max-width: 340px; background: #fff; z-index: 200; overflow-y: auto; transform: translateX(100%); transition: transform .25s ease; box-shadow: -6px 0 24px rgba(0,0,0,.18); font-family: 'Poppins', sans-serif; }
+.sp-cart-drawer.open { transform: translateX(0); }
+.sp-cart-drawer-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--sp-line); }
+.sp-cart-drawer-header h2 { margin: 0; font-size: 17px; font-weight: 700; }
+.sp-cart-close-btn { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--sp-text); }
+.sp-cart-close-btn:hover:not(:disabled):not(.ctrl-panel *) { background: none; transform: none; }
+.sp-cart-drawer-body { padding: 16px 20px 24px; }
+
+.sp-cart-shipping-msg { font-size: 12.5px; color: var(--sp-text); background: var(--sp-bg); border-radius: 6px; padding: 10px 12px; margin-bottom: 18px; line-height: 1.4; }
+
+.sp-cart-item { position: relative; display: flex; gap: 12px; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid var(--sp-line); }
+.sp-cart-item img { width: 90px; height: 90px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+.sp-cart-item-remove { position: absolute; top: 0; right: 0; background: none; border: none; font-size: 14px; color: var(--sp-muted); cursor: pointer; padding: 4px; }
+.sp-cart-item-remove:hover:not(:disabled):not(.ctrl-panel *) { background: none; transform: none; }
+.sp-cart-item-body { flex: 1; padding-right: 20px; }
+.sp-cart-item-name { font-size: 13px; font-weight: 600; margin-bottom: 6px; line-height: 1.35; }
+.sp-cart-item-size { font-size: 11.5px; color: var(--sp-muted); margin-bottom: 12px; }
+.sp-cart-item-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.sp-cart-item-row .sp-qty-stepper button { width: 30px; height: 30px; font-size: 13px; }
+.sp-cart-item-row .sp-qty-stepper span { width: 28px; }
+.sp-cart-item-price { font-size: 14px; font-weight: 700; }
+
+.sp-cart-upsell-row { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 20px; margin-bottom: 18px; border-bottom: 1px solid var(--sp-line); }
+.sp-cart-upsell-card { flex-shrink: 0; width: 110px; }
+.sp-cart-upsell-card img { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; margin-bottom: 8px; }
+.sp-cart-upsell-name { font-size: 11px; line-height: 1.35; margin-bottom: 6px; min-height: 30px; }
+.sp-cart-upsell-price { font-size: 12.5px; font-weight: 700; margin-bottom: 8px; }
+.sp-cart-upsell-price .old { font-size: 10.5px; font-weight: 400; color: var(--sp-muted); text-decoration: line-through; margin-left: 4px; }
+.sp-cart-upsell-btn { width: 100%; background: #fff; border: 1px solid var(--sp-text); border-radius: 6px; padding: 8px 4px; font-size: 10px; font-weight: 700; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-cart-upsell-btn:hover:not(:disabled):not(.ctrl-panel *) { background: #fff; transform: none; }
+
+.sp-cart-total-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 16px; font-weight: 800; margin-bottom: 16px; }
+.sp-cart-checkout-btn { width: 100%; background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 14px; font-weight: 800; font-size: 13.5px; letter-spacing: .03em; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-cart-checkout-btn:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
+.sp-cart-footnote { font-size: 11px; color: var(--sp-muted); text-align: center; margin-top: 12px; line-height: 1.4; }

@@ -150,6 +150,7 @@ Se implementó en `plp.html` reusando el mismo markup de filtros (sin duplicar H
 | `producto-adidas.html` ⚠️ snapshot histórico, congelado | PDP del producto seller Adidas (`camisetas-de-equipos-adidas-camiseta-titular-seleccion-argentina-26-hombre-59135/p`), capturado 2026-07-16: header completo (topline WOKER + buscador + navbar de categorías), breadcrumb, galería con miniaturas, badges Envío Gratis/Tienda Adidas, precio con impuestos, cuotas, selector de talle, stepper + agregar al carrito, "Vendido y distribuido por adidas", código postal, acordeón (Descripción, Especificaciones, Detalles, Envíos, **No se admiten cambios directos**, Cuotas y Promociones, Reseñas), productos similares. **No se sigue actualizando** — reemplazado por `producto-modular.html` (estado seller=marketplace). Se conserva como referencia de la captura real original. |
 | `producto-sporting.html` ⚠️ snapshot histórico, congelado | PDP del producto seller **Sporting** (tienda propia) con video (`bicicleta-trek-slash-9-7-slx-xt-rodado-29-talle-ml-1501767-000/p`), capturado 2026-07-16: mismos componentes base que la de Adidas, más los que no estaban en esa captura — precio con descuento (tachado + badge `-15%`), aviso de stock urgente ("¡Última unidad disponible!"), badge "NO APLICA CUPONES" + nota, **video embed** debajo de la galería de imágenes (miniatura + play + info de canal), talle único, **sin** box de "Vendido y distribuido por" (por ser tienda propia), y acordeón **"Cambios y devoluciones"** (en vez de "No se admiten cambios directos"). **No se sigue actualizando** — reemplazado por `producto-modular.html` (estado seller=propio, discount=on, stock=last, coupon=blocked). Se conserva como referencia de la captura real original. |
 | `plp.html` | Página de listado de categoría (PLP), fiel a `sporting.com.ar/sporting/calzado/zapatillas/hombre` capturado en vivo 2026-07-16: breadcrumb de 5 niveles, sidebar de filtros (chips activos, Vendido por, Categoría, Tipo de producto, 7 grupos colapsados, rango de precio), barra de resultados (contador + orden), grid de 8 tarjetas de producto con mini-carrusel de fotos por tarjeta y botón "Mostrar más". Sin panel de control modular (a diferencia de home/PDP) — es la primera captura, no tiene variantes togglables todavía. **Responsive real** (agregado 2026-07-16, ver corrección abajo): a ≤720px la sidebar se convierte en un panel deslizante desde la derecha (botón "Filtrar"), con barra "Ordenar Por/Filtrar" y grid de 2 columnas — confirmado navegando el sitio real en viewport 375px. |
+| `carrito.html` | **Solo vista mobile** (pedido explícito) del carrito (minicart), fiel a la captura real en viewport 375px: panel deslizante desde la derecha (~85% del ancho) con mensaje de envío gratis, línea de producto (miniatura + talle + stepper + precio + quitar), fila de cross-sell horizontal de accesorios, total y botón "IR AL CHECKOUT" (no sticky). Botón 🛒 en el header reabre el panel si se cierra. No tiene versión desktop ni checkout — ver Pendiente. |
 
 ### Cruce con la regla de negocio del portal de pedidos
 
@@ -159,9 +160,24 @@ El acordeón de la PDP confirma en el sitio real la regla ya documentada desde e
 
 Ver fila correspondiente en `docs/cross-references.md`.
 
+### Creación 2026-07-16 — Carrito (minicart), solo vista mobile
+
+Se agregó "Zapatillas adidas Runblaze De Hombre" al carrito desde la PDP en vivo, con viewport forzado a 375x812, y se capturó el panel que se abrió automáticamente. Es un **minicart tipo drawer** (VTEX `minicart-2-x-drawer`), no una página de carrito propia — se abre sobre un fondo oscuro al agregar un producto. Estructura real confirmada de arriba a abajo:
+
+- **Header del panel:** título "Carrito" + botón de cierre ✕.
+- **Mensaje de envío gratis:** "🚚 Te faltan $59.991 para tener envío gratis." — texto plano, se buscó explícitamente una barra de progreso visual y **no existe**.
+- **Línea de producto:** miniatura 90×90, nombre, talle, selector de cantidad (stepper -/+, reusa `.sp-qty-stepper` ya existente de la PDP) y precio, con un botón de quitar (✕ chico) en la esquina superior derecha de la línea.
+- **Fila de cross-sell horizontal** (scroll, sin título): accesorios (gorras, riñoneras) con miniatura chica (~64px), precio (algunos con descuento tachado) y botón "Agregar al carrito" propio por tarjeta — confirmado que hay más productos de los que entran en pantalla (imágenes con posición muy más allá del ancho real de 375px, o sea sigue de largo en scroll horizontal).
+- **Total + botón "IR AL CHECKOUT"** ancho completo — confirmado que **no** es sticky/fijo (`position:static`), es parte del scroll normal del panel.
+- **Nota al pie:** "Las promociones y costo de envío lo verás aplicado en el carrito".
+
+El panel ocupa ~85% del ancho de pantalla (318.75px de 375px reales), deslizando desde la derecha — mismo patrón visual que el panel de filtros de `plp.html`, aunque son componentes VTEX distintos (minicart vs. search-result filter).
+
+Se creó `carrito.html` como página nueva, **solo con la vista mobile** (pedido explícito del usuario) — muestra el header/navbar mobile ya existente de fondo, con el panel abierto por default y un botón 🛒 en el header para volver a abrirlo si se cierra. No se maquetó una versión desktop del carrito ni el checkout completo (quedan pendientes, ver abajo). Se agregaron las clases `.sp-cart-*` a `sporting.css`.
+
 ## Pendiente / no capturado todavía
 
-- [ ] Carrito / checkout
+- [ ] Carrito de escritorio (solo se maquetó la vista mobile del minicart) y checkout completo
 - [x] Vista mobile de home, PLP y PDP — capturadas y maquetadas (ver correcciones 2026-07-16 arriba). Header/footer mobile son chrome global, comparten CSS en las 3 páginas.
 - [ ] Header con menú de categorías desplegado (el `☰`/navbar no se abrió en la captura, solo se vieron los links del mega-menú en el DOM)
 - [ ] Contenido real de "Especificaciones" y "Detalles" (se maquetaron con placeholder — no se expandieron en la captura)
