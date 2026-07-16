@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maqueta — PDP modular (con panel de control)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../../design-system/tokens.css" />
+<link rel="stylesheet" href="sporting.css" />
+<style>
+  /*
+    Esta hoja NO describe el sitio real: es el chrome del panel de control
+    y las reglas de on/off de esta herramienta interna. Por eso usa
+    design-system/tokens.css (igual criterio que el resto de las
+    herramientas propias de design-hub), a diferencia de sporting.css que
+    deliberadamente no usa tokens porque replica la marca del sitio real.
+  */
+  body { font-family: var(--font), 'Poppins', sans-serif; }
+
+  .ctrl-panel {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 272px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    z-index: 100;
+    font-family: var(--font), sans-serif;
+  }
+  .ctrl-panel h2 { font-size: 13px; margin: 0 0 4px; }
+  .ctrl-panel .ctrl-hint { font-size: 11.5px; color: var(--muted); margin: 0 0 16px; line-height: 1.4; }
+  .ctrl-group { margin-bottom: 16px; }
+  .ctrl-group legend { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); padding: 0 0 8px; }
+  .ctrl-option { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 4px 0; cursor: pointer; }
+  .ctrl-option input { cursor: pointer; }
+  .ctrl-panel button { width: 100%; font-size: 12.5px; margin-top: 4px; }
+  .ctrl-copied { font-size: 11.5px; color: var(--success); margin-top: 8px; display: none; }
+  .ctrl-copied.show { display: block; }
+
+  @media (max-width: 1180px) {
+    .ctrl-panel { position: static; width: auto; margin: 16px 28px; max-height: none; }
+  }
+
+  /* --- Reglas on/off: cada módulo tiene un estado por defecto oculto,
+     y se muestra según los data-* del <body> que actualiza el panel. --- */
+  .mod-video,
+  .mod-stock,
+  .mod-coupon,
+  .mod-seller-badge,
+  .mod-seller-box,
+  .mod-price-normal,
+  .mod-price-discount,
+  .mod-sizes-multi,
+  .mod-sizes-single,
+  .mod-acc-marketplace,
+  .mod-acc-propio { display: none; }
+
+  body[data-video="on"] .mod-video { display: block; }
+  body[data-stock="last"] .mod-stock { display: flex; }
+  body[data-coupon="blocked"] .mod-coupon { display: flex; }
+  body[data-seller="marketplace"] .mod-seller-badge { display: inline-block; }
+  body[data-seller="marketplace"] .mod-seller-box { display: flex; }
+  body[data-discount="off"] .mod-price-normal { display: block; }
+  body[data-discount="on"] .mod-price-discount { display: block; }
+  body[data-sizes="multi"] .mod-sizes-multi { display: flex; }
+  body[data-sizes="single"] .mod-sizes-single { display: flex; }
+  body[data-seller="marketplace"] .mod-acc-marketplace { display: block; }
+  body[data-seller="propio"] .mod-acc-propio { display: block; }
+</style>
+</head>
+<body data-seller="marketplace" data-video="on" data-discount="off" data-sizes="multi" data-stock="normal" data-coupon="ok">
+
+  <aside class="ctrl-panel card">
+    <h2>Panel de control — PDP</h2>
+    <p class="ctrl-hint">Combiná los módulos para ver cualquier versión de la PDP. El estado queda en la URL, así que podés compartir el link de una combinación puntual.</p>
+
+    <fieldset class="ctrl-group">
+      <legend>Vendedor</legend>
+      <label class="ctrl-option"><input type="radio" name="seller" value="marketplace" checked /> Seller externo (marketplace)</label>
+      <label class="ctrl-option"><input type="radio" name="seller" value="propio" /> Tienda propia (Sporting)</label>
+    </fieldset>
+
+    <fieldset class="ctrl-group">
+      <legend>Video</legend>
+      <label class="ctrl-option"><input type="checkbox" name="video" checked /> Con video debajo de la galería</label>
+    </fieldset>
+
+    <fieldset class="ctrl-group">
+      <legend>Precio</legend>
+      <label class="ctrl-option"><input type="radio" name="discount" value="off" checked /> Precio normal</label>
+      <label class="ctrl-option"><input type="radio" name="discount" value="on" /> Con descuento (tachado + badge)</label>
+    </fieldset>
+
+    <fieldset class="ctrl-group">
+      <legend>Talles</legend>
+      <label class="ctrl-option"><input type="radio" name="sizes" value="multi" checked /> Varios talles</label>
+      <label class="ctrl-option"><input type="radio" name="sizes" value="single" /> Talle único</label>
+    </fieldset>
+
+    <fieldset class="ctrl-group">
+      <legend>Stock</legend>
+      <label class="ctrl-option"><input type="checkbox" name="stock" /> Última unidad disponible</label>
+    </fieldset>
+
+    <fieldset class="ctrl-group">
+      <legend>Cupones</legend>
+      <label class="ctrl-option"><input type="checkbox" name="coupon" /> No aplica cupones</label>
+    </fieldset>
+
+    <button type="button" id="copyLinkBtn" class="secondary">Copiar link de esta vista</button>
+    <div class="ctrl-copied" id="copiedMsg">¡Link copiado!</div>
+  </aside>
+
+  <div class="sp-topline">
+    <a href="#" onclick="return false;">W WOKER</a>
+    <span class="sp-topline-center">Hasta 12 Cuotas con Macro (Miércoles y Sábados) <a href="#" onclick="return false;">Ver términos</a></span>
+    <a href="#" onclick="return false;">Seguí tu pedido →</a>
+  </div>
+
+  <div class="sp-header-full">
+    <a class="sp-logo-full" href="index.html">SPORTING</a>
+    <div class="sp-searchbar">🔍 <input type="text" placeholder="Buscar..." /></div>
+    <div class="sp-header-actions">
+      <span class="sp-loc">📍 Ingresá: Tu ubicación</span>
+      <div class="sp-icons"><span>👤</span><span>♡</span><span>🛒</span></div>
+    </div>
+  </div>
+
+  <div class="sp-navbar">
+    <a href="#" onclick="return false;">HOMBRE</a>
+    <a href="#" onclick="return false;">MUJER</a>
+    <a href="#" onclick="return false;">NIÑOS</a>
+    <a href="#" onclick="return false;">DEPORTES</a>
+    <a href="#" onclick="return false;">MARCAS</a>
+    <a href="#" class="offers" onclick="return false;">OFERTAS</a>
+    <a href="#" onclick="return false;">NOVEDADES</a>
+    <div class="sp-navbar-brand-icons"><span>⚫</span><span>🇦🇷</span></div>
+  </div>
+
+  <div class="sp-breadcrumb">
+    <a href="index.html">Inicio</a><span class="sep">›</span>
+    <a href="index.html">Sporting</a><span class="sep">›</span>
+    <a href="#" onclick="return false;">Running</a><span class="sep">›</span>
+    Zapatilla Running Pro X 2026
+  </div>
+
+  <div class="sp-pdp">
+    <div class="sp-gallery">
+      <div class="sp-thumbs">
+        <img class="active" src="https://placehold.co/64x64/e8f0ea/1a2a6c?text=1" />
+        <img src="https://placehold.co/64x64/e8f0ea/1a2a6c?text=2" />
+        <img src="https://placehold.co/64x64/e8f0ea/1a2a6c?text=3" />
+        <img src="https://placehold.co/64x64/e8f0ea/1a2a6c?text=4" />
+      </div>
+      <div class="sp-main-image">
+        <img src="https://placehold.co/560x680/e8f0ea/1a2a6c?text=Zapatilla+Running+Pro+X" />
+
+        <div class="sp-video-block mod-video">
+          <div class="sp-video-thumb">
+            <img src="https://placehold.co/560x300/1a3d2a/e8f0ea?text=Video+Producto" />
+            <div class="sp-video-play"><span>▶</span></div>
+          </div>
+          <div class="sp-video-info">
+            <div class="sp-video-meta">
+              <div class="title">Zapatilla Running Pro X</div>
+              <div class="channel">Sporting</div>
+            </div>
+            <div class="sp-video-actions">
+              <a href="#" onclick="return false;">⤴</a>
+              <a href="#" onclick="return false;">Mirar en YouTube</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sp-pdp-info">
+      <div class="sp-badges-row">
+        <span class="sp-badge-envio">Envío Gratis</span>
+        <span class="sp-badge-seller mod-seller-badge">Tienda del seller</span>
+        <div class="sp-pdp-actions"><span>♡</span><span>⤴</span></div>
+      </div>
+
+      <div class="sp-pdp-brand">●</div>
+      <div class="sp-pdp-category">Running</div>
+      <h1 class="sp-pdp-title">Zapatilla Running Pro X 2026</h1>
+      <div class="sp-pdp-sku">SPX-2026-001</div>
+
+      <div class="sp-price-block">
+        <div class="mod-price-normal">
+          <div class="sp-price-main">$149.999</div>
+          <div class="sp-price-sub">Precio sin impuestos nacionales $ 123.986,12</div>
+          <div class="sp-price-sub">Impuestos Nacionales $ 26.032,88</div>
+        </div>
+        <div class="mod-price-discount">
+          <div class="sp-price-row">
+            <div class="sp-price-main">$127.499</div>
+            <div class="sp-price-old">$149.999</div>
+            <div class="sp-discount-badge">-15%</div>
+          </div>
+          <div class="sp-price-sub">Precio sin impuestos nacionales $ 105.371,90</div>
+          <div class="sp-price-sub">Impuestos Nacionales $ 22.127,10</div>
+        </div>
+      </div>
+
+      <div class="sp-cuotas-box">
+        <span class="ico">💳</span>
+        <div>
+          Hasta <b>6 cuotas</b> sin interés en bancos seleccionados<br>
+          <a href="#" onclick="return false;">Ver medios de pago y cuotas</a>
+        </div>
+      </div>
+
+      <div class="sp-size-title">Talle Argentino</div>
+      <div class="sp-size-row mod-sizes-multi">
+        <button class="sp-size-btn">37</button>
+        <button class="sp-size-btn">38</button>
+        <button class="sp-size-btn selected">39</button>
+        <button class="sp-size-btn">40</button>
+        <button class="sp-size-btn">41</button>
+        <button class="sp-size-btn">42</button>
+      </div>
+      <div class="sp-size-row mod-sizes-single">
+        <button class="sp-size-btn selected">40</button>
+      </div>
+      <div class="sp-size-links">
+        <a href="#" onclick="return false;">✉ ¿Tu talle está agotado?</a>
+        <a href="#" onclick="return false;">📏 Guía de talles</a>
+      </div>
+
+      <div class="sp-stock-urgent mod-stock">⏱ ¡Última unidad disponible!</div>
+
+      <div class="sp-qty-row">
+        <div class="sp-qty-stepper">
+          <button onclick="cambiarCantidad(-1)">-</button>
+          <span id="qty">1</span>
+          <button onclick="cambiarCantidad(1)">+</button>
+        </div>
+        <button class="sp-add-cart-btn">AGREGAR AL CARRITO</button>
+      </div>
+
+      <div class="sp-coupon-row mod-coupon">
+        <span class="sp-coupon-badge">✕ NO APLICA CUPONES</span>
+        <span class="sp-coupon-note">ⓘ Este artículo no admite el uso de cupones de descuento.</span>
+      </div>
+
+      <div class="sp-seller-box mod-seller-box" onclick="toggleAcordeon(this.nextElementSibling)">
+        📦 Vendido y distribuido por <b>el seller</b>
+        <span class="chev">⌄</span>
+      </div>
+
+      <div class="sp-postal-box">
+        <div class="title">📍 Código postal</div>
+        <div class="sp-postal-row">
+          <input type="text" placeholder="Código Postal" />
+          <button>CALCULAR ENVÍO</button>
+        </div>
+        <a class="sp-postal-link" href="#" onclick="return false;">No sé mi código postal</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sp-section" style="padding-top:0;">
+    <div class="sp-accordion-item open">
+      <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">Descripción <span class="chev">⌄</span></div>
+      <div class="sp-accordion-body">
+        Zapatilla de running pensada para entrenamiento diario: amortiguación de media densidad, mesh transpirable y suela de goma de alta adherencia.
+        <a class="ver-mas" href="#" onclick="return false;">Ver más</a>
+      </div>
+    </div>
+    <div class="sp-accordion-item">
+      <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">Especificaciones <span class="chev">⌄</span></div>
+      <div class="sp-accordion-body">Composición, cuidado del producto y ficha técnica.</div>
+    </div>
+    <div class="sp-accordion-item">
+      <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">Detalles <span class="chev">⌄</span></div>
+      <div class="sp-accordion-body">Detalles adicionales del producto.</div>
+    </div>
+    <div class="sp-accordion-item">
+      <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">Envíos gratis | desde $149.990 <span class="chev">⌄</span></div>
+      <div class="sp-accordion-body">Política de envíos gratis a partir del monto mínimo indicado.</div>
+    </div>
+    <div class="sp-accordion-item mod-acc-marketplace">
+      <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">No se admiten cambios directos <span class="chev">⌄</span></div>
+      <div class="sp-accordion-body">
+        Regla de negocio de seller externo: solo se aceptan devoluciones y reembolsos, no cambios directos en tienda ni por el portal.
+        Ver la variante correspondiente del portal de pedidos: <a class="ver-mas" href="../../pedidos-portal/devolucion-opciones-adidas.html">devolucion-opciones-adidas.html</a>.
+      </div>
+    </div>
+    <div class="sp-accordion-item mod-acc-propio">
+      <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">Cambios y devoluciones <span class="chev">⌄</span></div>
+      <div class="sp-accordion-body">
+        Producto de tienda propia Sporting: admite cambio directo, además de devolución y devolución por garantía. Ver el flujo completo en el portal de pedidos: <a class="ver-mas" href="../../pedidos-portal/devolucion-opciones.html">devolucion-opciones.html</a> (variante B2C, con las 3 opciones).
+      </div>
+    </div>
+    <div class="sp-accordion-item">
+      <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">Cuotas y Promociones <span class="chev">⌄</span></div>
+      <div class="sp-accordion-body">Detalle de cuotas y promociones bancarias vigentes.</div>
+    </div>
+    <div class="sp-accordion-item">
+      <div class="sp-accordion-header" onclick="toggleAcordeon(this.nextElementSibling)">Reseñas (58) <span class="sp-stars">★★★★★</span> 4.7 <span class="chev">⌄</span></div>
+      <div class="sp-accordion-body">Listado de reseñas de compradores verificados.</div>
+    </div>
+  </div>
+
+  <div class="sp-footer">
+    <div class="sp-footer-benefit">🚚 Envío gratis</div>
+    <div class="sp-footer-links">
+      <div><h4>Ayuda</h4><a href="#">Cambios y devoluciones</a><a href="#">Seguí tu pedido</a><a href="#">Contacto</a></div>
+      <div><h4>Sporting</h4><a href="#">Quiénes somos</a><a href="#">Sucursales</a><a href="#">Trabajá con nosotros</a></div>
+      <div><h4>Seguinos</h4><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">TikTok</a></div>
+    </div>
+    <div class="sp-footer-bottom">© Sporting — maqueta de referencia, no es el sitio real</div>
+  </div>
+
+<script>
+  function toggleAcordeon(body) {
+    const item = body.closest('.sp-accordion-item');
+    item.classList.toggle('open');
+  }
+  function cambiarCantidad(delta) {
+    const el = document.getElementById('qty');
+    const val = Math.max(1, Number(el.textContent) + delta);
+    el.textContent = val;
+  }
+
+  // --- Panel de control: cada módulo se maneja como un par data-* en <body>,
+  // leído por las reglas CSS de arriba. El estado se sincroniza con el hash
+  // de la URL para poder compartir el link de una combinación puntual.
+  const MODULES = {
+    seller:   { type: 'radio',    name: 'seller',   default: 'marketplace' },
+    video:    { type: 'checkbox', name: 'video',    default: 'on', onValue: 'on', offValue: 'off' },
+    discount: { type: 'radio',    name: 'discount', default: 'off' },
+    sizes:    { type: 'radio',    name: 'sizes',    default: 'multi' },
+    stock:    { type: 'checkbox', name: 'stock',    default: 'normal', onValue: 'last', offValue: 'normal' },
+    coupon:   { type: 'checkbox', name: 'coupon',   default: 'ok', onValue: 'blocked', offValue: 'ok' },
+  };
+
+  function readState() {
+    const state = {};
+    for (const key in MODULES) {
+      const mod = MODULES[key];
+      if (mod.type === 'radio') {
+        const checked = document.querySelector(`input[name="${mod.name}"]:checked`);
+        state[key] = checked ? checked.value : mod.default;
+      } else {
+        const box = document.querySelector(`input[name="${mod.name}"]`);
+        state[key] = box && box.checked ? mod.onValue : mod.offValue;
+      }
+    }
+    return state;
+  }
+
+  function applyState(state) {
+    for (const key in state) {
+      document.body.setAttribute('data-' + key, state[key]);
+    }
+  }
+
+  function stateToHash(state) {
+    return Object.keys(state).map(k => `${k}=${state[k]}`).join('&');
+  }
+
+  function hashToState() {
+    const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+    const state = {};
+    for (const key in MODULES) {
+      const val = params.get(key);
+      if (val) state[key] = val;
+    }
+    return state;
+  }
+
+  function syncControlsFromState(state) {
+    for (const key in state) {
+      const mod = MODULES[key];
+      if (!mod) continue;
+      if (mod.type === 'radio') {
+        const el = document.querySelector(`input[name="${mod.name}"][value="${state[key]}"]`);
+        if (el) el.checked = true;
+      } else {
+        const box = document.querySelector(`input[name="${mod.name}"]`);
+        if (box) box.checked = state[key] === mod.onValue;
+      }
+    }
+  }
+
+  function updateFromControls() {
+    const state = readState();
+    applyState(state);
+    history.replaceState(null, '', '#' + stateToHash(state));
+  }
+
+  document.querySelectorAll('.ctrl-panel input').forEach(input => {
+    input.addEventListener('change', updateFromControls);
+  });
+
+  document.getElementById('copyLinkBtn').addEventListener('click', () => {
+    navigator.clipboard.writeText(location.href).then(() => {
+      const msg = document.getElementById('copiedMsg');
+      msg.classList.add('show');
+      setTimeout(() => msg.classList.remove('show'), 1800);
+    });
+  });
+
+  // Estado inicial: hash de la URL (si viene con combinación) o defaults del panel.
+  const initialState = hashToState();
+  if (Object.keys(initialState).length) {
+    syncControlsFromState(initialState);
+    applyState(initialState);
+  } else {
+    updateFromControls();
+  }
+</script>
+</body>
+</html>
