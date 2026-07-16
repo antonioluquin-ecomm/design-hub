@@ -12,6 +12,7 @@
 - **`docs/cross-references.md` es de actualización obligatoria.** Cada vez que se crea o modifica una maqueta que depende de una sección de documentación de un sitio o portal real, agregar/actualizar la fila correspondiente. Esta tabla es lo que permite avisar impactos cruzados cuando se edita una doc de sitio.
 - **El portal de gestión de pedidos es una herramienta externa** (no hay código fuente propio). Su maqueta se construye a partir de capturas o navegación en vivo de la URL real — nunca inventar de memoria cómo se ve. Ver `mockups/pedidos-portal/NOTAS.md` para el estado de los insumos disponibles.
 - **No hacer push** sin confirmación explícita del usuario.
+- **El `index.html` de la raíz es de actualización obligatoria.** Cada vez que se crea una maqueta nueva (archivo `.html` nuevo bajo `mockups/`), sumar un link en la sección correspondiente de este landing — es lo que se ve en `antonioluquin-ecomm.github.io/design-hub/`. Quedó desactualizado 3 mockups seguidos (PLP, carrito, checkout) por no tener esta regla explícita.
 
 ---
 

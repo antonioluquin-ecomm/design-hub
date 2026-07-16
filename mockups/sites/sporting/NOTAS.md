@@ -213,6 +213,8 @@ Se creó `checkout.html` como página nueva, **solo con la vista mobile** del pr
 
 Reusar las clases de `sporting.css` (`.sp-topline`, `.sp-header-full`, `.sp-navbar`, `.sp-product-card`, `.sp-cat-card`, `.sp-footer-*`, etc.) — el header y el footer son los mismos en todas las páginas del sitio, no crear variantes nuevas. Si el usuario comparte capturas de otras páginas, actualizar esta tabla y registrar en `../../../docs/cross-references.md` si empieza a reflejar una doc específica del sitio.
 
+**No olvidar:** cada vez que se agrega un archivo `.html` nuevo bajo `mockups/sites/sporting/` (o cualquier maqueta nueva en el repo), sumarlo también al `index.html` de la raíz del repo (la landing de Design Hub, sección "🏬 Sitios propios") — quedó desactualizado 3 mockups (PLP, carrito, checkout) porque nada lo recordaba.
+
 **PDP:** cualquier variante o módulo nuevo de PDP (nuevo estado de precio, nuevo aviso de stock, nueva regla de seller, etc.) se agrega como módulo togglable en `producto-modular.html`, no como archivo nuevo. `producto-adidas.html` y `producto-sporting.html` quedan congelados como snapshot de las capturas reales originales — no se les suman módulos nuevos.
 
 **Home:** cualquier sección nueva o variante de una sección existente se agrega como módulo togglable en `index.html` (clase `mod-<nombre>` + entrada en el objeto `MODULES` del script), siguiendo el mismo patrón que la PDP modular.
