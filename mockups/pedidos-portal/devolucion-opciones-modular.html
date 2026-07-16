@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maqueta — Cambios y devoluciones (modular)</title>
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
+<link rel="stylesheet" href="../../design-system/tokens.css" />
+<link rel="stylesheet" href="portal.css" />
+<style>
+  /*
+    Esta hoja NO describe el portal real: es el chrome del panel de control
+    y las reglas de on/off de esta herramienta interna. Por eso usa
+    design-system/tokens.css (igual criterio que producto-modular.html del
+    sitio Sporting), a diferencia de portal.css que deliberadamente no usa
+    tokens porque replica la identidad real del portal (teal/Lato).
+  */
+  .ctrl-panel {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 272px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    z-index: 100;
+    font-family: var(--font), sans-serif;
+  }
+  .ctrl-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 4px; }
+  .ctrl-panel h2 { font-size: 13px; margin: 0; }
+  .ctrl-collapse-btn { width: auto !important; margin: 0 !important; padding: 4px 8px !important; font-size: 14px !important; line-height: 1; flex-shrink: 0; }
+  .ctrl-panel .ctrl-hint { font-size: 11.5px; color: var(--muted); margin: 0 0 16px; line-height: 1.4; }
+  .ctrl-group { margin-bottom: 16px; }
+  .ctrl-group legend { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); padding: 0 0 8px; }
+  .ctrl-option { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 4px 0; cursor: pointer; }
+  .ctrl-option input { cursor: pointer; }
+  .ctrl-panel button { width: 100%; font-size: 12.5px; margin-top: 4px; }
+  .ctrl-copied { font-size: 11.5px; color: var(--success); margin-top: 8px; display: none; }
+  .ctrl-copied.show { display: block; }
+
+  .ctrl-panel.collapsed { width: auto; }
+  .ctrl-panel.collapsed .ctrl-panel-body { display: none; }
+  .ctrl-panel.collapsed .ctrl-panel-head { margin: 0; }
+  .ctrl-panel.collapsed h2 { display: none; }
+
+  @media (max-width: 1180px) {
+    .ctrl-panel { position: static; width: auto; margin: 16px 28px; max-height: none; }
+    .ctrl-panel.collapsed { margin: 16px 28px; }
+  }
+
+  /* --- Reglas on/off: cada bloque se muestra según el data-seller del
+     <body> que actualiza el panel. --- */
+  .mod-seller-marketplace,
+  .mod-seller-adidas { display: none; }
+  body[data-seller="marketplace"] .mod-seller-marketplace { display: block; }
+  body[data-seller="adidas"] .mod-seller-adidas { display: block; }
+</style>
+</head>
+<body data-seller="marketplace">
+
+  <aside class="ctrl-panel card">
+    <div class="ctrl-panel-head">
+      <h2>Panel de control</h2>
+      <button type="button" id="collapseBtn" class="secondary ctrl-collapse-btn" title="Colapsar panel" aria-expanded="true">‹</button>
+    </div>
+
+    <div class="ctrl-panel-body">
+      <p class="ctrl-hint">Alterná la regla de negocio de "¿Qué querés hacer con el producto?" según el vendedor del pedido. El estado queda en la URL, así que podés compartir el link de una combinación puntual.</p>
+
+      <fieldset class="ctrl-group">
+        <legend>Vendedor</legend>
+        <label class="ctrl-option"><input type="radio" name="seller" value="marketplace" checked /> Marketplace / B2C (3 opciones, con Cambio)</label>
+        <label class="ctrl-option"><input type="radio" name="seller" value="adidas" /> Seller Adidas (sin Cambio)</label>
+      </fieldset>
+
+      <button type="button" id="copyLinkBtn" class="secondary">Copiar link de esta vista</button>
+      <div class="ctrl-copied" id="copiedMsg">¡Link copiado!</div>
+    </div>
+  </aside>
+
+  <div class="pp-topbar">
+    <div class="pp-brand"><span class="pp-icon">▦</span> Gestión de Pedidos</div>
+    <span class="pp-logout">⏻</span>
+  </div>
+
+  <div class="pp-layout">
+    <div class="pp-main">
+      <div class="pp-breadcrumb">Términos y condiciones</div>
+      <h1 class="pp-title">¿Qué querés hacer con el producto?</h1>
+
+      <div class="pp-option-list mod-seller-marketplace">
+        <div class="pp-option-item">Cambio</div>
+        <div class="pp-option-item">Devolución y reintegro del dinero</div>
+        <a class="pp-option-item" href="garantia-terminos.html">Devolución por garantía</a>
+      </div>
+      <div class="pp-option-list mod-seller-adidas">
+        <a class="pp-option-item" href="devolucion-productos.html">Devolución</a>
+        <a class="pp-option-item" href="garantia-terminos.html">Devolución por garantía</a>
+      </div>
+
+      <div class="mod-seller-marketplace">
+        <div class="pp-info-card">
+          <h4><i class="pp-i">i</i> Cambio (Código para cambio)</h4>
+          <p>Andreani retirará el producto de su domicilio. Después del control en nuestro depósito, recibirá un correo de confirmación y un cupón para realizar el cambio.</p>
+        </div>
+
+        <div class="pp-info-card">
+          <h4><i class="pp-i">i</i> Devolución del producto y reintegro del dinero</h4>
+          <p>El producto será retirado por Andreani en su domicilio. Una vez que llegue a nuestro depósito, será sometido a una inspección correspondiente. Posteriormente, recibirá un correo confirmando la recepción del producto. El reembolso se efectuará en un plazo de 48 horas hábiles siguientes.</p>
+        </div>
+
+        <div class="pp-info-card">
+          <h4><i class="pp-i">i</i> Devolución por garantía</h4>
+          <p>La devolución por fallas de fábrica puede realizarse dentro de los 180 días posteriores a la facturación del producto. Andreani retirará el producto desde su domicilio. Tras una inspección en nuestro depósito, recibirá un correo confirmando la recepción del producto junto con un código de cambio para su próxima compra.</p>
+        </div>
+      </div>
+
+      <div class="mod-seller-adidas">
+        <div class="pp-info-card">
+          <h4><i class="pp-i">i</i> Devolución</h4>
+          <ul>
+            <li>Tienes un plazo de 60 días desde la recepción del producto.</li>
+            <li>El producto debe estar en estado nuevo, sin señales de uso, lavado o desgaste.</li>
+            <li>Debe tener las etiquetas originales y todos los accesorios incluidos en el paquete.</li>
+            <li>El producto deberá ser devuelto con las etiquetas sin desprender (ropa/calzado) o en su caja original (calzado/accesorios).</li>
+            <li>No se aceptan devoluciones de productos íntimos como medias, trajes de baño, cubrebocas y ropa interior por razones de higiene y seguridad. Si ingresas una solicitud por alguna de estos artículos, tu devolución no podrá ser completada.</li>
+          </ul>
+        </div>
+
+        <div class="pp-info-card">
+          <h4><i class="pp-i">i</i> Devolución por garantía</h4>
+          <ul>
+            <li>Tienes un plazo de 180 días desde la recepción del producto.</li>
+            <li>No se aceptan devoluciones de productos íntimos como medias, trajes de baño, cubrebocas y ropa interior por razones de higiene y seguridad. Si ingresas una solicitud por alguna de estos artículos, tu devolución no podrá ser completada.</li>
+          </ul>
+        </div>
+
+        <div class="pp-notice-box">Por favor, recuerda que en productos <b>Vendidos y distribuidos por Adidas</b> no es posible realizar cambios, solo devoluciones y reembolsos.</div>
+        <div class="pp-notice-box">El correo recogerá el producto en tu domicilio sin costo adicional. Luego, el producto se someterá a una inspección, que puede resultar en el rechazo del mismo. Si es aprobada, recibirás una notificación y el proceso de reembolso se completará en un plazo máximo de 48 horas hábiles posteriores a la aprobación.</div>
+        <div class="pp-notice-box">Si tienes preguntas o necesitas ayuda, puedes contactar al equipo de atención al cliente. Agradecen tu confianza en su servicio.</div>
+      </div>
+
+      <button class="pp-btn" onclick="location.href='menu.html'">Volver</button>
+    </div>
+
+    <div class="pp-sidebar">
+      <h3>Detalle de la compra</h3>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Musculosa Atlét Running De Hombre Color: Verde - Talle: XL</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Remera Atlét Lisa De Hombre Color: Azul Marino - Talle: XL</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Remera Atlét Lisa De Hombre Color: Gris - Talle: XL</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Zapatillas adidas Runblaze De Mujer Color: Blanco - Talle: 36</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // --- Panel de control: el toggle de vendedor se maneja como data-seller
+  // en <body>, leído por las reglas CSS de arriba. El estado se sincroniza
+  // con el hash de la URL para poder compartir el link de una combinación
+  // puntual.
+  function readState() {
+    const checked = document.querySelector('input[name="seller"]:checked');
+    return { seller: checked ? checked.value : 'marketplace' };
+  }
+
+  function applyState(state) {
+    for (const key in state) {
+      document.body.setAttribute('data-' + key, state[key]);
+    }
+  }
+
+  function stateToHash(state) {
+    return Object.keys(state).map(k => `${k}=${state[k]}`).join('&');
+  }
+
+  function hashToState() {
+    const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+    const state = {};
+    const val = params.get('seller');
+    if (val) state.seller = val;
+    return state;
+  }
+
+  function syncControlsFromState(state) {
+    if (!state.seller) return;
+    const el = document.querySelector(`input[name="seller"][value="${state.seller}"]`);
+    if (el) el.checked = true;
+  }
+
+  function updateFromControls() {
+    const state = readState();
+    applyState(state);
+    history.replaceState(null, '', '#' + stateToHash(state));
+  }
+
+  document.querySelectorAll('.ctrl-panel input').forEach(input => {
+    input.addEventListener('change', updateFromControls);
+  });
+
+  document.getElementById('copyLinkBtn').addEventListener('click', () => {
+    navigator.clipboard.writeText(location.href).then(() => {
+      const msg = document.getElementById('copiedMsg');
+      msg.classList.add('show');
+      setTimeout(() => msg.classList.remove('show'), 1800);
+    });
+  });
+
+  // --- Colapsar panel: estado persistido en localStorage para que se
+  // mantenga colapsado/abierto entre visitas.
+  const COLLAPSE_KEY = 'pp-devolucion-panel-collapsed';
+  const panel = document.querySelector('.ctrl-panel');
+  const collapseBtn = document.getElementById('collapseBtn');
+
+  function setCollapsed(collapsed) {
+    panel.classList.toggle('collapsed', collapsed);
+    collapseBtn.textContent = collapsed ? '›' : '‹';
+    collapseBtn.title = collapsed ? 'Expandir panel' : 'Colapsar panel';
+    collapseBtn.setAttribute('aria-expanded', String(!collapsed));
+    localStorage.setItem(COLLAPSE_KEY, collapsed ? '1' : '0');
+  }
+
+  collapseBtn.addEventListener('click', () => setCollapsed(!panel.classList.contains('collapsed')));
+  setCollapsed(localStorage.getItem(COLLAPSE_KEY) === '1');
+
+  // Estado inicial: hash de la URL (si viene con combinación) o defaults del panel.
+  const initialState = hashToState();
+  if (Object.keys(initialState).length) {
+    syncControlsFromState(initialState);
+    applyState(initialState);
+  } else {
+    updateFromControls();
+  }
+</script>
+</body>
+</html>

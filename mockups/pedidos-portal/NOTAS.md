@@ -15,13 +15,14 @@ Fuente: `login.html` desde navegación en vivo (colores/tipografía con `getComp
 | `login.html` | Login (DNI + N° de pedido) |
 | `menu.html` | "¿Qué acción deseas realizar?" — menú Consultar estado / Cambios y devoluciones |
 | `detalle-pedido.html` | Detalle del pedido: resumen, alerta de despacho múltiple, acordeón de paquetes (depósito, transporte, factura, producto, timeline logístico) |
-| `devolucion-opciones.html` | "¿Qué querés hacer con el producto?" — Cambio / Devolución con reintegro / Devolución por garantía |
+| `devolucion-opciones-modular.html` | **Pantalla vigente — mantener acá los cambios de "¿Qué querés hacer con el producto?" a partir de ahora.** Con panel de control lateral (mismo patrón que `producto-modular.html` del sitio Sporting) que alterna la regla de negocio por vendedor: Marketplace/B2C (3 opciones: Cambio, Devolución, Devolución por garantía) vs. seller Adidas (2 opciones, sin Cambio, con los 3 avisos adicionales). El estado queda codificado en el hash de la URL para compartir el link de una combinación puntual. Usa `design-system/tokens.css` solo para el chrome del panel, no para el contenido, que sigue la fidelidad de `portal.css` |
 | `garantia-terminos.html` | Checklist de condiciones antes de iniciar una devolución por garantía |
 | `garantia-productos.html` | Tabla de productos a devolver por garantía — indicar motivo por producto |
 | `garantia-confirmar.html` | Formulario "Verificá tus datos antes de confirmar" — **usa datos de ejemplo genéricos**, no los reales capturados en la sesión de prueba (ver nota de privacidad abajo) |
 | `motivo-devolucion.html` | "¿Qué pasó con tu compra?" — lista de motivos predefinidos (Hay fallas en el producto / Es diferente a lo que pedí / No cumple mis expectativas / Fue enviado en malas condiciones / Talle incorrecto) |
 | `devolucion-productos.html` | Variante de la tabla de productos a devolver **sin** "por garantía" — usada por el flujo de "Devolución" simple |
-| `devolucion-opciones-adidas.html` | Variante de "¿Qué querés hacer con el producto?" para pedidos del **seller Adidas** — ver regla de negocio abajo |
+| `devolucion-opciones.html` ⚠️ snapshot histórico, congelado | "¿Qué querés hacer con el producto?" — Cambio / Devolución con reintegro / Devolución por garantía, capturado 2026-07-16. **No se sigue actualizando** — reemplazado por `devolucion-opciones-modular.html` (estado seller=marketplace). Se conserva como referencia de la captura real original. |
+| `devolucion-opciones-adidas.html` ⚠️ snapshot histórico, congelado | Variante de "¿Qué querés hacer con el producto?" para pedidos del **seller Adidas**, capturado 2026-07-16 — ver regla de negocio abajo. **No se sigue actualizando** — reemplazado por `devolucion-opciones-modular.html` (estado seller=adidas). Se conserva como referencia de la captura real original. |
 
 ### Corrección 2026-07-16 — "Indicar motivo" no es un input inline
 
@@ -34,7 +35,7 @@ En pedidos de productos **vendidos y distribuidos por el seller Adidas**, la pan
 - Info cards con listas de viñetas (plazo 60 días para Devolución, 180 días para garantía) en vez de párrafos.
 - Tres avisos grises adicionales: restricción de cambio para productos Adidas, proceso de retiro/inspección/reembolso, y contacto de atención al cliente.
 
-Pedidos B2C / de otros sellers siguen mostrando las 3 opciones (`devolucion-opciones.html`, ya maquetado). **Si el usuario menciona otro seller con reglas propias, documentarlo acá siguiendo el mismo patrón** (nueva variante `devolucion-opciones-<seller>.html` + entrada en esta sección).
+Pedidos B2C / de otros sellers siguen mostrando las 3 opciones. Las dos variantes conviven hoy como módulos togglables de `devolucion-opciones-modular.html` (toggle "Vendedor"). **Si el usuario menciona otro seller con reglas propias, documentarlo acá siguiendo el mismo patrón**: sumar un tercer valor al toggle de vendedor en `devolucion-opciones-modular.html`, no un archivo nuevo.
 
 ### Nota de privacidad — datos de ejemplo en `garantia-confirmar.html`
 
@@ -54,3 +55,5 @@ Estilos propios en `portal.css` — identidad separada del design system interno
 ## Al agregar pantallas nuevas
 
 Reusar las clases de `portal.css` (`.pp-topbar`, `.pp-sidebar`, `.pp-option-list`, `.pp-info-card`, `.pp-package`, `.pp-timeline`, etc.) en vez de crear estilos nuevos. Registrar en `../../docs/cross-references.md` cualquier doc de proceso/pedidos que la maqueta empiece a reflejar.
+
+**Cambios y devoluciones:** cualquier variante nueva por vendedor (regla de negocio distinta a Marketplace/B2C y Adidas) se agrega como valor nuevo del toggle "Vendedor" en `devolucion-opciones-modular.html`, no como archivo nuevo. `devolucion-opciones.html` y `devolucion-opciones-adidas.html` quedan congelados como snapshot de las capturas reales originales.
