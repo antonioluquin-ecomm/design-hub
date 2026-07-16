@@ -151,6 +151,7 @@ Se implementó en `plp.html` reusando el mismo markup de filtros (sin duplicar H
 | `producto-sporting.html` ⚠️ snapshot histórico, congelado | PDP del producto seller **Sporting** (tienda propia) con video (`bicicleta-trek-slash-9-7-slx-xt-rodado-29-talle-ml-1501767-000/p`), capturado 2026-07-16: mismos componentes base que la de Adidas, más los que no estaban en esa captura — precio con descuento (tachado + badge `-15%`), aviso de stock urgente ("¡Última unidad disponible!"), badge "NO APLICA CUPONES" + nota, **video embed** debajo de la galería de imágenes (miniatura + play + info de canal), talle único, **sin** box de "Vendido y distribuido por" (por ser tienda propia), y acordeón **"Cambios y devoluciones"** (en vez de "No se admiten cambios directos"). **No se sigue actualizando** — reemplazado por `producto-modular.html` (estado seller=propio, discount=on, stock=last, coupon=blocked). Se conserva como referencia de la captura real original. |
 | `plp.html` | Página de listado de categoría (PLP), fiel a `sporting.com.ar/sporting/calzado/zapatillas/hombre` capturado en vivo 2026-07-16: breadcrumb de 5 niveles, sidebar de filtros (chips activos, Vendido por, Categoría, Tipo de producto, 7 grupos colapsados, rango de precio), barra de resultados (contador + orden), grid de 8 tarjetas de producto con mini-carrusel de fotos por tarjeta y botón "Mostrar más". Sin panel de control modular (a diferencia de home/PDP) — es la primera captura, no tiene variantes togglables todavía. **Responsive real** (agregado 2026-07-16, ver corrección abajo): a ≤720px la sidebar se convierte en un panel deslizante desde la derecha (botón "Filtrar"), con barra "Ordenar Por/Filtrar" y grid de 2 columnas — confirmado navegando el sitio real en viewport 375px. |
 | `carrito.html` | **Solo vista mobile** (pedido explícito) del carrito (minicart), fiel a la captura real en viewport 375px: panel deslizante desde la derecha (~85% del ancho) con mensaje de envío gratis, línea de producto (miniatura + talle + stepper + precio + quitar), fila de cross-sell horizontal de accesorios, total y botón "IR AL CHECKOUT" (no sticky). Botón 🛒 en el header reabre el panel si se cierra. No tiene versión desktop ni checkout — ver Pendiente. |
+| `checkout.html` | **Solo vista mobile** (pedido explícito) del primer paso del checkout ("Mi carrito"), fiel a la captura real en viewport 375px navegando `sporting.com.ar/checkout/#/cart`: header propio solo con logo (app VTEX aparte, no reusa el header del sitio), fondo gris con tarjetas blancas, línea de producto, cupón colapsado, tabla de totales, botón "FINALIZAR COMPRA" (verde institucional), cross-sell "Completa tu compra con..." y footer mínimo de una línea. No incluye los pasos siguientes del checkout (datos, envío, pago, confirmación) ni versión desktop — ver Pendiente. |
 
 ### Cruce con la regla de negocio del portal de pedidos
 
@@ -175,9 +176,24 @@ El panel ocupa ~85% del ancho de pantalla (318.75px de 375px reales), deslizando
 
 Se creó `carrito.html` como página nueva, **solo con la vista mobile** (pedido explícito del usuario) — muestra el header/navbar mobile ya existente de fondo, con el panel abierto por default y un botón 🛒 en el header para volver a abrirlo si se cierra. No se maquetó una versión desktop del carrito ni el checkout completo (quedan pendientes, ver abajo). Se agregaron las clases `.sp-cart-*` a `sporting.css`.
 
+### Creación 2026-07-16 — Checkout (paso "Mi carrito"), solo vista mobile
+
+Se agregó un producto al carrito y se clickeó "Ir al checkout" desde la PDP en vivo, con viewport forzado a 375x812, navegando hasta `sporting.com.ar/checkout/#/cart`. Hallazgo clave: **el checkout es una app VTEX aparte** ("checkout-v6", confirmado por el nombre del asset del logo `checkout-v6-logo.png`), no reutiliza el header/navbar/footer del resto del sitio. Estructura real confirmada de arriba a abajo:
+
+- **Header propio:** blanco, 68px de alto, **solo el logo centrado** — sin buscador, navbar, wishlist ni ícono de carrito (confirmado por `offsetParent: null` en esos elementos, existen en el DOM pero ocultos en mobile).
+- **Fondo de página gris claro** (`rgb(245,245,245)`, confirmado por `getComputedStyle`) con tarjetas blancas encima — look distinto al resto del sitio (blanco puro).
+- **Tarjeta "Mi carrito":** línea de producto (nombre, "Color: Azul - Talle: 38", precio) + link "Seguir comprando".
+- **Tarjeta de totales:** "Cupón de descuento" es un toggle colapsado por default (el input+botón "Añadir" existen en el DOM con `rect` en 0, se revelan al tocar — no se llegó a abrir en esta captura) + tabla Subtotal/Precio sin impuestos/IVA incluido/Total + botón "FINALIZAR COMPRA" ancho completo, **verde institucional exacto** (`rgb(37,182,12)` = mismo `--sp-green` del resto del sitio, confirmado por `getComputedStyle` — el checkout no tiene paleta propia pese a ser una app distinta).
+- **"Completa tu compra con...":** cross-sell horizontal de accesorios (gorras, riñoneras), varios con descuento tachado + badge de porcentaje — reusa `.sp-cart-upsell-*` ya creado para el minicart de `carrito.html` (mismo patrón visual).
+- **Footer mínimo:** una sola línea de copyright, sin columnas ni newsletter — confirmado que el checkout no carga el footer del sitio.
+- Se detectaron (pero no se maquetaron, por ser **desktop-only**, `offsetParent: null` en mobile) un banner de MODO (medio de pago) y una fila de badges de confianza (tarjeta/cambios/envíos).
+
+Se creó `checkout.html` como página nueva, **solo con la vista mobile** del primer paso del checkout ("Mi carrito"/resumen de compra) — los pasos siguientes (datos personales, envío, pago, confirmación) no se navegaron. Se agregaron las clases `.sp-checkout-*` a `sporting.css`, reusando `.sp-cart-upsell-*` para el cross-sell.
+
 ## Pendiente / no capturado todavía
 
-- [ ] Carrito de escritorio (solo se maquetó la vista mobile del minicart) y checkout completo
+- [ ] Carrito de escritorio (solo se maquetó la vista mobile del minicart)
+- [ ] Checkout: solo se capturó el primer paso ("Mi carrito") en mobile — faltan datos personales, envío, medios de pago y confirmación, y toda la versión desktop
 - [x] Vista mobile de home, PLP y PDP — capturadas y maquetadas (ver correcciones 2026-07-16 arriba). Header/footer mobile son chrome global, comparten CSS en las 3 páginas.
 - [ ] Header con menú de categorías desplegado (el `☰`/navbar no se abrió en la captura, solo se vieron los links del mega-menú en el DOM)
 - [ ] Contenido real de "Especificaciones" y "Detalles" (se maquetaron con placeholder — no se expandieron en la captura)

@@ -591,6 +591,7 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-cart-upsell-name { font-size: 11px; line-height: 1.35; margin-bottom: 6px; min-height: 30px; }
 .sp-cart-upsell-price { font-size: 12.5px; font-weight: 700; margin-bottom: 8px; }
 .sp-cart-upsell-price .old { font-size: 10.5px; font-weight: 400; color: var(--sp-muted); text-decoration: line-through; margin-left: 4px; }
+.sp-cart-upsell-price .pct { font-size: 10px; font-weight: 800; color: #e0392b; margin-left: 4px; }
 .sp-cart-upsell-btn { width: 100%; background: #fff; border: 1px solid var(--sp-text); border-radius: 6px; padding: 8px 4px; font-size: 10px; font-weight: 700; cursor: pointer; font-family: 'Poppins', sans-serif; }
 .sp-cart-upsell-btn:hover:not(:disabled):not(.ctrl-panel *) { background: #fff; transform: none; }
 
@@ -598,3 +599,70 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-cart-checkout-btn { width: 100%; background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 14px; font-weight: 800; font-size: 13.5px; letter-spacing: .03em; cursor: pointer; font-family: 'Poppins', sans-serif; }
 .sp-cart-checkout-btn:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
 .sp-cart-footnote { font-size: 11px; color: var(--sp-muted); text-align: center; margin-top: 12px; line-height: 1.4; }
+
+/*
+ * Checkout (paso "Mi carrito") mobile — capturado en vivo 2026-07-16
+ * agregando un producto real y clickeando "Ir al checkout" desde la PDP,
+ * en viewport 375x812. El checkout de Sporting **no es la misma app**
+ * que el resto del sitio: es un módulo VTEX aparte ("checkout-v6",
+ * confirmado por el nombre del asset del logo), con su propio layout —
+ * no reutiliza el header/navbar/footer de `sporting.css`. Estructura
+ * real confirmada de arriba a abajo:
+ *   1. Header propio: fondo blanco, 68px de alto, **solo el logo
+ *      centrado** — sin buscador, sin navbar, sin íconos de wishlist ni
+ *      carrito (confirmado: esos íconos existen en el DOM pero con
+ *      `offsetParent: null`, ocultos en mobile).
+ *   2. Fondo de página gris claro (`rgb(245,245,245)`, no blanco) con
+ *      tarjetas blancas encima — confirmado por `getComputedStyle`.
+ *   3. Tarjeta "Mi carrito": línea de producto (nombre, color+talle,
+ *      precio) + link "Seguir comprando".
+ *   4. Tarjeta de totales: "Cupón de descuento" es un toggle colapsado
+ *      por default (el input+botón "Añadir" existen en el DOM pero con
+ *      `rect` en 0, se revelan al tocar) + tabla de Subtotal/Precio sin
+ *      impuestos/IVA incluido/Total + botón "FINALIZAR COMPRA" ancho
+ *      completo, verde institucional exacto (`rgb(37,182,12)` = mismo
+ *      `--sp-green` del resto del sitio, confirmado por
+ *      `getComputedStyle` — el checkout no tiene paleta propia).
+ *   5. "Completa tu compra con..." — cross-sell horizontal de
+ *      accesorios (gorras, riñoneras), varios con descuento tachado +
+ *      badge de porcentaje, reusa `.sp-cart-upsell-*` ya creado para el
+ *      minicart (mismo patrón visual, boton "Agregar al carrito" propio
+ *      por tarjeta).
+ *   6. Footer mínimo: una sola línea de copyright, sin columnas ni
+ *      newsletter — confirmado que el checkout no carga el footer del
+ *      sitio.
+ * Un banner de MODO (medio de pago) y una fila de badges de confianza
+ * (tarjeta/cambios/envíos) existen en el DOM (assets `MODO-Checkout-
+ * Mobile-large.png`, `checkout-v6-{tarjeta,cambios,envios-black}.png`)
+ * pero con `offsetParent: null` en mobile — son **desktop-only**, no se
+ * maquetaron acá.
+ *
+ * Solo se maquetó la vista mobile (pedido explícito) del primer paso
+ * del checkout ("Mi carrito"/resumen de compra) — los pasos siguientes
+ * (datos personales, envío, pago, confirmación) no se navegaron y
+ * quedan pendientes, ver NOTAS.md.
+ */
+.sp-checkout-body { margin: 0; background: #f5f5f5; font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif; color: var(--sp-text); }
+.sp-checkout-header { background: #fff; height: 68px; display: flex; align-items: center; justify-content: center; }
+.sp-checkout-content { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+.sp-checkout-card { background: #fff; border-radius: 6px; padding: 18px 16px; }
+.sp-checkout-title { font-size: 16px; font-weight: 700; margin: 0 0 14px; }
+.sp-checkout-item { padding-bottom: 14px; margin-bottom: 6px; border-bottom: 1px solid var(--sp-line); }
+.sp-checkout-item-name { font-size: 13.5px; font-weight: 600; margin-bottom: 4px; }
+.sp-checkout-item-variant { font-size: 12px; color: var(--sp-muted); margin-bottom: 8px; }
+.sp-checkout-item-price { font-size: 14px; font-weight: 700; }
+.sp-checkout-continue-link { display: inline-block; margin-top: 8px; font-size: 12.5px; color: var(--sp-green-dark); font-weight: 600; text-decoration: none; }
+
+.sp-checkout-coupon-toggle { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--sp-line); cursor: pointer; }
+.sp-checkout-coupon-toggle .chev { color: var(--sp-muted); }
+.sp-checkout-totals { margin-bottom: 16px; }
+.sp-checkout-total-row { display: flex; justify-content: space-between; font-size: 13.5px; padding: 6px 0; }
+.sp-checkout-total-row.sub { font-size: 12px; color: var(--sp-muted); }
+.sp-checkout-total-row.total { font-size: 16px; font-weight: 800; border-top: 1px solid var(--sp-line); margin-top: 6px; padding-top: 12px; }
+.sp-checkout-finalize-btn { width: 100%; background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 14px; font-weight: 800; font-size: 13.5px; letter-spacing: .03em; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-checkout-finalize-btn:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
+
+.sp-checkout-crosssell-title { font-size: 14px; font-weight: 700; margin-bottom: 14px; padding: 0 2px; }
+.sp-checkout-crosssell .sp-cart-upsell-row { border-bottom: none; padding-bottom: 4px; margin-bottom: 0; }
+
+.sp-checkout-footer { text-align: center; font-size: 11px; color: var(--sp-muted); padding: 20px 16px 28px; }
