@@ -49,14 +49,13 @@
 
   /* --- Reglas on/off: cada sección se oculta según el data-* del <body>
      que actualiza el panel. --- */
-  body[data-announce="off"] .mod-announce,
   body[data-hero="off"] .mod-hero,
   body[data-categorias="off"] .mod-categorias,
   body[data-novedades="off"] .mod-novedades,
   body[data-disciplinas="off"] .mod-disciplinas { display: none; }
 </style>
 </head>
-<body data-announce="on" data-hero="on" data-categorias="on" data-novedades="on" data-disciplinas="on">
+<body data-hero="on" data-categorias="on" data-novedades="on" data-disciplinas="on">
 
   <aside class="ctrl-panel card">
     <div class="ctrl-panel-head">
@@ -69,7 +68,6 @@
 
       <fieldset class="ctrl-group">
         <legend>Secciones</legend>
-        <label class="ctrl-option"><input type="checkbox" name="announce" checked /> Announcement bar</label>
         <label class="ctrl-option"><input type="checkbox" name="hero" checked /> Hero banner promocional</label>
         <label class="ctrl-option"><input type="checkbox" name="categorias" checked /> Elegí tu categoría</label>
         <label class="ctrl-option"><input type="checkbox" name="novedades" checked /> Novedades</label>
@@ -81,21 +79,31 @@
     </div>
   </aside>
 
-  <div class="sp-announce mod-announce">Hoy envíos gratis a todo el país a partir de $149.990 <a href="#" onclick="return false;">Ver más</a></div>
+  <div class="sp-topline">
+    <a href="#" onclick="return false;">W WOKER</a>
+    <span class="sp-topline-center">Hasta 12 Cuotas con Macro (Miércoles y Sábados) <a href="#" onclick="return false;">Ver términos</a></span>
+    <a href="#" onclick="return false;">Segui tu pedido ⬅</a>
+  </div>
 
-  <div class="sp-header">
-    <div class="sp-left">
-      <span class="sp-burger">☰</span>
-      <a class="sp-logo" href="index.html">SPORTING</a>
-    </div>
-    <div class="sp-right">
-      <span>🔍</span>
-      <span>👤</span>
-      <span>🛒</span>
+  <div class="sp-header-full">
+    <a class="sp-logo-full" href="index.html">SPORTING</a>
+    <div class="sp-searchbar">🔍 <input type="text" placeholder="Buscar..." /></div>
+    <div class="sp-header-actions">
+      <span class="sp-loc">📍 Ingresá: Tu ubicación</span>
+      <div class="sp-icons"><a class="sp-login-link" href="#" onclick="return false;">Entrar</a><span>♡</span><span>🛒</span></div>
     </div>
   </div>
 
-  <div class="sp-locationbar">📍 Ingresá: Tu ubicación</div>
+  <div class="sp-navbar">
+    <a href="#" onclick="return false;">HOMBRE</a>
+    <a href="#" onclick="return false;">MUJER</a>
+    <a href="#" onclick="return false;">NIÑOS</a>
+    <a href="#" onclick="return false;">DEPORTES</a>
+    <a href="#" onclick="return false;">MARCAS</a>
+    <a href="#" class="offers" onclick="return false;">OFERTAS</a>
+    <a href="#" class="novedades" onclick="return false;">NOVEDADES</a>
+    <a href="#" onclick="return false;">ADIDAS SELLER</a>
+  </div>
 
   <div class="sp-hero mod-hero">
     <div class="sp-coupon">🎟 Cupón FINALISSIMA</div>
@@ -213,7 +221,6 @@
   // con el hash de la URL para poder compartir el link de una combinación
   // puntual.
   const MODULES = {
-    announce:      { name: 'announce',      onValue: 'on', offValue: 'off' },
     hero:          { name: 'hero',          onValue: 'on', offValue: 'off' },
     categorias:    { name: 'categorias',    onValue: 'on', offValue: 'off' },
     novedades:     { name: 'novedades',     onValue: 'on', offValue: 'off' },
