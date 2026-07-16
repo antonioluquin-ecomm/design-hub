@@ -369,3 +369,56 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
   .sp-plp-layout { grid-template-columns: 1fr; }
   .sp-plp-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/*
+ * PLP mobile — capturado en vivo 2026-07-16 (viewport 375x812) navegando
+ * la misma categoría de zapatillas hombre. Diferencias reales confirmadas
+ * contra desktop:
+ *   - No hay sidebar de filtros fija: hay una barra con 2 botones mitad y
+ *     mitad ("Ordenar Por / Relevancia" | "Filtrar") arriba del contador
+ *     de resultados.
+ *   - "Filtrar" abre un panel deslizante fijo desde la derecha (no un
+ *     bottom-sheet), de ~61% del ancho de pantalla (230px de 375px en la
+ *     captura), con los mismos grupos de filtro que el sidebar de
+ *     desktop y un footer fijo abajo con botones "Limpiar"/"Aplicar" +
+ *     contador de productos en vivo.
+ *   - El grid de productos pasa a 2 columnas (confirmado por
+ *     getBoundingClientRect de 2 tarjetas contiguas).
+ * El botón de cierre (✕) del panel no se vio explícito en la captura
+ * (posiblemente un ícono SVG no leído por el volcado de texto/DOM) — se
+ * agregó por usabilidad, inferido, no confirmado 1:1 contra el sitio real.
+ */
+.sp-plp-mobile-bar { display: none; }
+.sp-filter-backdrop { display: none; }
+.sp-filter-drawer-footer { display: none; }
+.sp-filter-drawer-close { display: none; }
+
+@media (max-width: 720px) {
+  .sp-plp-layout { grid-template-columns: 1fr; padding: 16px; }
+  .sp-plp-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+  .sp-plp-mobile-bar { display: flex; border: 1px solid var(--sp-line); border-radius: 6px; overflow: hidden; margin-bottom: 14px; }
+  .sp-plp-mobile-bar button { flex: 1; background: #fff; border: none; padding: 14px 10px; font-size: 12.5px; font-weight: 500; font-family: 'Poppins', sans-serif; cursor: pointer; }
+  .sp-plp-mobile-bar button:first-child { border-right: 1px solid var(--sp-line); }
+  .sp-plp-mobile-bar button:hover:not(:disabled):not(.ctrl-panel *) { background: #fff; transform: none; }
+  .sp-plp-mobile-bar b { font-weight: 700; }
+  .sp-results-bar .sp-sort-select { display: none; }
+
+  .sp-plp-layout aside { position: fixed; top: 0; right: 0; bottom: 0; width: 78%; max-width: 320px; background: #fff; z-index: 200; padding: 20px; overflow-y: auto; transform: translateX(100%); transition: transform .25s ease; box-shadow: -6px 0 24px rgba(0,0,0,.18); }
+  .sp-plp-layout aside.open { transform: translateX(0); }
+  .sp-filters-title { display: flex; align-items: center; justify-content: space-between; }
+  .sp-filter-drawer-close { display: block; background: none; border: none; font-size: 18px; cursor: pointer; color: var(--sp-text); }
+  .sp-filter-drawer-close:hover:not(:disabled):not(.ctrl-panel *) { background: none; transform: none; }
+
+  .sp-filter-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 190; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+  .sp-filter-backdrop.open { display: block; opacity: 1; pointer-events: auto; }
+
+  .sp-filter-drawer-footer { display: flex; flex-direction: column; gap: 10px; position: sticky; bottom: -20px; background: #fff; margin: 20px -20px -20px; padding: 14px 20px 20px; border-top: 1px solid var(--sp-line); }
+  .sp-filter-drawer-buttons { display: flex; gap: 10px; }
+  .sp-filter-drawer-buttons button { flex: 1; padding: 12px; border-radius: 6px; font-weight: 700; font-size: 12.5px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+  .sp-filter-clear-btn { background: #fff; border: 1px solid var(--sp-text); color: var(--sp-text); }
+  .sp-filter-clear-btn:hover:not(:disabled):not(.ctrl-panel *) { background: #fff; transform: none; }
+  .sp-filter-apply-btn { background: var(--sp-green); border: none; color: #fff; }
+  .sp-filter-apply-btn:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
+  .sp-filter-drawer-count { text-align: center; font-size: 11.5px; color: var(--sp-muted); }
+}

@@ -46,10 +46,12 @@
     <span class="sep">›</span><a href="#" onclick="return false;">HOMBRE</a>
   </div>
 
+  <div class="sp-filter-backdrop" id="filterBackdrop"></div>
+
   <div class="sp-plp-layout">
 
-    <aside>
-      <div class="sp-filters-title">Filtros</div>
+    <aside id="filtersDrawer">
+      <div class="sp-filters-title">Filtros <button class="sp-filter-drawer-close" id="closeFiltersBtn" type="button" title="Cerrar filtros">✕</button></div>
 
       <div class="sp-filter-chips">
         <span class="sp-filter-chip">Calzado (881) <span class="x">✕</span></span>
@@ -121,9 +123,22 @@
           <div class="sp-price-range-label">$ 43.999 – $ 714.999</div>
         </div>
       </div>
+
+      <div class="sp-filter-drawer-footer">
+        <div class="sp-filter-drawer-buttons">
+          <button class="sp-filter-clear-btn" type="button" onclick="return false;">LIMPIAR</button>
+          <button class="sp-filter-apply-btn" type="button" id="applyFiltersBtn">APLICAR</button>
+        </div>
+        <div class="sp-filter-drawer-count">881 productos</div>
+      </div>
     </aside>
 
     <main>
+      <div class="sp-plp-mobile-bar">
+        <button type="button" onclick="return false;">Ordenar Por <b>Relevancia</b></button>
+        <button type="button" id="openFiltersBtn">Filtrar</button>
+      </div>
+
       <div class="sp-results-bar">
         <div class="sp-results-count">881 productos</div>
         <div class="sp-sort-select">Ordenar Por Relevancia <span class="chev">▾</span></div>
@@ -356,6 +371,26 @@
       title.parentElement.classList.toggle('open');
     });
   });
+
+  // Drawer de filtros en mobile: el botón "Filtrar" abre un panel deslizante
+  // desde la derecha (confirmado por captura real en viewport 375px), que se
+  // cierra con la ✕, el botón "Aplicar" o tocando el fondo oscuro.
+  const drawer = document.getElementById('filtersDrawer');
+  const backdrop = document.getElementById('filterBackdrop');
+
+  function openDrawer() {
+    drawer.classList.add('open');
+    backdrop.classList.add('open');
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    backdrop.classList.remove('open');
+  }
+
+  document.getElementById('openFiltersBtn').addEventListener('click', openDrawer);
+  document.getElementById('closeFiltersBtn').addEventListener('click', closeDrawer);
+  document.getElementById('applyFiltersBtn').addEventListener('click', closeDrawer);
+  backdrop.addEventListener('click', closeDrawer);
 </script>
 </body>
 </html>

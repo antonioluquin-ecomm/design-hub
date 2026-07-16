@@ -100,7 +100,19 @@ Se navegó en vivo `sporting.com.ar/sporting/calzado/zapatillas/hombre` (viewpor
 
 Se creó `plp.html` como página estática (sin panel de control modular, a diferencia de `index.html`/`producto-modular.html`) con 8 tarjetas de ejemplo con datos reales de la categoría "Zapatillas Hombre". Se agregaron las clases `.sp-plp-*` y `.sp-filter-*` a `sporting.css`.
 
-**Pendiente de esta pantalla:** contenido real de los 7 grupos de filtro colapsados, opciones del dropdown de orden, vista mobile, y el estado "sin resultados"/con filtros aplicados (solo se capturó el estado por defecto de la categoría).
+**Pendiente de esta pantalla:** contenido real de los 7 grupos de filtro colapsados, opciones del dropdown de orden, y el estado "sin resultados"/con filtros aplicados (solo se capturó el estado por defecto de la categoría).
+
+### Corrección 2026-07-16 — PLP mobile
+
+Se navegó en vivo la misma categoría con viewport forzado a 375x812 (mobile) y scroll incremental completo. Diferencias reales confirmadas contra la versión desktop:
+
+- **No hay sidebar fija.** En su lugar hay una barra de 2 botones mitad y mitad arriba del contador de resultados: **"Ordenar Por / Relevancia"** y **"Filtrar"**.
+- **"Filtrar" abre un panel deslizante desde la derecha** (confirmado por `getBoundingClientRect`: fixed, `top:0`, ancho ~230px de 375px totales — un ~61% de la pantalla, no un bottom-sheet), con los mismos grupos de filtro que el sidebar de desktop. El panel tiene un **footer fijo abajo** con dos botones — **"Limpiar"** (outline) y **"Aplicar"** (sólido) — y debajo un contador de productos en vivo ("882 productos" en el momento de la captura, cambia según filtros aplicados).
+- **El grid de productos pasa a 2 columnas** (confirmado con `getBoundingClientRect` de 2 tarjetas contiguas, mismo ancho, misma fila).
+- El resto (breadcrumb, tarjetas de producto, footer del sitio) no se re-verificó a fondo en mobile — se asume igual que desktop salvo lo documentado arriba.
+- **No se encontró un botón de cierre (✕) explícito** en la captura del panel — puede ser un ícono SVG que no quedó en el volcado de texto/DOM que se usó para inspeccionar. Se agregó una ✕ en `plp.html` por usabilidad, pero es **inferido, no confirmado 1:1** contra el sitio real.
+
+Se implementó en `plp.html` reusando el mismo markup de filtros (sin duplicar HTML): a ≤720px el `<aside>` se convierte en panel `position:fixed` fuera de pantalla (`translateX`), con clase `.open` togglable por JS (botón "Filtrar" abre, ✕/"Aplicar"/click en el fondo oscuro cierran). El acordeón de filtros (abrir/cerrar cada grupo) sigue funcionando igual dentro del panel. Verificado en el navegador con `getComputedStyle`/`getBoundingClientRect` en ambos breakpoints (mobile y desktop) — screenshot no disponible en esta sesión (timeout persistente de la herramienta), verificación hecha por inspección de layout computado.
 
 ## Pantallas maquetadas
 
@@ -110,7 +122,7 @@ Se creó `plp.html` como página estática (sin panel de control modular, a dife
 | `producto-modular.html` | **PDP vigente — mantener acá los cambios de PDP a partir de ahora.** Producto genérico con panel de control lateral que prende/apaga cada módulo: vendedor (genérico/marketplace/propio — genérico es el default, refleja un producto sin regla de seller especial), video, precio con/sin descuento, talle único/varios, última unidad, cupón no aplica. Breadcrumb de 4 niveles (Inicio › Sporting › Calzado › Zapatillas), acordeón en el orden real (Descripción, Detalles, Especificaciones, Envíos gratis, ítem de cambios según vendedor, Cuotas y Promociones, Reseñas), y sección "Productos similares" como carrusel. El estado queda codificado en el hash de la URL para poder compartir el link de una combinación puntual. Usa `design-system/tokens.css` solo para el chrome del panel (no para el contenido de la PDP, que sigue la fidelidad de `sporting.css`) |
 | `producto-adidas.html` ⚠️ snapshot histórico, congelado | PDP del producto seller Adidas (`camisetas-de-equipos-adidas-camiseta-titular-seleccion-argentina-26-hombre-59135/p`), capturado 2026-07-16: header completo (topline WOKER + buscador + navbar de categorías), breadcrumb, galería con miniaturas, badges Envío Gratis/Tienda Adidas, precio con impuestos, cuotas, selector de talle, stepper + agregar al carrito, "Vendido y distribuido por adidas", código postal, acordeón (Descripción, Especificaciones, Detalles, Envíos, **No se admiten cambios directos**, Cuotas y Promociones, Reseñas), productos similares. **No se sigue actualizando** — reemplazado por `producto-modular.html` (estado seller=marketplace). Se conserva como referencia de la captura real original. |
 | `producto-sporting.html` ⚠️ snapshot histórico, congelado | PDP del producto seller **Sporting** (tienda propia) con video (`bicicleta-trek-slash-9-7-slx-xt-rodado-29-talle-ml-1501767-000/p`), capturado 2026-07-16: mismos componentes base que la de Adidas, más los que no estaban en esa captura — precio con descuento (tachado + badge `-15%`), aviso de stock urgente ("¡Última unidad disponible!"), badge "NO APLICA CUPONES" + nota, **video embed** debajo de la galería de imágenes (miniatura + play + info de canal), talle único, **sin** box de "Vendido y distribuido por" (por ser tienda propia), y acordeón **"Cambios y devoluciones"** (en vez de "No se admiten cambios directos"). **No se sigue actualizando** — reemplazado por `producto-modular.html` (estado seller=propio, discount=on, stock=last, coupon=blocked). Se conserva como referencia de la captura real original. |
-| `plp.html` | Página de listado de categoría (PLP), fiel a `sporting.com.ar/sporting/calzado/zapatillas/hombre` capturado en vivo 2026-07-16: breadcrumb de 5 niveles, sidebar de filtros (chips activos, Vendido por, Categoría, Tipo de producto, 7 grupos colapsados, rango de precio), barra de resultados (contador + orden), grid de 8 tarjetas de producto con mini-carrusel de fotos por tarjeta y botón "Mostrar más". Sin panel de control modular (a diferencia de home/PDP) — es la primera captura, no tiene variantes togglables todavía. |
+| `plp.html` | Página de listado de categoría (PLP), fiel a `sporting.com.ar/sporting/calzado/zapatillas/hombre` capturado en vivo 2026-07-16: breadcrumb de 5 niveles, sidebar de filtros (chips activos, Vendido por, Categoría, Tipo de producto, 7 grupos colapsados, rango de precio), barra de resultados (contador + orden), grid de 8 tarjetas de producto con mini-carrusel de fotos por tarjeta y botón "Mostrar más". Sin panel de control modular (a diferencia de home/PDP) — es la primera captura, no tiene variantes togglables todavía. **Responsive real** (agregado 2026-07-16, ver corrección abajo): a ≤720px la sidebar se convierte en un panel deslizante desde la derecha (botón "Filtrar"), con barra "Ordenar Por/Filtrar" y grid de 2 columnas — confirmado navegando el sitio real en viewport 375px. |
 
 ### Cruce con la regla de negocio del portal de pedidos
 
@@ -123,7 +135,7 @@ Ver fila correspondiente en `docs/cross-references.md`.
 ## Pendiente / no capturado todavía
 
 - [ ] Carrito / checkout
-- [ ] Vista mobile (solo se capturó desktop)
+- [ ] Vista mobile de home y PDP (solo se capturó desktop) — la PLP (`plp.html`) ya tiene su vista mobile capturada y maquetada (ver corrección 2026-07-16 arriba)
 - [ ] Header con menú de categorías desplegado (el `☰`/navbar no se abrió en la captura, solo se vieron los links del mega-menú en el DOM)
 - [ ] Contenido real de "Especificaciones" y "Detalles" (se maquetaron con placeholder — no se expandieron en la captura)
 - [ ] Contenido exacto de las tarjetas de "⚽ Clubes y Selecciones de Fútbol" (se infirió de los nombres de club/selección que aparecen en el mega-menú, no se llegó a abrir el carrusel real)
