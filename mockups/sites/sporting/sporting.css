@@ -1,0 +1,112 @@
+/*
+ * Identidad visual propia del sitio Sporting (sporting.com.ar) —
+ * capturada en vivo el 2026-07-16. Deliberadamente NO usa
+ * design-system/tokens.css: el sitio público mantiene su propia marca
+ * (verde/Poppins), igual criterio que marketplace-portal/public.
+ */
+
+* { box-sizing: border-box; }
+
+:root {
+  --sp-green:      #25b60c;
+  --sp-green-dark: #1c8f09;
+  --sp-black:      #111111;
+  --sp-white:      #ffffff;
+  --sp-text:       #1a1a1a;
+  --sp-muted:      #6b6b6b;
+  --sp-line:       #e5e5e5;
+  --sp-bg:         #f7f7f7;
+}
+
+body {
+  margin: 0;
+  background: var(--sp-white);
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--sp-text);
+}
+
+/* Announcement bar */
+.sp-announce {
+  background: var(--sp-black);
+  color: #fff;
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 8px 12px;
+}
+.sp-announce a { color: #fff; text-decoration: underline; margin-left: 4px; }
+
+/* Header */
+.sp-header {
+  background: var(--sp-green);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+}
+.sp-header .sp-left { display: flex; align-items: center; gap: 18px; }
+.sp-header .sp-burger { font-size: 20px; color: #fff; cursor: pointer; }
+.sp-header .sp-logo { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: .03em; text-decoration: none; }
+.sp-header .sp-right { display: flex; align-items: center; gap: 20px; color: #fff; font-size: 18px; }
+.sp-header .sp-right span { cursor: pointer; }
+
+/* Location bar */
+.sp-locationbar { background: #fff; border-bottom: 1px solid var(--sp-line); padding: 10px 28px; font-size: 13px; color: var(--sp-muted); }
+
+/* Hero banner */
+.sp-hero {
+  background: linear-gradient(135deg, #1a2a6c 0%, #2b3fa8 55%, #3a4fc9 100%);
+  color: #fff;
+  padding: 48px 28px;
+  text-align: center;
+}
+.sp-hero h1 { font-size: 28px; font-weight: 800; margin: 0 0 14px; line-height: 1.25; }
+.sp-hero .sp-coupon { display: inline-block; background: rgba(255,255,255,.12); border: 1px dashed rgba(255,255,255,.6); border-radius: 6px; padding: 6px 16px; font-weight: 700; letter-spacing: .04em; margin-bottom: 14px; }
+.sp-hero .sp-off { font-size: 42px; font-weight: 800; margin-bottom: 16px; }
+.sp-hero .sp-btn { background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 12px 28px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+
+/* Sección genérica */
+.sp-section { padding: 32px 28px; }
+.sp-section-title { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; margin: 0 0 18px; }
+.sp-section-title .badge { background: var(--sp-green); color: #fff; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 2px 6px; letter-spacing: .04em; }
+
+/* Grid genérico */
+.sp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+
+/* Category card */
+.sp-cat-card { position: relative; border-radius: 8px; overflow: hidden; background: var(--sp-bg); text-decoration: none; color: inherit; display: block; }
+.sp-cat-card img { width: 100%; height: 160px; object-fit: cover; display: block; }
+.sp-cat-card .sp-cat-body { padding: 16px; text-align: center; }
+.sp-cat-card .sp-cat-title { font-weight: 700; font-size: 16px; margin-bottom: 10px; }
+.sp-cat-card .sp-btn-outline { background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 9px 20px; font-weight: 700; font-size: 12.5px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+
+/* Discipline card */
+.sp-disc-card { border-radius: 8px; overflow: hidden; background: var(--sp-bg); }
+.sp-disc-card .sp-disc-label { font-weight: 700; font-size: 12px; letter-spacing: .05em; padding: 10px 14px 0; }
+.sp-disc-card img { width: 100%; height: 150px; object-fit: cover; display: block; margin-top: 8px; }
+.sp-disc-links { padding: 12px 14px; font-size: 13px; display: flex; flex-direction: column; gap: 6px; color: var(--sp-text); }
+
+/* Product card */
+.sp-product-card { border: 1px solid var(--sp-line); border-radius: 8px; overflow: hidden; background: #fff; }
+.sp-product-media { position: relative; }
+.sp-product-media img { width: 100%; height: 200px; object-fit: cover; display: block; }
+.sp-product-brand { position: absolute; top: 10px; right: 10px; font-size: 18px; }
+.sp-product-badge { position: absolute; top: 10px; left: 10px; background: var(--sp-green); color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; letter-spacing: .04em; }
+.sp-swatches { display: flex; gap: 6px; padding: 10px 12px 0; }
+.sp-swatches .sw { width: 26px; height: 26px; border-radius: 4px; border: 1px solid var(--sp-line); object-fit: cover; }
+.sp-product-body { padding: 10px 12px 14px; }
+.sp-product-name { font-size: 13px; font-weight: 500; margin-bottom: 6px; line-height: 1.35; min-height: 35px; }
+.sp-product-price { font-size: 17px; font-weight: 700; margin-bottom: 2px; }
+.sp-product-cuotas { font-size: 11.5px; color: var(--sp-muted); margin-bottom: 4px; }
+.sp-product-envio { font-size: 11.5px; color: var(--sp-green-dark); font-weight: 700; margin-bottom: 10px; }
+.sp-btn-select { width: 100%; background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 10px; font-weight: 700; font-size: 12px; letter-spacing: .03em; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-btn-select:hover { background: var(--sp-green-dark); }
+
+/* Footer */
+.sp-footer { background: var(--sp-black); color: #fff; }
+.sp-footer-benefit { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px; font-size: 13.5px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,.12); }
+.sp-footer-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; padding: 28px; }
+.sp-footer-links h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: rgba(255,255,255,.6); margin: 0 0 12px; }
+.sp-footer-links a { display: block; color: #fff; font-size: 13px; text-decoration: none; margin-bottom: 8px; opacity: .9; }
+.sp-footer-links a:hover { text-decoration: underline; }
+.sp-footer-bottom { text-align: center; font-size: 11.5px; color: rgba(255,255,255,.5); padding: 16px; border-top: 1px solid rgba(255,255,255,.12); }
