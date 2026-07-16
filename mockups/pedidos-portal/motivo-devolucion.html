@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maqueta — Motivo de la devolución</title>
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
+<link rel="stylesheet" href="portal.css" />
+</head>
+<body>
+  <div class="pp-topbar">
+    <div class="pp-brand"><span class="pp-icon">▦</span> Gestión de Pedidos</div>
+    <span class="pp-logout">⏻</span>
+  </div>
+
+  <div class="pp-layout">
+    <div class="pp-main">
+      <div class="pp-steps">Motivo de la devolución</div>
+      <h1 class="pp-title">¿Qué pasó con tu compra?</h1>
+
+      <div class="pp-option-list">
+        <div class="pp-option-item" onclick="ppSeleccionarMotivo('Hay fallas en el producto')">Hay fallas en el producto</div>
+        <div class="pp-option-item" onclick="ppSeleccionarMotivo('Es diferente a lo que pedí')">Es diferente a lo que pedí</div>
+        <div class="pp-option-item" onclick="ppSeleccionarMotivo('No cumple mis expectativas')">No cumple mis expectativas</div>
+        <div class="pp-option-item" onclick="ppSeleccionarMotivo('Fue enviado en malas condiciones')">Fue enviado en malas condiciones</div>
+        <div class="pp-option-item" onclick="ppSeleccionarMotivo('Talle incorrecto')">Talle incorrecto</div>
+      </div>
+    </div>
+
+    <div class="pp-sidebar">
+      <h3>Detalle de la compra</h3>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Ojotas adidas adilette Aqua Unisex 41.5</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+    </div>
+  </div>
+
+<script src="portal.js"></script>
+</body>
+</html>

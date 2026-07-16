@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maqueta — Cambios y devoluciones (seller Adidas)</title>
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
+<link rel="stylesheet" href="portal.css" />
+</head>
+<body>
+  <!--
+    Regla de negocio (confirmada por el usuario 2026-07-16): en pedidos
+    de productos vendidos y distribuidos por el seller Adidas, NO se
+    ofrece la opción "Cambio" — solo "Devolución" y "Devolución por
+    garantía". El resto de sellers / pedidos B2C sí ofrecen Cambio
+    (ver devolucion-opciones.html). Ver NOTAS.md para el detalle.
+  -->
+  <div class="pp-topbar">
+    <div class="pp-brand"><span class="pp-icon">▦</span> Gestión de Pedidos</div>
+    <span class="pp-logout">⏻</span>
+  </div>
+
+  <div class="pp-layout">
+    <div class="pp-main">
+      <div class="pp-breadcrumb">Términos y condiciones</div>
+      <h1 class="pp-title">¿Qué querés hacer con el producto?</h1>
+
+      <div class="pp-option-list">
+        <a class="pp-option-item" href="devolucion-productos.html">Devolución</a>
+        <a class="pp-option-item" href="garantia-terminos.html">Devolución por garantía</a>
+      </div>
+
+      <div class="pp-info-card">
+        <h4><i class="pp-i">i</i> Devolución</h4>
+        <ul>
+          <li>Tienes un plazo de 60 días desde la recepción del producto.</li>
+          <li>El producto debe estar en estado nuevo, sin señales de uso, lavado o desgaste.</li>
+          <li>Debe tener las etiquetas originales y todos los accesorios incluidos en el paquete.</li>
+          <li>El producto deberá ser devuelto con las etiquetas sin desprender (ropa/calzado) o en su caja original (calzado/accesorios).</li>
+          <li>No se aceptan devoluciones de productos íntimos como medias, trajes de baño, cubrebocas y ropa interior por razones de higiene y seguridad. Si ingresas una solicitud por alguna de estos artículos, tu devolución no podrá ser completada.</li>
+        </ul>
+      </div>
+
+      <div class="pp-info-card">
+        <h4><i class="pp-i">i</i> Devolución por garantía</h4>
+        <ul>
+          <li>Tienes un plazo de 180 días desde la recepción del producto.</li>
+          <li>No se aceptan devoluciones de productos íntimos como medias, trajes de baño, cubrebocas y ropa interior por razones de higiene y seguridad. Si ingresas una solicitud por alguna de estos artículos, tu devolución no podrá ser completada.</li>
+        </ul>
+      </div>
+
+      <div class="pp-notice-box">Por favor, recuerda que en productos <b>Vendidos y distribuidos por Adidas</b> no es posible realizar cambios, solo devoluciones y reembolsos.</div>
+
+      <div class="pp-notice-box">El correo recogerá el producto en tu domicilio sin costo adicional. Luego, el producto se someterá a una inspección, que puede resultar en el rechazo del mismo. Si es aprobada, recibirás una notificación y el proceso de reembolso se completará en un plazo máximo de 48 horas hábiles posteriores a la aprobación.</div>
+
+      <div class="pp-notice-box">Si tienes preguntas o necesitas ayuda, puedes contactar al equipo de atención al cliente. Agradecen tu confianza en su servicio.</div>
+
+      <button class="pp-btn" onclick="location.href='menu.html'">Volver</button>
+    </div>
+
+    <div class="pp-sidebar">
+      <h3>Detalle de la compra</h3>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Ojotas adidas adilette Aqua Unisex 41.5</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

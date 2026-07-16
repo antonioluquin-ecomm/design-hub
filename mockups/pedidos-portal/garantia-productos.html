@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
 <link rel="stylesheet" href="portal.css" />
 </head>
-<body>
+<body onload="ppRestoreMotivo()">
   <div class="pp-topbar">
     <div class="pp-brand"><span class="pp-icon">▦</span> Gestión de Pedidos</div>
     <span class="pp-logout">⏻</span>
@@ -28,31 +28,31 @@
               <td class="producto">Musculosa Atlét Running De Hombre Color: Verde - Talle: XL</td>
               <td class="motivo"></td>
               <td>1</td>
-              <td class="acciones"><button class="pp-icon-btn" onclick="marcarMotivo(this)">💬</button></td>
+              <td class="acciones"><button class="pp-icon-btn" onclick="ppGoToMotivo(0)">💬</button></td>
             </tr>
             <tr data-row>
               <td class="producto">Remera Atlét Lisa De Hombre Color: Azul Marino - Talle: XL</td>
               <td class="motivo"></td>
               <td>1</td>
-              <td class="acciones"><button class="pp-icon-btn" onclick="marcarMotivo(this)">💬</button></td>
+              <td class="acciones"><button class="pp-icon-btn" onclick="ppGoToMotivo(1)">💬</button></td>
             </tr>
             <tr data-row>
               <td class="producto">Remera Atlét Lisa De Hombre Color: Gris - Talle: XL</td>
               <td class="motivo"></td>
               <td>1</td>
-              <td class="acciones"><button class="pp-icon-btn" onclick="marcarMotivo(this)">💬</button></td>
+              <td class="acciones"><button class="pp-icon-btn" onclick="ppGoToMotivo(2)">💬</button></td>
             </tr>
             <tr data-row>
               <td class="producto">Zapatillas adidas Runblaze De Mujer Color: Blanco - Talle: 36</td>
               <td class="motivo"></td>
               <td>1</td>
-              <td class="acciones"><button class="pp-icon-btn" onclick="marcarMotivo(this)">💬</button></td>
+              <td class="acciones"><button class="pp-icon-btn" onclick="ppGoToMotivo(3)">💬</button></td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <button class="pp-btn muted" id="btnContinuar" onclick="continuar()">Continuar</button>
+      <button class="pp-btn muted" id="btnContinuar" onclick="ppContinuar('garantia-confirmar.html')">Continuar</button>
     </div>
 
     <div class="pp-sidebar">
@@ -76,44 +76,6 @@
     </div>
   </div>
 
-<script>
-  /*
-   * Réplica del comportamiento observado en el sitio real: al indicar un
-   * motivo, la fila muestra el texto y el ícono cambia a "eliminar" (rojo).
-   * Con al menos un motivo indicado, "Continuar" pasa de mudo a activo.
-   */
-  function marcarMotivo(btn) {
-    const cell = btn.closest('tr').querySelector('.motivo');
-    cell.innerHTML = '<input type="text" class="pp-motivo-input" placeholder="Ej: Falla de fábrica" />';
-    const input = cell.querySelector('input');
-    input.focus();
-    const confirmar = () => {
-      const texto = input.value.trim() || 'Devolución por garantía';
-      cell.textContent = texto;
-      btn.textContent = '🗑';
-      btn.classList.add('danger');
-      btn.onclick = () => quitarMotivo(btn);
-      actualizarContinuar();
-    };
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') confirmar(); });
-    input.addEventListener('blur', confirmar);
-  }
-  function quitarMotivo(btn) {
-    const row = btn.closest('tr');
-    row.querySelector('.motivo').textContent = '';
-    btn.textContent = '💬';
-    btn.classList.remove('danger');
-    btn.onclick = () => marcarMotivo(btn);
-    actualizarContinuar();
-  }
-  function actualizarContinuar() {
-    const algunMotivo = [...document.querySelectorAll('.motivo')].some(td => td.textContent.trim());
-    document.getElementById('btnContinuar').classList.toggle('muted', !algunMotivo);
-  }
-  function continuar() {
-    const algunMotivo = [...document.querySelectorAll('.motivo')].some(td => td.textContent.trim());
-    if (algunMotivo) location.href = 'garantia-confirmar.html';
-  }
-</script>
+<script src="portal.js"></script>
 </body>
 </html>

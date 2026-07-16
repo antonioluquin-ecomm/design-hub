@@ -89,6 +89,20 @@ body {
 .pp-info-card h4 { display: flex; align-items: center; gap: 8px; font-size: 15px; margin: 0 0 8px; }
 .pp-info-card h4 .pp-i { width: 18px; height: 18px; border-radius: 50%; background: rgba(255,255,255,.25); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-style: normal; }
 .pp-info-card p { margin: 0; font-size: 13.5px; line-height: 1.55; opacity: .95; }
+.pp-info-card ul { margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.55; }
+.pp-info-card ul li { margin-bottom: 4px; }
+.pp-info-card ul li:last-child { margin-bottom: 0; }
+
+/* Aviso neutro (gris) — condiciones adicionales, no tan prioritarias como .pp-info-card */
+.pp-notice-box {
+  background: #e3e3e3;
+  color: var(--pp-text);
+  border-radius: 4px;
+  padding: 14px 20px;
+  margin-bottom: 14px;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
 
 /* Card blanca genérica (resumen de pedido) */
 .pp-card { background: var(--pp-card); border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,.1); padding: 20px 24px; margin-bottom: 18px; }
@@ -187,6 +201,8 @@ body {
 .pp-icon-btn { width: 32px; height: 32px; border-radius: 6px; background: var(--pp-teal); color: #fff; border: none; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px; }
 .pp-icon-btn.danger { background: #e53935; }
 .pp-motivo-input { border: 1px solid var(--pp-line); border-radius: 4px; padding: 7px 10px; font-size: 12.5px; font-family: 'Lato', sans-serif; margin-right: 8px; width: 160px; }
+.pp-indicar-motivo-btn { border: 1px solid var(--pp-line); background: #fff; color: var(--pp-text); border-radius: 4px; padding: 8px 12px; font-size: 12.5px; font-family: 'Lato', sans-serif; cursor: pointer; margin-right: 8px; }
+.pp-indicar-motivo-btn:hover { border-color: var(--pp-teal); }
 
 /* Formulario de datos (confirmar devolución) */
 .pp-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 32px; }
