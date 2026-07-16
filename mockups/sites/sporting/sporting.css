@@ -152,6 +152,8 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-header-actions .sp-loc { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: #fff; }
 .sp-header-actions .sp-icons { display: flex; gap: 16px; align-items: center; font-size: 18px; color: #fff; }
 .sp-header-actions .sp-login-link { display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: #fff; text-decoration: none; }
+.sp-hamburger-btn, .sp-search-icon-btn { display: none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; flex-shrink: 0; }
+.sp-hamburger-btn:hover:not(:disabled):not(.ctrl-panel *), .sp-search-icon-btn:hover:not(:disabled):not(.ctrl-panel *) { background: none; transform: none; }
 
 /*
  * Navbar de categorías — capturado en vivo el 2026-07-16: 8 categorías
@@ -455,4 +457,70 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
   .sp-gallery-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(0,0,0,.2); }
   .sp-gallery-dots span.active { background: var(--sp-text); }
   .sp-breadcrumb-share { display: block; }
+}
+
+/*
+ * Header/footer mobile — chrome global del sitio, capturado en vivo
+ * 2026-07-16 en `sporting.com.ar/` con viewport 375x812. Aplica a todas
+ * las páginas que usan `sporting.css` (mismo criterio que el resto del
+ * header/footer, que es idéntico en todo el sitio):
+ *   - El navbar de categorías (`.sp-navbar`) desaparece del flujo — sus 8
+ *     categorías viven dentro de un menú hamburguesa (confirmado: los
+ *     links de navbar existen en el DOM pero quedan fuera de pantalla,
+ *     `x` negativo, dentro de un panel lateral oculto).
+ *   - El `.sp-header-full` pasa a mostrar, de izquierda a derecha:
+ *     ícono ☰ (nuevo, `.sp-hamburger-btn`) + logo + ícono de lupa
+ *     (`.sp-search-icon-btn`, reemplaza al buscador expandido) + "Entrar"
+ *     + carrito. El buscador expandido (`.sp-searchbar`), el texto de
+ *     ubicación (`.sp-loc`) y el ícono de wishlist (♡) NO aparecen en
+ *     mobile (confirmado: sin rastro visible en la captura, colapsan al
+ *     ícono de lupa / quedan solo en el menú).
+ *   - El footer real en mobile es **solo la franja de newsletter**: las 4
+ *     columnas de links, el copyright y "Términos más buscados" no
+ *     están (confirmado: el contenedor del footer existe en el DOM pero
+ *     con 0 links y 0 imágenes adentro, solo el formulario de
+ *     newsletter). Puede ser una decisión real de UX mobile (footer más
+ *     corto) — no un fallo de carga, dado que el resto de la página sí
+ *     terminó de montar (carruseles con datos reales visibles).
+ */
+@media (max-width: 720px) {
+  .sp-navbar { display: none; }
+  .sp-header-full { padding: 14px 16px; gap: 14px; }
+  .sp-hamburger-btn { display: block; }
+  .sp-search-icon-btn { display: block; }
+  .sp-searchbar { display: none; }
+  .sp-header-actions .sp-loc { display: none; }
+  .sp-header-actions .sp-icons span:first-child { display: none; }
+  .sp-header-actions { margin-left: auto; }
+
+  .sp-footer-columns, .sp-footer-copyright, .sp-footer-terms { display: none; }
+}
+
+/*
+ * Home mobile — capturado en vivo 2026-07-16 (viewport 375x812)
+ * navegando `sporting.com.ar/`. Diferencias reales confirmadas:
+ *   - El slider principal sigue existiendo pero más bajo (~220px de alto
+ *     confirmado por `getBoundingClientRect`, vs 300px en desktop).
+ *   - La tira de cuotas/financiación (`.sp-promo-strip`) no cambia de
+ *     estructura — ya usa scroll horizontal (`overflow-x:auto`), así que
+ *     no necesitó ajuste.
+ *   - Secciones que en esta captura **no aparecieron en absoluto**, ni
+ *     siquiera colapsadas (confirmado por scroll incremental completo +
+ *     chequeo de que todos los `vtex-render__lazy-container` habían
+ *     montado): 🏆 Disciplinas, Elegí viendo, 🧭 Ultimas!!, ⚽ Clubes y
+ *     Selecciones de Fútbol, y la barra de beneficios. Se ocultan
+ *     siempre en mobile (independiente del toggle del panel de control,
+ *     que sigue pensado para desktop).
+ *   - Categorías, Novedades y Tienda Oficial Adidas sí están, con el
+ *     mismo patrón de carrusel/grid.
+ *   - Nota: los nombres de categoría vistos en la captura mobile
+ *     ("Zapatillas/Futbol/Running/Invierno") difirieron de los vistos en
+ *     la captura desktop original ("Calzado/Indumentaria/Accesorios/
+ *     Ofertas") — el contenido de esta sección parece rotar en vivo, no
+ *     se tomó como un cambio estructural mobile-vs-desktop y no se
+ *     modificaron los ejemplos ya maquetados.
+ */
+@media (max-width: 720px) {
+  .sp-hero-slider img { height: 220px; }
+  .mod-disciplinas, .mod-elegiviendo, .mod-ultimas, .mod-clubes, .sp-benefits-bar { display: none !important; }
 }
