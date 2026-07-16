@@ -188,6 +188,32 @@ body {
 
 .sp-badge-tienda { background: var(--sp-bg); color: var(--sp-text); font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; margin-left: 6px; }
 
+/* PDP — precio con descuento */
+.sp-price-row { display: flex; align-items: baseline; gap: 10px; }
+.sp-price-old { font-size: 15px; color: var(--sp-muted); text-decoration: line-through; }
+.sp-discount-badge { background: #e0392b; color: #fff; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; }
+
+/* PDP — stock urgente */
+.sp-stock-urgent { display: flex; align-items: center; gap: 6px; color: #e0392b; font-weight: 700; font-size: 13px; margin-bottom: 14px; }
+
+/* PDP — cupón no aplica */
+.sp-coupon-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.sp-coupon-badge { display: inline-flex; align-items: center; gap: 6px; background: #1a2a6c; color: #fff; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 4px; letter-spacing: .03em; }
+.sp-coupon-note { font-size: 11.5px; color: var(--sp-muted); display: flex; align-items: center; gap: 6px; }
+
+/* PDP — video embed */
+.sp-video-block { border: 1px solid var(--sp-line); border-radius: 8px; overflow: hidden; margin-top: 14px; }
+.sp-video-thumb { position: relative; background: #0b1f14; }
+.sp-video-thumb img { width: 100%; display: block; opacity: .85; }
+.sp-video-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.sp-video-play span { width: 56px; height: 40px; background: #e0392b; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; cursor: pointer; }
+.sp-video-info { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #fff; }
+.sp-video-info .sp-video-meta { font-size: 12.5px; }
+.sp-video-info .sp-video-meta .title { font-weight: 700; }
+.sp-video-info .sp-video-meta .channel { color: var(--sp-muted); font-size: 11.5px; }
+.sp-video-info .sp-video-actions { display: flex; align-items: center; gap: 14px; font-size: 12px; }
+.sp-video-info .sp-video-actions a { color: var(--sp-text); text-decoration: none; font-weight: 600; }
+
 /* Footer */
 .sp-footer { background: var(--sp-black); color: #fff; }
 .sp-footer-benefit { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px; font-size: 13.5px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,.12); }
