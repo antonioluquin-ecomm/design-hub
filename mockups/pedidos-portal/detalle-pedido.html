@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maqueta — Detalle del pedido</title>
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
+<link rel="stylesheet" href="portal.css" />
+</head>
+<body>
+  <div class="pp-topbar">
+    <div class="pp-brand"><span class="pp-icon">▦</span> Gestión de Pedidos</div>
+    <span class="pp-logout">⏻</span>
+  </div>
+
+  <div class="pp-layout">
+    <div class="pp-main">
+      <div class="pp-breadcrumb">Estado del pedido</div>
+      <h1 class="pp-title">Detalle del pedido</h1>
+
+      <div class="pp-card">
+        <div class="pp-order-number">1631837812396-01</div>
+        <div class="pp-order-row"><span class="label">Fecha del pedido:</span><span class="value">13/05/2026 12:13</span></div>
+        <div class="pp-order-row"><span class="label">Cantidad de artículos comprados:</span><span class="value">4</span></div>
+        <div class="pp-order-row"><span class="label">Cantidad de paquetes:</span><span class="value">3</span></div>
+        <div class="pp-order-row"><span class="label">Total:</span><span class="value">$124994</span></div>
+      </div>
+
+      <div class="pp-alert-success">ATENCIÓN: <b>Su pedido fue despachado de diferentes centros de distribución.</b></div>
+
+      <!-- Paquete 1 — expandido -->
+      <div class="pp-package">
+        <div class="pp-package-header" onclick="toggle(this)">
+          <div><div class="pp-package-num-label">Paquete</div><div class="pp-package-num">1</div></div>
+          <div class="pp-package-field"><div class="k">N° de seguimiento:</div><span class="v">36333880</span></div>
+          <div class="pp-package-field"><div class="k">Tipo:</div><span class="v">Compra</span></div>
+          <div class="pp-package-toggle">▾</div>
+        </div>
+        <div class="pp-package-body open">
+          <div class="pp-package-detail-box"><div class="k">Depósito de despacho</div><div class="v">WEB DEP. TUCUMAN (Tucumán)</div></div>
+          <div class="pp-package-detail-box"><div class="k">Transporte</div><div class="v">Propia</div></div>
+          <div class="pp-package-detail-box pp-download-row">
+            <div><div class="k">N° de factura</div><div class="v">345-717182</div></div>
+            <button class="pp-btn-outline">⬇ Descargar Factura</button>
+          </div>
+          <div class="pp-package-detail-box">
+            <div class="k" style="margin-bottom:8px;">Detalle del paquete</div>
+            <div class="pp-product-row">
+              <img src="https://placehold.co/46x46/e8e8e8/999?text=%20" />
+              <div>
+                <div class="name">Musculosa Atlét Running De Hombre Color: Verde - Talle: XL</div>
+                <div class="sku">ATL0316-VER-XL</div>
+                <div class="price">1 unidad $13998</div>
+              </div>
+            </div>
+          </div>
+          <div class="pp-timeline-box">
+            <div class="pp-timeline-title">Estado logístico</div>
+            <div class="pp-timeline">
+              <div class="pp-tl-step"><div class="pp-tl-dot"></div><div class="pp-tl-label">En Preparación</div><div class="pp-tl-date">13 May 2026</div></div>
+              <div class="pp-tl-step"><div class="pp-tl-dot"></div><div class="pp-tl-label">Despachado</div><div class="pp-tl-date">14 May 2026</div></div>
+              <div class="pp-tl-step"><div class="pp-tl-dot"></div><div class="pp-tl-label">En Camino</div><div class="pp-tl-date">14 May 2026</div></div>
+              <div class="pp-tl-step"><div class="pp-tl-dot"></div><div class="pp-tl-label">Entregado</div><div class="pp-tl-date">14 May 2026</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paquete 2 — colapsado -->
+      <div class="pp-package">
+        <div class="pp-package-header" onclick="toggle(this)">
+          <div><div class="pp-package-num-label">Paquete</div><div class="pp-package-num">2</div></div>
+          <div class="pp-package-field"><div class="k">N° de seguimiento:</div><span class="v">360002973305340</span></div>
+          <div class="pp-package-field"><div class="k">Tipo:</div><span class="v">Compra</span></div>
+          <div class="pp-package-toggle">▾</div>
+        </div>
+        <div class="pp-package-body"></div>
+      </div>
+
+      <!-- Paquete 3 — colapsado -->
+      <div class="pp-package">
+        <div class="pp-package-header" onclick="toggle(this)">
+          <div><div class="pp-package-num-label">Paquete</div><div class="pp-package-num">3</div></div>
+          <div class="pp-package-field"><div class="k">N° de seguimiento:</div><span class="v">360002973336630</span></div>
+          <div class="pp-package-field"><div class="k">Tipo:</div><span class="v">Compra</span></div>
+          <div class="pp-package-toggle">▾</div>
+        </div>
+        <div class="pp-package-body"></div>
+      </div>
+
+      <button class="pp-btn" onclick="location.href='menu.html'">Volver</button>
+    </div>
+
+    <div class="pp-sidebar">
+      <h3>Detalle de la compra</h3>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Musculosa Atlét Running De Hombre Color: Verde - Talle: XL</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Remera Atlét Lisa De Hombre Color: Azul Marino - Talle: XL</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Remera Atlét Lisa De Hombre Color: Gris - Talle: XL</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+      <div class="pp-sidebar-item">
+        <img src="https://placehold.co/42x42/e8e8e8/999?text=%20" />
+        <div><div class="pp-item-name">Zapatillas adidas Runblaze De Mujer Color: Blanco - Talle: 36</div><div class="pp-item-qty">1 unidad.</div></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  function toggle(header) {
+    const body = header.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    document.querySelectorAll('.pp-package-body.open').forEach(b => b.classList.remove('open'));
+    if (!isOpen) body.classList.add('open');
+  }
+</script>
+</body>
+</html>

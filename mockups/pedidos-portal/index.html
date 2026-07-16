@@ -8,19 +8,34 @@
 <style>
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.6; }
-  .container { max-width: 720px; margin: 80px auto; padding: 0 var(--space-6); text-align: center; }
+  .container { max-width: 640px; margin: 60px auto; padding: 0 var(--space-6); }
   .eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; color: var(--primary); background: var(--primary-soft); border-radius: 999px; padding: 4px 12px; display: inline-block; margin-bottom: var(--space-4); }
-  h1 { font-size: 26px; margin: 0 0 var(--space-4); }
+  h1 { font-size: 26px; margin: 0 0 var(--space-3); }
   p { color: var(--muted); }
-  ul { text-align: left; display: inline-block; margin: var(--space-6) auto; color: var(--muted); }
+  .list { display: grid; gap: var(--space-3); margin-top: var(--space-6); }
+  .list a {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 14px 18px; text-decoration: none; color: var(--text); font-weight: 600; font-size: 14px;
+    box-shadow: var(--shadow-sm);
+  }
+  .list a:hover { border-color: var(--primary-mid); }
+  .list a span.desc { font-weight: 400; color: var(--muted); font-size: 12.5px; display: block; margin-top: 2px; }
+  .list a .arrow { color: var(--muted); font-size: 16px; }
 </style>
 </head>
 <body>
 <div class="container">
-  <span class="eyebrow">En construcción</span>
+  <span class="eyebrow">Fuente: gestiondepedidos.sporting.com.ar</span>
   <h1>Maqueta del Portal de Gestión de Pedidos</h1>
-  <p>Todavía no hay contenido real acá — falta el insumo visual del portal externo (URL o capturas) para empezar a maquetar.</p>
-  <p>Ver <code>NOTAS.md</code> en esta misma carpeta para el detalle de qué falta.</p>
+  <p>Réplica visual de las pantallas capturadas hasta ahora. Mantiene la identidad propia del portal (teal/Lato) — ver <code>portal.css</code>. Detalle de fuentes y pendientes en <code>NOTAS.md</code>.</p>
+
+  <div class="list">
+    <a href="login.html">Login (DNI + N° de pedido)<span class="desc">Réplica del sitio en vivo</span><span class="arrow">→</span></a>
+    <a href="menu.html">Menú de acciones<span class="desc">Consultar estado / Cambios y devoluciones</span><span class="arrow">→</span></a>
+    <a href="detalle-pedido.html">Detalle del pedido<span class="desc">Paquetes, factura, estado logístico</span><span class="arrow">→</span></a>
+    <a href="devolucion-opciones.html">Cambios y devoluciones<span class="desc">Cambio / Devolución con reintegro / Devolución por garantía</span><span class="arrow">→</span></a>
+  </div>
 </div>
 </body>
 </html>

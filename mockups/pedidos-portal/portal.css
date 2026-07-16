@@ -1,0 +1,161 @@
+/*
+ * Identidad visual propia del portal de Gestión de Pedidos
+ * (gestiondepedidos.sporting.com.ar) — capturada en vivo el 2026-07-16.
+ * Deliberadamente NO usa design-system/tokens.css: este portal externo
+ * tiene su propia paleta (teal/Lato), igual que el sitio público de
+ * Sporting mantiene su verde en marketplace-portal. No alinear sin
+ * confirmar con el usuario primero.
+ */
+
+* { box-sizing: border-box; }
+
+:root {
+  --pp-teal:       #007e9e;
+  --pp-teal-hover: #006a86;
+  --pp-bg:         #ebebeb;
+  --pp-card:       #ffffff;
+  --pp-text:       #222222;
+  --pp-muted:      #757575;
+  --pp-line:       #e0e0e0;
+  --pp-green:      #2fb457;
+  --pp-green-bg:   #2fb457;
+}
+
+body {
+  margin: 0;
+  background: var(--pp-bg);
+  font-family: 'Lato', sans-serif;
+  color: var(--pp-text);
+}
+
+/* Topbar */
+.pp-topbar {
+  background: var(--pp-teal);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  font-weight: 700;
+  font-size: 16px;
+}
+.pp-topbar .pp-brand { display: flex; align-items: center; gap: 10px; }
+.pp-topbar .pp-brand .pp-icon { width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; font-size: 16px; }
+.pp-topbar .pp-logout { cursor: pointer; font-size: 18px; opacity: .9; }
+
+/* Layout: contenido + sidebar de compra */
+.pp-layout { display: flex; gap: 24px; padding: 28px 40px; align-items: flex-start; }
+.pp-main { flex: 1; min-width: 0; }
+.pp-breadcrumb { font-size: 13px; color: var(--pp-muted); margin-bottom: 10px; }
+.pp-title { font-size: 24px; font-weight: 700; margin: 0 0 20px; }
+
+/* Sidebar "Detalle de la compra" */
+.pp-sidebar {
+  width: 340px;
+  flex-shrink: 0;
+  background: var(--pp-card);
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.12);
+  padding: 20px 22px;
+}
+.pp-sidebar h3 { font-size: 16px; font-weight: 700; margin: 0 0 14px; }
+.pp-sidebar-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--pp-line); }
+.pp-sidebar-item:last-child { border-bottom: none; }
+.pp-sidebar-item img { width: 42px; height: 42px; object-fit: cover; border-radius: 3px; background: #f0f0f0; }
+.pp-sidebar-item .pp-item-name { font-size: 13px; font-weight: 600; line-height: 1.3; }
+.pp-sidebar-item .pp-item-qty { font-size: 12px; color: var(--pp-muted); margin-top: 2px; }
+
+/* Lista de opciones (menú de acciones) */
+.pp-option-list { background: var(--pp-card); border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,.1); margin-bottom: 20px; overflow: hidden; }
+.pp-option-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px; font-size: 16px; cursor: pointer;
+  border-bottom: 1px solid var(--pp-line);
+  transition: background .12s;
+  color: var(--pp-text); text-decoration: none;
+}
+.pp-option-item:last-child { border-bottom: none; }
+.pp-option-item:hover { background: #f7f7f7; }
+.pp-option-item .pp-chevron { color: var(--pp-muted); font-size: 18px; }
+
+/* Info cards (teal, con icono) */
+.pp-info-card {
+  background: var(--pp-teal);
+  color: #fff;
+  border-radius: 4px;
+  padding: 16px 20px;
+  margin-bottom: 14px;
+}
+.pp-info-card h4 { display: flex; align-items: center; gap: 8px; font-size: 15px; margin: 0 0 8px; }
+.pp-info-card h4 .pp-i { width: 18px; height: 18px; border-radius: 50%; background: rgba(255,255,255,.25); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-style: normal; }
+.pp-info-card p { margin: 0; font-size: 13.5px; line-height: 1.55; opacity: .95; }
+
+/* Card blanca genérica (resumen de pedido) */
+.pp-card { background: var(--pp-card); border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,.1); padding: 20px 24px; margin-bottom: 18px; }
+.pp-order-number { text-align: center; font-size: 18px; font-weight: 700; padding-bottom: 14px; margin-bottom: 4px; border-bottom: 1px solid var(--pp-line); }
+.pp-order-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--pp-line); font-size: 14px; }
+.pp-order-row:last-child { border-bottom: none; }
+.pp-order-row .label { color: var(--pp-text); }
+.pp-order-row .value { font-weight: 700; }
+
+/* Alert banner (éxito / atención) */
+.pp-alert-success {
+  background: var(--pp-green);
+  color: #fff;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 4px;
+  padding: 14px;
+  margin-bottom: 18px;
+}
+.pp-alert-success b { font-weight: 800; }
+
+/* Package accordion */
+.pp-package { background: var(--pp-teal); color: #fff; border-radius: 4px; margin-bottom: 14px; overflow: hidden; }
+.pp-package-header {
+  display: grid;
+  grid-template-columns: 90px 1fr 1fr 40px;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  cursor: pointer;
+}
+.pp-package-num-label { font-size: 11px; opacity: .85; margin-bottom: 2px; }
+.pp-package-num { font-size: 22px; font-weight: 800; background: #fff; color: var(--pp-teal); border-radius: 3px; text-align: center; padding: 6px 0; }
+.pp-package-field { font-size: 12px; }
+.pp-package-field .k { opacity: .85; margin-bottom: 3px; }
+.pp-package-field .v { background: #fff; color: var(--pp-teal); border-radius: 3px; padding: 4px 10px; font-weight: 600; display: inline-block; }
+.pp-badge-estado { background: var(--pp-green); color: #fff; font-weight: 700; font-size: 12px; border-radius: 3px; padding: 5px 14px; display: inline-block; }
+.pp-package-toggle { width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; font-size: 12px; justify-self: end; }
+
+.pp-package-body { background: var(--pp-teal); padding: 0 20px 20px; display: none; }
+.pp-package-body.open { display: block; }
+.pp-package-detail-box { background: #fff; color: var(--pp-text); border-radius: 4px; padding: 14px 18px; margin-bottom: 10px; font-size: 13px; }
+.pp-package-detail-box .k { color: var(--pp-muted); font-size: 12px; margin-bottom: 2px; }
+.pp-package-detail-box .v { color: var(--pp-teal); font-weight: 600; }
+.pp-download-row { display: flex; justify-content: space-between; align-items: center; }
+.pp-btn-outline { border: 1px solid var(--pp-line); background: #fff; color: var(--pp-text); border-radius: 4px; padding: 7px 14px; font-size: 12.5px; cursor: pointer; font-family: 'Lato', sans-serif; }
+.pp-product-row { display: flex; gap: 12px; align-items: center; }
+.pp-product-row img { width: 46px; height: 46px; border-radius: 3px; object-fit: cover; background: #f0f0f0; }
+.pp-product-row .name { font-weight: 600; color: var(--pp-teal); font-size: 13px; }
+.pp-product-row .sku { color: var(--pp-muted); font-size: 12px; margin-top: 2px; }
+.pp-product-row .price { font-size: 12.5px; margin-top: 2px; }
+
+/* Timeline logístico */
+.pp-timeline-box { background: #fff; color: var(--pp-text); border-radius: 4px; padding: 18px 20px; }
+.pp-timeline-title { font-size: 13px; font-weight: 700; margin-bottom: 18px; }
+.pp-timeline { display: flex; align-items: flex-start; justify-content: space-between; position: relative; }
+.pp-timeline::before {
+  content: '';
+  position: absolute; top: 6px; left: 5%; right: 5%; height: 2px;
+  background: var(--pp-green);
+}
+.pp-tl-step { flex: 1; text-align: center; position: relative; z-index: 1; }
+.pp-tl-dot { width: 13px; height: 13px; border-radius: 50%; background: var(--pp-green); margin: 0 auto 8px; }
+.pp-tl-label { font-size: 12.5px; font-weight: 700; }
+.pp-tl-date { font-size: 11.5px; color: var(--pp-muted); margin-top: 2px; }
+
+/* Botones */
+.pp-btn { background: var(--pp-teal); color: #fff; border: none; border-radius: 4px; padding: 10px 20px; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: 'Lato', sans-serif; }
+.pp-btn:hover { background: var(--pp-teal-hover); }

@@ -2,17 +2,30 @@
 
 ## Estado
 
-URL real: `https://gestiondepedidos.sporting.com.ar/login`. Es una SPA (Quasar/Vue) — parece ser el **portal de devoluciones/seguimiento orientado al cliente final** (meta description: "Aplicación para solicitar devoluciones de compra"), con login por DNI + N° de pedido. Pendiente confirmar con el usuario si es efectivamente el sistema que se quiere maquetar para pasar a los agentes de PIM, o si hay un panel administrativo distinto detrás.
+URL real: `https://gestiondepedidos.sporting.com.ar/login`. Es una SPA (Quasar/Vue) — es el **portal de devoluciones/seguimiento orientado al cliente final** (confirmado con el usuario 2026-07-16), con login por DNI + N° de pedido.
 
-`login.html` ya está maquetado 1:1 con el real (colores y tipografía tomados con `getComputedStyle` del sitio en vivo el 2026-07-16): fondo `#ebebeb`, botón/acento `#007e9e`, tipografía Lato, banner con degradé y logos Sporting/Woker.
+Confirmado con el usuario que es efectivamente el sistema a maquetar para pasar a los agentes de PIM.
 
-## Bloqueo para avanzar con las pantallas internas
+## Pantallas maquetadas (2026-07-16)
 
-El login pide **DNI**, que es un documento de identidad — no se puede completar ese campo (regla de no ingresar credenciales/IDs gubernamentales), así que no se pudo pasar de la pantalla de login navegando directo. Para maquetar el detalle de pedido, estados, etc. hace falta una de estas dos vías:
+Fuente: `login.html` desde navegación en vivo (colores/tipografía con `getComputedStyle`); `menu.html`, `detalle-pedido.html`, `devolucion-opciones.html` desde capturas de pantalla que compartió el usuario con una sesión de prueba propia.
 
-- [ ] El usuario comparte capturas de pantalla de las pantallas internas (detalle de pedido, listado, estados)
-- [ ] El usuario ya tiene sesión iniciada en su Chrome real → usar la herramienta "Claude in Chrome" para verla sin ingresar credenciales
+| Archivo | Pantalla real |
+|---------|---------------|
+| `login.html` | Login (DNI + N° de pedido) |
+| `menu.html` | "¿Qué acción deseas realizar?" — menú Consultar estado / Cambios y devoluciones |
+| `detalle-pedido.html` | Detalle del pedido: resumen, alerta de despacho múltiple, acordeón de paquetes (depósito, transporte, factura, producto, timeline logístico) |
+| `devolucion-opciones.html` | "¿Qué querés hacer con el producto?" — Cambio / Devolución con reintegro / Devolución por garantía |
 
-## Una vez con el insumo
+Estilos propios en `portal.css` — identidad separada del design system interno (teal `#007e9e`, Lato), igual criterio que el verde de Sporting en `marketplace-portal/public`.
 
-Construir las pantallas siguientes (detalle de pedido, estados, etc.) reusando el banner/tipografía/colores ya capturados acá. Registrar en `../../docs/cross-references.md` cualquier doc de proceso/pedidos que la maqueta empiece a reflejar.
+## Pendiente / no capturado todavía
+
+- [ ] Estado de un pedido que NO esté en "Entregado" (ej. En Preparación, En Camino) — solo se vio el caso "todo entregado"
+- [ ] Flujo completo de generar una devolución/cambio (formulario posterior a elegir una opción en `devolucion-opciones.html`)
+- [ ] Vista mobile (solo se capturó desktop)
+- [ ] Estados de error (ej. pedido no encontrado, DNI inválido)
+
+## Al agregar pantallas nuevas
+
+Reusar las clases de `portal.css` (`.pp-topbar`, `.pp-sidebar`, `.pp-option-list`, `.pp-info-card`, `.pp-package`, `.pp-timeline`, etc.) en vez de crear estilos nuevos. Registrar en `../../docs/cross-references.md` cualquier doc de proceso/pedidos que la maqueta empiece a reflejar.
