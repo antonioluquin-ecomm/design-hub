@@ -1,0 +1,150 @@
+/*
+ * Design tokens — espejo literal de ../../project-standards/style_guide.md §3, §4, §11.1
+ * No modificar valores acá sin actualizar primero style_guide.md — este archivo
+ * es un espejo, no la fuente de verdad.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Fondo */
+  --bg:   #f0f2f7;
+  --card: #ffffff;
+
+  /* Texto */
+  --text:  #111827;
+  --muted: #6b7280;
+
+  /* Líneas */
+  --line: #e5e7eb;
+
+  /* Primary — azul institucional */
+  --primary:       #1a3f6b;
+  --primary-hover: #14325a;
+  --primary-soft:  #e8f0fb;
+  --primary-mid:   #bfd4f5;
+
+  /* Success */
+  --success:    #0a7040;
+  --success-bg: #ecfdf5;
+
+  /* Warning */
+  --warning:    #92400e;
+  --warning-bg: #fffbeb;
+
+  /* Danger */
+  --danger:       #991b1b;
+  --danger-bg:    #fef2f2;
+  --danger-hover: #7f1d1d;
+
+  /* Info (alias de primary-soft) */
+  --info:     var(--primary-soft);
+  --info-mid: var(--primary-mid);
+
+  /* Sidebar */
+  --sidebar-bg:   #f1f5f9;
+  --sidebar-line: #e2e8f0;
+
+  /* Espaciado */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+  --space-9: 64px;
+
+  /* Border radius */
+  --radius-xs:   4px;
+  --radius-sm:   8px;
+  --radius:     14px;
+  --radius-lg:  20px;
+  --radius-pill: 999px;
+
+  /* Sombras */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.05);
+  --shadow:    0 4px 16px rgba(17,24,39,.08), 0 1px 4px rgba(17,24,39,.04);
+  --shadow-lg: 0 12px 36px rgba(17,24,39,.10);
+
+  /* Tipografía */
+  --font: 'DM Sans', system-ui, sans-serif;
+  --mono: 'DM Mono', 'Fira Mono', monospace;
+}
+
+/* Modo oscuro — sobreescribe solo lo que cambia */
+[data-theme="dark"] {
+  --bg:   #0d1117;
+  --card: #161b22;
+  --card2: #1c2128;
+
+  --text:  #e6edf3;
+  --muted: #848d97;
+
+  --line: #30363d;
+
+  --primary:       #58a6ff;
+  --primary-hover: #79b8ff;
+  --primary-soft:  rgba(88,166,255,.12);
+  --primary-mid:   rgba(88,166,255,.25);
+
+  --success:    #3fb950;
+  --success-bg: rgba(63,185,80,.12);
+
+  --warning:    #d29922;
+  --warning-bg: rgba(210,153,34,.12);
+
+  --danger:       #f85149;
+  --danger-bg:    rgba(248,81,73,.12);
+  --danger-hover: #ff7b72;
+
+  --info:     var(--primary-soft);
+  --info-mid: var(--primary-mid);
+}
+
+/* Botones — base (style_guide.md §8.1/§8.2) */
+button, .button {
+  border: 0;
+  border-radius: var(--radius-sm);
+  padding: 9px 16px;
+  font-family: var(--font);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: background .15s, opacity .15s, transform .1s;
+  background: var(--primary);
+  color: white;
+}
+button:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); }
+button:focus-visible { outline: 3px solid var(--primary-mid); outline-offset: 2px; }
+button:disabled { opacity: .42; cursor: not-allowed; transform: none !important; }
+
+button.secondary { background: var(--bg); color: var(--text); border: 1px solid var(--line); }
+button.secondary:hover:not(:disabled) { background: color-mix(in srgb, var(--text) 6%, var(--bg)); }
+
+button.danger { background: var(--danger); color: white; }
+button.danger:hover:not(:disabled) { background: var(--danger-hover); }
+
+button.ghost { background: transparent; color: var(--primary); border: 1px solid var(--primary-mid); }
+button.ghost:hover:not(:disabled) { background: var(--primary-soft); }
+
+/* Cards (style_guide.md §5.1) */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 22px 24px;
+}
+
+/* Status bar (style_guide.md §9.3) */
+.status-bar        { background: var(--bg); border: 1px solid var(--line); color: var(--muted); border-radius: var(--radius-sm); padding: 10px 14px; }
+.status-bar.info    { background: var(--primary-soft); border-color: var(--primary-mid); color: var(--primary); }
+.status-bar.success { background: var(--success-bg); border-color: color-mix(in srgb, var(--success) 45%, transparent); color: var(--success); }
+.status-bar.error   { background: var(--danger-bg); border-color: color-mix(in srgb, var(--danger) 45%, transparent); color: var(--danger); }
+.status-bar.warning  { background: var(--warning-bg); border-color: color-mix(in srgb, var(--warning) 55%, transparent); color: var(--warning); }

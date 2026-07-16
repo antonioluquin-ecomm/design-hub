@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Design Hub — Design System</title>
+<link rel="stylesheet" href="tokens.css" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.6; }
+  .container { max-width: 1100px; margin: 0 auto; padding: var(--space-7) var(--space-6); }
+  h1 { font-size: 30px; font-weight: 700; letter-spacing: -.02em; margin: 0 0 var(--space-2); }
+  h2 { font-size: 17px; font-weight: 600; letter-spacing: -.01em; margin: var(--space-9) 0 var(--space-4); }
+  p.lead { color: var(--muted); margin: 0 0 var(--space-7); }
+  .eyebrow { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .14em; opacity: .6; margin-bottom: 6px; }
+
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--space-4); }
+  .swatch { border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--line); }
+  .swatch-color { height: 56px; }
+  .swatch-label { padding: var(--space-2) var(--space-3); background: var(--card); font-family: var(--mono); font-size: 12px; }
+
+  .type-row { display: flex; align-items: baseline; gap: var(--space-4); padding: var(--space-3) 0; border-bottom: 1px solid var(--line); }
+  .type-row span.tag { width: 160px; flex-shrink: 0; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+  .row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+
+  .card-demo { max-width: 320px; }
+  .kpi-demo { display: grid; grid-template-columns: repeat(auto-fill, minmax(138px, 1fr)); gap: 10px; max-width: 500px; }
+  .kpi-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px; }
+  .kpi-value { font-size: 26px; font-weight: 700; font-family: var(--mono); color: var(--primary); }
+  .kpi-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 4px; }
+
+  .theme-toggle-row { display: flex; justify-content: flex-end; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="theme-toggle-row">
+    <button class="secondary" onclick="toggleTheme()">Cambiar tema</button>
+  </div>
+
+  <h1>Design Hub — Design System</h1>
+  <p class="lead">Referencia visual viva, espejo de <code>../../project-standards/style_guide.md</code>. Usar estos tokens en cualquier maqueta nueva de <code>mockups/</code>.</p>
+
+  <h2>Colores</h2>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch-color" style="background:var(--primary)"></div><div class="swatch-label">--primary</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:var(--primary-hover)"></div><div class="swatch-label">--primary-hover</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:var(--primary-soft)"></div><div class="swatch-label">--primary-soft</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:var(--success)"></div><div class="swatch-label">--success</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:var(--warning)"></div><div class="swatch-label">--warning</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:var(--danger)"></div><div class="swatch-label">--danger</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:var(--muted)"></div><div class="swatch-label">--muted</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:var(--line)"></div><div class="swatch-label">--line</div></div>
+  </div>
+
+  <h2>Tipografía</h2>
+  <div class="type-row"><span class="tag">h1 / 30px / 700</span><span style="font-size:30px;font-weight:700;letter-spacing:-.02em;">Título de página</span></div>
+  <div class="type-row"><span class="tag">h2 / 17px / 600</span><span style="font-size:17px;font-weight:600;">Título de sección</span></div>
+  <div class="type-row"><span class="tag">h3 / 15px / 600</span><span style="font-size:15px;font-weight:600;">Título de card</span></div>
+  <div class="type-row"><span class="tag">eyebrow</span><span class="eyebrow">Etiqueta de sección</span></div>
+  <div class="type-row"><span class="tag">body / 15px</span><span>Cuerpo principal de texto.</span></div>
+  <div class="type-row"><span class="tag">mono / KPI</span><span style="font-family:var(--mono);font-size:26px;font-weight:700;color:var(--primary);">1.284</span></div>
+
+  <h2>Botones</h2>
+  <div class="row">
+    <button>Primario</button>
+    <button class="secondary">Secundario</button>
+    <button class="danger">Danger</button>
+    <button class="ghost">Ghost</button>
+    <button disabled>Deshabilitado</button>
+  </div>
+
+  <h2>Cards y KPIs</h2>
+  <div class="row" style="align-items:flex-start;">
+    <div class="card card-demo">
+      <h3 style="margin:0 0 8px;">Card estándar</h3>
+      <p style="color:var(--muted);font-size:14px;margin:0;">Contenido de ejemplo dentro de una card base.</p>
+    </div>
+    <div class="kpi-demo">
+      <div class="kpi-card"><div class="kpi-label">Pedidos</div><div class="kpi-value">128</div></div>
+      <div class="kpi-card"><div class="kpi-label">Pendientes</div><div class="kpi-value">14</div></div>
+    </div>
+  </div>
+
+  <h2>Status bar</h2>
+  <div class="row" style="flex-direction:column;align-items:stretch;max-width:420px;">
+    <div class="status-bar">Listo.</div>
+    <div class="status-bar info">Cargando datos…</div>
+    <div class="status-bar success">Guardado correctamente.</div>
+    <div class="status-bar warning">Revisar antes de continuar.</div>
+    <div class="status-bar error">Error al guardar.</div>
+  </div>
+</div>
+
+<script>
+  const saved = localStorage.getItem('design-hub-theme')
+    || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.dataset.theme = saved;
+
+  function toggleTheme() {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem('design-hub-theme', next);
+  }
+</script>
+</body>
+</html>

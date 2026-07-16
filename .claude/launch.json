@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "design-hub",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [".tmp-static-server.js"],
+      "port": 4100
+    }
+  ]
+}
