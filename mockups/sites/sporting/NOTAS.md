@@ -87,6 +87,21 @@ Esto afecta a **todas** las páginas que usan `sporting.css` + `tokens.css` junt
 
 **Para la próxima vez:** si se agrega `tokens.css` a una maqueta de sitio que ya tiene su propia hoja de estilos con componentes de `<button>`, revisar de entrada si los estados `:hover`/`:focus-visible`/`:disabled` de tokens.css tienen más especificidad que los del sitio — es un patrón que se va a repetir en cualquier maqueta modular nueva que combine ambas hojas.
 
+### Creación 2026-07-16 — PLP (listado de categoría)
+
+Se navegó en vivo `sporting.com.ar/sporting/calzado/zapatillas/hombre` (viewport 1280px forzado, scroll incremental completo) para maquetar por primera vez la página de listado de productos, marcada como pendiente desde el kickoff. Estructura real confirmada:
+
+- **Breadcrumb de 5 niveles:** Inicio (ícono) › SPORTING › CALZADO › ZAPATILLAS › HOMBRE — un nivel más que la PDP (que llega hasta el producto).
+- **Sidebar de filtros** (VTEX `search-result-3`): chips de filtro activo ("Calzado (881) ✕", "Zapatillas (881) ✕"), grupo **Vendido por** (Adidas 443 / Sporting 438 — mismo dato de sellers ya documentado en la PDP y el portal de pedidos), **Categoría**, **Tipo de producto** (Zapatillas/Botines/Ojotas y Chinelas/Zapatos con contador), y 7 grupos que en la captura real aparecían **colapsados sin opciones visibles** (Sub Tipo, Talle, Marca, Disciplina, Ofertas, Colores, Clubes — no se llegaron a abrir en la sesión de captura, quedan como acordeón vacío). Al final, **Rango de precio** con 2 inputs ($min/$max) + botón "Buscar" y el label del rango real ("$43.999 – $714.999").
+- **Barra de resultados:** contador real "881 productos" + control de orden "Ordenar Por Relevancia" (no se abrió el dropdown, así que no se conocen el resto de las opciones de orden — no inventar hasta confirmar).
+- **Grid de productos:** reutiliza `.sp-product-card` de la home/carruseles. Se agregó un detalle nuevo confirmado por captura: **cada tarjeta tiene su propio mini-carrusel de fotos** (flechas Previous/Next + paginación 1-5 por producto, visible al hover) — se maqueta con `.sp-plp-card-nav`/`.sp-plp-card-dots`, decorativo igual que los carruseles de la home. Un producto (Puma Flyer Lite 3) mostraba un badge de cupón **"PUMAON"** sobre la tarjeta — se agregó `.sp-coupon-tag` para representarlo.
+- **Paginación real:** no es paginación numerada, es "Mostrando 24 de 881" + botón "MOSTRAR MÁS" (carga incremental).
+- Header/navbar/footer: sin cambios, mismo chrome fijo que el resto del sitio.
+
+Se creó `plp.html` como página estática (sin panel de control modular, a diferencia de `index.html`/`producto-modular.html`) con 8 tarjetas de ejemplo con datos reales de la categoría "Zapatillas Hombre". Se agregaron las clases `.sp-plp-*` y `.sp-filter-*` a `sporting.css`.
+
+**Pendiente de esta pantalla:** contenido real de los 7 grupos de filtro colapsados, opciones del dropdown de orden, vista mobile, y el estado "sin resultados"/con filtros aplicados (solo se capturó el estado por defecto de la categoría).
+
 ## Pantallas maquetadas
 
 | Archivo | Contenido |
@@ -95,6 +110,7 @@ Esto afecta a **todas** las páginas que usan `sporting.css` + `tokens.css` junt
 | `producto-modular.html` | **PDP vigente — mantener acá los cambios de PDP a partir de ahora.** Producto genérico con panel de control lateral que prende/apaga cada módulo: vendedor (genérico/marketplace/propio — genérico es el default, refleja un producto sin regla de seller especial), video, precio con/sin descuento, talle único/varios, última unidad, cupón no aplica. Breadcrumb de 4 niveles (Inicio › Sporting › Calzado › Zapatillas), acordeón en el orden real (Descripción, Detalles, Especificaciones, Envíos gratis, ítem de cambios según vendedor, Cuotas y Promociones, Reseñas), y sección "Productos similares" como carrusel. El estado queda codificado en el hash de la URL para poder compartir el link de una combinación puntual. Usa `design-system/tokens.css` solo para el chrome del panel (no para el contenido de la PDP, que sigue la fidelidad de `sporting.css`) |
 | `producto-adidas.html` ⚠️ snapshot histórico, congelado | PDP del producto seller Adidas (`camisetas-de-equipos-adidas-camiseta-titular-seleccion-argentina-26-hombre-59135/p`), capturado 2026-07-16: header completo (topline WOKER + buscador + navbar de categorías), breadcrumb, galería con miniaturas, badges Envío Gratis/Tienda Adidas, precio con impuestos, cuotas, selector de talle, stepper + agregar al carrito, "Vendido y distribuido por adidas", código postal, acordeón (Descripción, Especificaciones, Detalles, Envíos, **No se admiten cambios directos**, Cuotas y Promociones, Reseñas), productos similares. **No se sigue actualizando** — reemplazado por `producto-modular.html` (estado seller=marketplace). Se conserva como referencia de la captura real original. |
 | `producto-sporting.html` ⚠️ snapshot histórico, congelado | PDP del producto seller **Sporting** (tienda propia) con video (`bicicleta-trek-slash-9-7-slx-xt-rodado-29-talle-ml-1501767-000/p`), capturado 2026-07-16: mismos componentes base que la de Adidas, más los que no estaban en esa captura — precio con descuento (tachado + badge `-15%`), aviso de stock urgente ("¡Última unidad disponible!"), badge "NO APLICA CUPONES" + nota, **video embed** debajo de la galería de imágenes (miniatura + play + info de canal), talle único, **sin** box de "Vendido y distribuido por" (por ser tienda propia), y acordeón **"Cambios y devoluciones"** (en vez de "No se admiten cambios directos"). **No se sigue actualizando** — reemplazado por `producto-modular.html` (estado seller=propio, discount=on, stock=last, coupon=blocked). Se conserva como referencia de la captura real original. |
+| `plp.html` | Página de listado de categoría (PLP), fiel a `sporting.com.ar/sporting/calzado/zapatillas/hombre` capturado en vivo 2026-07-16: breadcrumb de 5 niveles, sidebar de filtros (chips activos, Vendido por, Categoría, Tipo de producto, 7 grupos colapsados, rango de precio), barra de resultados (contador + orden), grid de 8 tarjetas de producto con mini-carrusel de fotos por tarjeta y botón "Mostrar más". Sin panel de control modular (a diferencia de home/PDP) — es la primera captura, no tiene variantes togglables todavía. |
 
 ### Cruce con la regla de negocio del portal de pedidos
 
@@ -106,7 +122,6 @@ Ver fila correspondiente en `docs/cross-references.md`.
 
 ## Pendiente / no capturado todavía
 
-- [ ] Página de listado de categoría (PLP)
 - [ ] Carrito / checkout
 - [ ] Vista mobile (solo se capturó desktop)
 - [ ] Header con menú de categorías desplegado (el `☰`/navbar no se abrió en la captura, solo se vieron los links del mega-menú en el DOM)
