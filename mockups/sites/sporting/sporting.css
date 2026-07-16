@@ -26,10 +26,27 @@ body {
 }
 
 /*
- * Tira de cuotas/financiación — capturada en vivo el 2026-07-16: no hay
- * hero con cupón/descuento en la home real (eso era inventado), lo que
- * hay justo debajo del navbar es un carrusel de tarjetas de bancos con
- * cuotas sin interés.
+ * Slider principal — corregido 2026-07-16: SÍ existe (se había pasado
+ * por alto en la primera pasada, que buscaba texto en el DOM y este
+ * slider es puro gráfico/imagen sin alt). Confirmado por screenshot:
+ * banner a todo el ancho, ~300px alto, 11 slides con flechas prev/next
+ * y paginación por puntos. El contenido real es gráfico (promos con
+ * texto incrustado en la imagen) — se representa con placeholders.
+ * No es el hero con cupón/descuento que tenía la maqueta original
+ * (ese sí era inventado, no existe un hero de ese tipo).
+ */
+.sp-hero-slider { position: relative; }
+.sp-hero-slider img { width: 100%; height: 300px; object-fit: cover; display: block; }
+.sp-hero-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.9); border: none; cursor: pointer; font-size: 16px; z-index: 2; }
+.sp-hero-arrow.left { left: 16px; }
+.sp-hero-arrow.right { right: 16px; }
+.sp-hero-dots { position: absolute; bottom: 14px; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; }
+.sp-hero-dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.5); }
+.sp-hero-dots span.active { background: #fff; }
+
+/*
+ * Tira de cuotas/financiación — carrusel de tarjetas de bancos con
+ * cuotas sin interés, debajo del slider principal.
  */
 .sp-promo-strip { display: flex; gap: 0; overflow-x: auto; padding: 20px 28px; border-bottom: 1px solid var(--sp-line); }
 .sp-promo-card { flex: 1; min-width: 200px; display: flex; align-items: center; gap: 12px; padding: 0 20px; border-right: 1px solid var(--sp-line); }
@@ -105,14 +122,15 @@ body {
 .sp-topline a { color: #fff; text-decoration: none; }
 .sp-topline .sp-topline-center a { text-decoration: underline; color: #fff; }
 
-.sp-header-full { background: #fff; display: flex; align-items: center; gap: 24px; padding: 16px 28px; border-bottom: 1px solid var(--sp-line); }
-.sp-header-full .sp-logo-full { font-size: 22px; font-weight: 800; letter-spacing: .03em; color: var(--sp-text); text-decoration: none; flex-shrink: 0; }
-.sp-searchbar { flex: 1; display: flex; align-items: center; border: 1px solid var(--sp-line); border-radius: 24px; padding: 8px 16px; gap: 8px; color: var(--sp-muted); }
+/* Header-full — corregido 2026-07-16: es verde (--sp-green), no blanco (confirmado por screenshot). */
+.sp-header-full { background: var(--sp-green); display: flex; align-items: center; gap: 24px; padding: 16px 28px; }
+.sp-header-full .sp-logo-full { font-size: 22px; font-weight: 800; letter-spacing: .03em; color: #fff; text-decoration: none; flex-shrink: 0; }
+.sp-searchbar { flex: 1; display: flex; align-items: center; background: #fff; border-radius: 24px; padding: 8px 16px; gap: 8px; color: var(--sp-muted); }
 .sp-searchbar input { border: none; outline: none; flex: 1; font-family: 'Poppins', sans-serif; font-size: 13.5px; }
 .sp-header-actions { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
-.sp-header-actions .sp-loc { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--sp-text); }
-.sp-header-actions .sp-icons { display: flex; gap: 16px; align-items: center; font-size: 18px; }
-.sp-header-actions .sp-login-link { display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: var(--sp-text); text-decoration: none; }
+.sp-header-actions .sp-loc { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: #fff; }
+.sp-header-actions .sp-icons { display: flex; gap: 16px; align-items: center; font-size: 18px; color: #fff; }
+.sp-header-actions .sp-login-link { display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: #fff; text-decoration: none; }
 
 /*
  * Navbar de categorías — capturado en vivo el 2026-07-16: 8 categorías
@@ -125,6 +143,15 @@ body {
 .sp-navbar a { color: var(--sp-text); text-decoration: none; padding: 12px 0; display: inline-block; }
 .sp-navbar a.offers { color: #ff0033; font-weight: 700; }
 .sp-navbar a.novedades { color: var(--sp-green); font-weight: 700; }
+/*
+ * Después de Novedades hay 2 links-logo (imagen en vez de texto): uno
+ * fijo (Adidas Seller, adidas.svg) y uno de campaña estacional
+ * ("BotonEventoMenu.svg" — parece ligado al Mundial 2026, ver NOTAS.md).
+ * No se usan los assets reales (son de terceros); se representan como
+ * badges de texto compactos con la misma posición/tamaño.
+ */
+.sp-navbar .sp-navbar-badge { margin-left: 4px; padding: 4px 10px; border-radius: 4px; background: var(--sp-bg); border: 1px solid var(--sp-line); font-size: 10.5px; font-weight: 700; letter-spacing: .02em; }
+.sp-navbar .sp-navbar-badges { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 
 .sp-breadcrumb { padding: 12px 28px; font-size: 12px; color: var(--sp-muted); }
 .sp-breadcrumb a { color: var(--sp-muted); text-decoration: none; }

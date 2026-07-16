@@ -49,6 +49,7 @@
 
   /* --- Reglas on/off: cada sección se oculta según el data-* del <body>
      que actualiza el panel. --- */
+  body[data-heroslider="off"] .mod-heroslider,
   body[data-promos="off"] .mod-promos,
   body[data-categorias="off"] .mod-categorias,
   body[data-novedades="off"] .mod-novedades,
@@ -60,7 +61,7 @@
   body[data-benefits="off"] .mod-benefits { display: none; }
 </style>
 </head>
-<body data-promos="on" data-categorias="on" data-novedades="on" data-adidas="on" data-disciplinas="on" data-elegiviendo="on" data-ultimas="on" data-clubes="on" data-benefits="on">
+<body data-heroslider="on" data-promos="on" data-categorias="on" data-novedades="on" data-adidas="on" data-disciplinas="on" data-elegiviendo="on" data-ultimas="on" data-clubes="on" data-benefits="on">
 
   <aside class="ctrl-panel card">
     <div class="ctrl-panel-head">
@@ -73,6 +74,7 @@
 
       <fieldset class="ctrl-group">
         <legend>Secciones</legend>
+        <label class="ctrl-option"><input type="checkbox" name="heroslider" checked /> Slider principal (banners)</label>
         <label class="ctrl-option"><input type="checkbox" name="promos" checked /> Tira de cuotas/financiación</label>
         <label class="ctrl-option"><input type="checkbox" name="categorias" checked /> Categorías (Calzado/Indumentaria/...)</label>
         <label class="ctrl-option"><input type="checkbox" name="novedades" checked /> Novedades</label>
@@ -112,7 +114,20 @@
     <a href="#" onclick="return false;">MARCAS</a>
     <a href="#" class="offers" onclick="return false;">OFERTAS</a>
     <a href="#" class="novedades" onclick="return false;">NOVEDADES</a>
-    <a href="#" onclick="return false;">ADIDAS SELLER</a>
+    <div class="sp-navbar-badges">
+      <a href="#" class="sp-navbar-badge" onclick="return false;" title="Adidas Seller">ADIDAS</a>
+      <a href="#" class="sp-navbar-badge" onclick="return false;" title="Botón de evento (campaña estacional, ver NOTAS.md)">EVENTO</a>
+    </div>
+  </div>
+
+  <div class="sp-hero-slider mod-heroslider">
+    <button class="sp-hero-arrow left" onclick="return false;">‹</button>
+    <img src="https://placehold.co/1265x300/1a2a6c/ffffff?text=Banner+promocional+1" />
+    <button class="sp-hero-arrow right" onclick="return false;">›</button>
+    <div class="sp-hero-dots">
+      <span class="active"></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
   </div>
 
   <div class="sp-promo-strip mod-promos">
@@ -471,6 +486,7 @@
   // con el hash de la URL para poder compartir el link de una combinación
   // puntual.
   const MODULES = {
+    heroslider:   { name: 'heroslider',   onValue: 'on', offValue: 'off' },
     promos:       { name: 'promos',       onValue: 'on', offValue: 'off' },
     categorias:   { name: 'categorias',   onValue: 'on', offValue: 'off' },
     novedades:    { name: 'novedades',    onValue: 'on', offValue: 'off' },
