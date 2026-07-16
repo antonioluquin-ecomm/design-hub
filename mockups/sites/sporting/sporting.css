@@ -25,22 +25,48 @@ body {
   color: var(--sp-text);
 }
 
-/* Hero banner */
-.sp-hero {
-  background: linear-gradient(135deg, #1a2a6c 0%, #2b3fa8 55%, #3a4fc9 100%);
-  color: #fff;
-  padding: 48px 28px;
-  text-align: center;
-}
-.sp-hero h1 { font-size: 28px; font-weight: 800; margin: 0 0 14px; line-height: 1.25; }
-.sp-hero .sp-coupon { display: inline-block; background: rgba(255,255,255,.12); border: 1px dashed rgba(255,255,255,.6); border-radius: 6px; padding: 6px 16px; font-weight: 700; letter-spacing: .04em; margin-bottom: 14px; }
-.sp-hero .sp-off { font-size: 42px; font-weight: 800; margin-bottom: 16px; }
-.sp-hero .sp-btn { background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 12px 28px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+/*
+ * Tira de cuotas/financiación — capturada en vivo el 2026-07-16: no hay
+ * hero con cupón/descuento en la home real (eso era inventado), lo que
+ * hay justo debajo del navbar es un carrusel de tarjetas de bancos con
+ * cuotas sin interés.
+ */
+.sp-promo-strip { display: flex; gap: 0; overflow-x: auto; padding: 20px 28px; border-bottom: 1px solid var(--sp-line); }
+.sp-promo-card { flex: 1; min-width: 200px; display: flex; align-items: center; gap: 12px; padding: 0 20px; border-right: 1px solid var(--sp-line); }
+.sp-promo-card:last-child { border-right: none; }
+.sp-promo-card .num { font-size: 26px; font-weight: 800; color: var(--sp-text); flex-shrink: 0; }
+.sp-promo-card .txt { font-size: 12.5px; line-height: 1.4; }
+.sp-promo-card .txt b { display: block; font-weight: 700; }
+.sp-promo-card .txt a { color: var(--sp-green-dark); font-size: 11px; text-decoration: none; font-weight: 600; }
 
 /* Sección genérica */
 .sp-section { padding: 32px 28px; }
 .sp-section-title { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; margin: 0 0 18px; }
 .sp-section-title .badge { background: var(--sp-green); color: #fff; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 2px 6px; letter-spacing: .04em; }
+
+/* Carrusel de productos — captado como slider real (Previous/Next + paginación),
+   acá se representa como fila con flechas decorativas + puntos, sin lógica de
+   slide real (alcanza para maquetación). */
+.sp-carousel-row { display: flex; align-items: center; gap: 12px; }
+.sp-carousel-arrow { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--sp-line); background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; }
+.sp-carousel-track { display: flex; gap: 16px; overflow-x: auto; flex: 1; }
+.sp-carousel-track .sp-product-card { min-width: 220px; flex-shrink: 0; }
+.sp-carousel-dots { display: flex; justify-content: center; gap: 6px; margin-top: 14px; }
+.sp-carousel-dots span { width: 6px; height: 6px; border-radius: 50%; background: var(--sp-line); }
+.sp-carousel-dots span:first-child { background: var(--sp-green); }
+
+/* "Elegí viendo" — banners de 4 categorías con CTA, sin precio/producto */
+.sp-banner-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.sp-banner-card { position: relative; border-radius: 8px; overflow: hidden; }
+.sp-banner-card img { width: 100%; height: 180px; object-fit: cover; display: block; }
+.sp-banner-card .cta { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px; text-align: center; }
+.sp-banner-card .cta button { width: 100%; background: #fff; color: var(--sp-text); border: none; border-radius: 4px; padding: 9px; font-weight: 700; font-size: 11.5px; letter-spacing: .03em; cursor: pointer; font-family: 'Poppins', sans-serif; }
+
+/* Barra de beneficios — última sección de la home antes del footer real */
+.sp-benefits-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 28px; border-top: 1px solid var(--sp-line); text-align: center; }
+.sp-benefits-bar .title { font-size: 12.5px; font-weight: 700; letter-spacing: .03em; margin-bottom: 4px; }
+.sp-benefits-bar .desc { font-size: 12px; color: var(--sp-muted); margin-bottom: 6px; }
+.sp-benefits-bar a { font-size: 11.5px; color: var(--sp-green-dark); text-decoration: none; font-weight: 600; }
 
 /* Grid genérico */
 .sp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
@@ -195,13 +221,17 @@ body {
 .sp-video-info .sp-video-actions a { color: var(--sp-text); text-decoration: none; font-weight: 600; }
 
 /*
- * Footer — capturado en vivo el 2026-07-16 desde una PDP real
- * (sporting.com.ar/zapatillas-adidas-runblaze-de-hombre-6ih6705-000/p).
- * El footer real de este sitio VTEX IO es solo estas dos franjas: banda
- * verde de newsletter + banda gris de "Términos más buscados". No tiene
- * columnas de links, iconos sociales ni barra de copyright — eso era una
- * estructura genérica inventada en la primera versión de la maqueta
- * (ver NOTAS.md).
+ * Footer — capturado en vivo el 2026-07-16, re-verificado desde home y PDP
+ * con scroll forzado (la primera pasada se había quedado corta: el
+ * contenido de abajo es lazy-load y no había terminado de montar).
+ * Estructura real completa, de arriba a abajo:
+ *   1. Banda verde: newsletter.
+ *   2. Banda negra: 4 columnas de links (Nosotros/Información/Ayuda/
+ *      Seguinos) + línea de copyright.
+ *   3. Banda gris clara: "Términos más buscados".
+ * Sí tiene columnas y copyright — lo que estaba mal en la corrección
+ * anterior era el contenido (Ayuda/Sporting/Seguinos, inventado), no la
+ * existencia de la estructura.
  */
 .sp-footer-newsletter { background: var(--sp-green); padding: 28px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
 .sp-newsletter-title { color: #fff; font-size: 20px; font-weight: 600; }
@@ -212,6 +242,12 @@ body {
 .sp-newsletter-field input::placeholder { color: rgba(255,255,255,.75); }
 .sp-newsletter-btn { background: var(--sp-black); color: #fff; border: none; border-radius: 4px; padding: 10px 24px; font-weight: 700; font-size: 13px; cursor: pointer; font-family: 'Poppins', sans-serif; flex-shrink: 0; }
 .sp-newsletter-checkbox { color: #fff; font-size: 12px; display: flex; align-items: center; gap: 8px; }
+
+.sp-footer-columns { background: var(--sp-black); padding: 32px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.sp-footer-columns h4 { color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin: 0 0 12px; }
+.sp-footer-columns a, .sp-footer-columns span { display: block; color: rgba(255,255,255,.85); font-size: 12px; text-decoration: none; margin-bottom: 8px; line-height: 1.5; }
+.sp-footer-columns a:hover { text-decoration: underline; color: #fff; }
+.sp-footer-copyright { background: var(--sp-black); color: rgba(255,255,255,.7); font-size: 11px; text-align: center; padding: 14px 28px 24px; border-top: 1px solid rgba(255,255,255,.12); }
 
 .sp-footer-terms { background: #f0f0f0; color: #111; padding: 24px 28px; text-align: center; }
 .sp-terms-title { font-size: 14px; font-weight: 600; margin: 0 0 12px; }

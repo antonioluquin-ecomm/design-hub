@@ -49,13 +49,18 @@
 
   /* --- Reglas on/off: cada sección se oculta según el data-* del <body>
      que actualiza el panel. --- */
-  body[data-hero="off"] .mod-hero,
+  body[data-promos="off"] .mod-promos,
   body[data-categorias="off"] .mod-categorias,
   body[data-novedades="off"] .mod-novedades,
-  body[data-disciplinas="off"] .mod-disciplinas { display: none; }
+  body[data-adidas="off"] .mod-adidas,
+  body[data-disciplinas="off"] .mod-disciplinas,
+  body[data-elegiviendo="off"] .mod-elegiviendo,
+  body[data-ultimas="off"] .mod-ultimas,
+  body[data-clubes="off"] .mod-clubes,
+  body[data-benefits="off"] .mod-benefits { display: none; }
 </style>
 </head>
-<body data-hero="on" data-categorias="on" data-novedades="on" data-disciplinas="on">
+<body data-promos="on" data-categorias="on" data-novedades="on" data-adidas="on" data-disciplinas="on" data-elegiviendo="on" data-ultimas="on" data-clubes="on" data-benefits="on">
 
   <aside class="ctrl-panel card">
     <div class="ctrl-panel-head">
@@ -68,10 +73,15 @@
 
       <fieldset class="ctrl-group">
         <legend>Secciones</legend>
-        <label class="ctrl-option"><input type="checkbox" name="hero" checked /> Hero banner promocional</label>
-        <label class="ctrl-option"><input type="checkbox" name="categorias" checked /> Elegí tu categoría</label>
+        <label class="ctrl-option"><input type="checkbox" name="promos" checked /> Tira de cuotas/financiación</label>
+        <label class="ctrl-option"><input type="checkbox" name="categorias" checked /> Categorías (Calzado/Indumentaria/...)</label>
         <label class="ctrl-option"><input type="checkbox" name="novedades" checked /> Novedades</label>
+        <label class="ctrl-option"><input type="checkbox" name="adidas" checked /> Tienda Oficial Adidas</label>
         <label class="ctrl-option"><input type="checkbox" name="disciplinas" checked /> Disciplinas</label>
+        <label class="ctrl-option"><input type="checkbox" name="elegiviendo" checked /> Elegí viendo</label>
+        <label class="ctrl-option"><input type="checkbox" name="ultimas" checked /> Últimas!!</label>
+        <label class="ctrl-option"><input type="checkbox" name="clubes" checked /> Clubes y Selecciones de Fútbol</label>
+        <label class="ctrl-option"><input type="checkbox" name="benefits" checked /> Barra de beneficios</label>
       </fieldset>
 
       <button type="button" id="copyLinkBtn" class="secondary">Copiar link de esta vista</button>
@@ -105,27 +115,52 @@
     <a href="#" onclick="return false;">ADIDAS SELLER</a>
   </div>
 
-  <div class="sp-hero mod-hero">
-    <div class="sp-coupon">🎟 Cupón FINALISSIMA</div>
-    <div class="sp-off">20% OFF</div>
-    <p style="margin:0 0 18px;opacity:.9;">Con tope de $15.000 para todo el sitio</p>
-    <button class="sp-btn">Comprar</button>
+  <div class="sp-promo-strip mod-promos">
+    <div class="sp-promo-card">
+      <div class="num">12</div>
+      <div class="txt"><b>Cuotas sin interés</b>Mastercard Banco del Sol <a href="#" onclick="return false;">Ver legales</a></div>
+    </div>
+    <div class="sp-promo-card">
+      <div class="num">9</div>
+      <div class="txt"><b>Cuotas sin interés</b>Mastercard Cencopay <a href="#" onclick="return false;">Ver legales</a></div>
+    </div>
+    <div class="sp-promo-card">
+      <div class="num">6</div>
+      <div class="txt"><b>Cuotas sin interés</b>Con App, min. $110.000 <a href="#" onclick="return false;">Ver legales</a></div>
+    </div>
+    <div class="sp-promo-card">
+      <div class="num">6</div>
+      <div class="txt"><b>Cuotas sin interés</b>Tarjeta Milenia, adherite <a href="#" onclick="return false;">Ver legales</a></div>
+    </div>
   </div>
 
   <div class="sp-section mod-categorias">
-    <div class="sp-section-title">Elegí tu categoría</div>
-    <div class="sp-grid">
+    <div class="sp-grid" style="grid-template-columns:repeat(4,1fr);">
       <a class="sp-cat-card" href="#">
-        <img src="https://placehold.co/400x300/1a2a6c/ffffff?text=Futbol" />
+        <img src="https://placehold.co/400x300/1a2a6c/ffffff?text=Calzado" />
         <div class="sp-cat-body">
-          <div class="sp-cat-title">Futbol</div>
+          <div class="sp-cat-title">Calzado</div>
           <button class="sp-btn-outline">Ver más</button>
         </div>
       </a>
       <a class="sp-cat-card" href="#">
-        <img src="https://placehold.co/400x300/25b60c/ffffff?text=Invierno" />
+        <img src="https://placehold.co/400x300/25b60c/ffffff?text=Indumentaria" />
         <div class="sp-cat-body">
-          <div class="sp-cat-title">Invierno</div>
+          <div class="sp-cat-title">Indumentaria</div>
+          <button class="sp-btn-outline">Ver más</button>
+        </div>
+      </a>
+      <a class="sp-cat-card" href="#">
+        <img src="https://placehold.co/400x300/111111/ffffff?text=Accesorios" />
+        <div class="sp-cat-body">
+          <div class="sp-cat-title">Accesorios</div>
+          <button class="sp-btn-outline">Ver más</button>
+        </div>
+      </a>
+      <a class="sp-cat-card" href="#">
+        <img src="https://placehold.co/400x300/e0392b/ffffff?text=Ofertas" />
+        <div class="sp-cat-body">
+          <div class="sp-cat-title">Ofertas</div>
           <button class="sp-btn-outline">Ver más</button>
         </div>
       </a>
@@ -133,56 +168,230 @@
   </div>
 
   <div class="sp-section mod-novedades">
-    <div class="sp-section-title"><span class="badge">NEW</span> Novedades</div>
-    <div class="sp-grid">
-      <div class="sp-product-card">
-        <div class="sp-product-media">
-          <span class="sp-product-badge">Nuevo</span>
-          <span class="sp-product-brand">🔺</span>
-          <img src="https://placehold.co/300x300/e8e8e8/999?text=Salomon" />
+    <div class="sp-section-title">🆕 Novedades</div>
+    <div class="sp-carousel-row">
+      <button class="sp-carousel-arrow" onclick="return false;">‹</button>
+      <div class="sp-carousel-track">
+        <div class="sp-product-card">
+          <div class="sp-product-media"><img src="https://placehold.co/300x300/e8e8e8/999?text=Adizero+Evo+SL" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas adidas Adizero Evo SL De Hombre</div>
+            <div class="sp-product-price">$259.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
         </div>
-        <div class="sp-product-body">
-          <div class="sp-product-name">Zapatillas Salomon Speedcross 6 De Mujer</div>
-          <div class="sp-product-price">$219.999</div>
-          <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $36.666</div>
-          <div class="sp-product-envio">Envío Gratis</div>
-          <button class="sp-btn-select">Seleccionar talle</button>
+        <div class="sp-product-card">
+          <div class="sp-product-media"><img src="https://placehold.co/300x300/e8e8e8/999?text=Skyrocket+Lite+2" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas Puma Skyrocket Lite 2 Alt De Mujer</div>
+            <div class="sp-product-price">$89.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
         </div>
-      </div>
-      <div class="sp-product-card">
-        <div class="sp-product-media">
-          <span class="sp-product-brand">⚫</span>
-          <img src="https://placehold.co/300x300/e8e8e8/999?text=Adidas" />
-        </div>
-        <div class="sp-swatches">
-          <img class="sw" src="https://placehold.co/26x26/111111/111111" />
-          <img class="sw" src="https://placehold.co/26x26/2b3fa8/2b3fa8" />
-          <img class="sw" src="https://placehold.co/26x26/6b5b3e/6b5b3e" />
-        </div>
-        <div class="sp-product-body">
-          <div class="sp-product-name">Campera adidas Essentials</div>
-          <div class="sp-product-price">$28.333</div>
-          <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $4.722</div>
-          <div class="sp-product-envio">Envío Gratis</div>
-          <button class="sp-btn-select">Seleccionar talle</button>
+        <div class="sp-product-card">
+          <div class="sp-product-media"><img src="https://placehold.co/300x300/e8e8e8/999?text=Run+70s" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas adidas Run 70s 2.0 De Hombre</div>
+            <div class="sp-product-price">$119.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
         </div>
       </div>
+      <button class="sp-carousel-arrow" onclick="return false;">›</button>
     </div>
+    <div class="sp-carousel-dots"><span></span><span></span><span></span><span></span><span></span></div>
+  </div>
+
+  <div class="sp-section mod-adidas">
+    <div class="sp-section-title">⭐ Tienda Oficial Adidas</div>
+    <div class="sp-carousel-row">
+      <button class="sp-carousel-arrow" onclick="return false;">‹</button>
+      <div class="sp-carousel-track">
+        <div class="sp-product-card">
+          <div class="sp-product-media"><span class="sp-product-brand">⚫</span><img src="https://placehold.co/300x300/e8e8e8/999?text=Response+Runner+2" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas adidas RESPONSE RUNNER 2 Unisex</div>
+            <div class="sp-product-price">$99.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $16.667</div>
+            <div class="sp-product-envio">Tienda adidas</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+        <div class="sp-product-card">
+          <div class="sp-product-media"><span class="sp-product-brand">⚫</span><img src="https://placehold.co/300x300/e8e8e8/999?text=Response+2" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas adidas de running RESPONSE 2 Hombre</div>
+            <div class="sp-product-price">$139.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $23.333</div>
+            <div class="sp-product-envio">Tienda adidas</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+        <div class="sp-product-card">
+          <div class="sp-product-media"><span class="sp-product-brand">⚫</span><img src="https://placehold.co/300x300/e8e8e8/999?text=Runfalcon+5" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas adidas de Running Runfalcon 5 Hombre</div>
+            <div class="sp-product-price">$109.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $18.333</div>
+            <div class="sp-product-envio">Tienda adidas</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+      </div>
+      <button class="sp-carousel-arrow" onclick="return false;">›</button>
+    </div>
+    <div class="sp-carousel-dots"><span></span><span></span><span></span><span></span><span></span></div>
   </div>
 
   <div class="sp-section mod-disciplinas">
-    <div class="sp-section-title">🏆 Preparate para rendir en cada disciplina</div>
-    <div class="sp-grid">
+    <div class="sp-section-title">🏆 Prepárate para rendir en cada disciplina</div>
+    <div class="sp-grid" style="grid-template-columns:repeat(3,1fr);">
       <div class="sp-disc-card">
         <div class="sp-disc-label">HOCKEY</div>
         <img src="https://placehold.co/300x200/2b3fa8/ffffff?text=Hockey" />
-        <div class="sp-disc-links"><a href="#">Hombre</a><a href="#">Mujer</a><a href="#">Niños</a></div>
+        <div class="sp-disc-links"><a href="#" onclick="return false;">Hombre</a><a href="#" onclick="return false;">Mujer</a><a href="#" onclick="return false;">Niños</a><a href="#" onclick="return false;">Ver Todo</a></div>
       </div>
       <div class="sp-disc-card">
         <div class="sp-disc-label">TRAINING</div>
         <img src="https://placehold.co/300x200/111111/ffffff?text=Training" />
-        <div class="sp-disc-links"><a href="#">Hombre</a><a href="#">Mujer</a><a href="#">Niños</a></div>
+        <div class="sp-disc-links"><a href="#" onclick="return false;">Hombre</a><a href="#" onclick="return false;">Mujer</a><a href="#" onclick="return false;">Niños</a><a href="#" onclick="return false;">Ver Todo</a></div>
       </div>
+      <div class="sp-disc-card">
+        <div class="sp-disc-label">MODA</div>
+        <img src="https://placehold.co/300x200/6b5b3e/ffffff?text=Moda" />
+        <div class="sp-disc-links"><a href="#" onclick="return false;">Hombre</a><a href="#" onclick="return false;">Mujer</a><a href="#" onclick="return false;">Niños</a><a href="#" onclick="return false;">Ver Todo</a></div>
+      </div>
+      <div class="sp-disc-card">
+        <div class="sp-disc-label">RUNNING</div>
+        <img src="https://placehold.co/300x200/25b60c/ffffff?text=Running" />
+        <div class="sp-disc-links"><a href="#" onclick="return false;">Hombre</a><a href="#" onclick="return false;">Mujer</a><a href="#" onclick="return false;">Niños</a><a href="#" onclick="return false;">Ver Todo</a></div>
+      </div>
+      <div class="sp-disc-card">
+        <div class="sp-disc-label">TENIS</div>
+        <img src="https://placehold.co/300x200/e0392b/ffffff?text=Tenis" />
+        <div class="sp-disc-links"><a href="#" onclick="return false;">Hombre</a><a href="#" onclick="return false;">Mujer</a><a href="#" onclick="return false;">Niños</a><a href="#" onclick="return false;">Ver Todo</a></div>
+      </div>
+      <div class="sp-disc-card">
+        <div class="sp-disc-label">OUTDOOR</div>
+        <img src="https://placehold.co/300x200/1a3d2a/ffffff?text=Outdoor" />
+        <div class="sp-disc-links"><a href="#" onclick="return false;">Hombre</a><a href="#" onclick="return false;">Mujer</a><a href="#" onclick="return false;">Niños</a><a href="#" onclick="return false;">Ver Todo</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sp-section mod-elegiviendo">
+    <div class="sp-section-title">Elegí viendo</div>
+    <div class="sp-banner-grid">
+      <div class="sp-banner-card">
+        <img src="https://placehold.co/300x360/1a2a6c/ffffff?text=Running" />
+        <div class="cta"><button onclick="return false;">VER PRODUCTOS</button></div>
+      </div>
+      <div class="sp-banner-card">
+        <img src="https://placehold.co/300x360/25b60c/ffffff?text=Futbol" />
+        <div class="cta"><button onclick="return false;">VER PRODUCTOS</button></div>
+      </div>
+      <div class="sp-banner-card">
+        <img src="https://placehold.co/300x360/111111/ffffff?text=Training" />
+        <div class="cta"><button onclick="return false;">VER PRODUCTOS</button></div>
+      </div>
+      <div class="sp-banner-card">
+        <img src="https://placehold.co/300x360/6b5b3e/ffffff?text=Outdoor" />
+        <div class="cta"><button onclick="return false;">VER PRODUCTOS</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sp-section mod-ultimas">
+    <div class="sp-section-title">🧭 Ultimas!!</div>
+    <div class="sp-carousel-row">
+      <button class="sp-carousel-arrow" onclick="return false;">‹</button>
+      <div class="sp-carousel-track">
+        <div class="sp-product-card">
+          <div class="sp-product-media"><span class="sp-product-brand">⚫</span><img src="https://placehold.co/300x300/e8e8e8/999?text=Essentials" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Pantalón adidas Essentials 3 Tiras De Hombre</div>
+            <div class="sp-product-price">$84.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $14.166</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+        <div class="sp-product-card">
+          <div class="sp-product-media"><img src="https://placehold.co/300x300/e8e8e8/999?text=Boca+Alternativo" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Short adidas Boca Juniors Alternativo 1 25/26 De Hombre</div>
+            <div class="sp-product-price">$51.999 <span style="text-decoration:line-through;color:var(--sp-muted);font-weight:400;font-size:12px;">$79.999</span> <span style="color:#e0392b;font-weight:700;font-size:11px;">-35%</span></div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $8.666</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+        <div class="sp-product-card">
+          <div class="sp-product-media"><img src="https://placehold.co/300x300/e8e8e8/999?text=Boca+Ninos" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Short adidas Boca Juniors Alternativo 1 25/26 De Niños</div>
+            <div class="sp-product-price">$32.999 <span style="text-decoration:line-through;color:var(--sp-muted);font-weight:400;font-size:12px;">$64.999</span> <span style="color:#e0392b;font-weight:700;font-size:11px;">-49%</span></div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $5.499</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+      </div>
+      <button class="sp-carousel-arrow" onclick="return false;">›</button>
+    </div>
+    <div class="sp-carousel-dots"><span></span><span></span><span></span><span></span><span></span></div>
+  </div>
+
+  <div class="sp-section mod-clubes">
+    <div class="sp-section-title">⚽ Clubes y Selecciones de Fútbol</div>
+    <div class="sp-carousel-row">
+      <button class="sp-carousel-arrow" onclick="return false;">‹</button>
+      <div class="sp-carousel-track">
+        <div class="sp-product-card">
+          <div class="sp-product-media"><img src="https://placehold.co/300x300/1a2a6c/ffffff?text=Seleccion+Argentina" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Camiseta adidas Selección Argentina Titular</div>
+            <div class="sp-product-price">$149.999</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+        <div class="sp-product-card">
+          <div class="sp-product-media"><img src="https://placehold.co/300x300/1a3d8f/ffffff?text=Boca+Juniors" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Camiseta adidas Boca Juniors Titular</div>
+            <div class="sp-product-price">$139.999</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+        <div class="sp-product-card">
+          <div class="sp-product-media"><img src="https://placehold.co/300x300/e0392b/ffffff?text=River+Plate" /></div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Camiseta adidas River Plate Titular</div>
+            <div class="sp-product-price">$139.999</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+      </div>
+      <button class="sp-carousel-arrow" onclick="return false;">›</button>
+    </div>
+    <div class="sp-carousel-dots"><span></span><span></span><span></span></div>
+  </div>
+
+  <div class="sp-benefits-bar mod-benefits">
+    <div>
+      <div class="title">ENVÍOS A TODO EL PAÍS</div>
+      <div class="desc">Gratis desde $149.990</div>
+      <a href="#" onclick="return false;">Mas información</a>
+    </div>
+    <div>
+      <div class="title">CUOTAS Y FORMAS DE PAGO</div>
+      <div class="desc">Hasta 6 cuotas sin interés*</div>
+      <a href="#" onclick="return false;">*Mas información</a>
+    </div>
+    <div>
+      <div class="title">CAMBIOS Y DEVOLUCIONES</div>
+      <div class="desc">Primer cambio gratis</div>
+      <a href="#" onclick="return false;">Mas información</a>
     </div>
   </div>
 
@@ -198,6 +407,47 @@
       </div>
       <label class="sp-newsletter-checkbox"><input type="checkbox" checked /> Quiero recibir el newsletter con promociones.</label>
     </div>
+    <div class="sp-footer-columns">
+      <div>
+        <h4>Nosotros</h4>
+        <a href="#" onclick="return false;">Acerca de Nosotros</a>
+        <a href="#" onclick="return false;">Sucursales</a>
+        <a href="#" onclick="return false;">Contacto</a>
+        <a href="#" onclick="return false;">Trabaja con Nosotros</a>
+        <a href="#" onclick="return false;">Términos y Condiciones</a>
+      </div>
+      <div>
+        <h4>Información</h4>
+        <a href="#" onclick="return false;">Como comprar</a>
+        <a href="#" onclick="return false;">Medios de pago</a>
+        <a href="#" onclick="return false;">Preguntas frecuentes</a>
+        <a href="#" onclick="return false;">Guía de Talles</a>
+        <a href="#" onclick="return false;">Politicas de envio</a>
+        <a href="#" onclick="return false;">Politicas de privacidad</a>
+        <a href="#" onclick="return false;">Politicas de cambio y devolución</a>
+        <a href="#" onclick="return false;">Defensa del Consumidor</a>
+        <a href="#" onclick="return false;">Blog Informativo</a>
+        <a href="#" onclick="return false;">Mapa del Sitio</a>
+      </div>
+      <div>
+        <h4>Ayuda</h4>
+        <span>WP: Lu a Vi 8 a 17 | Sa 9 a 13</span>
+        <span>Tel: 0800-777-6789</span>
+        <a href="#" onclick="return false;">Cambios y devoluciones</a>
+        <a href="#" onclick="return false;">Botón de Arrepentimiento</a>
+        <a href="#" onclick="return false;">Gestión de Pedidos</a>
+        <a href="#" onclick="return false;">Compra segura</a>
+        <a href="#" onclick="return false;">Sugerencias y reclamos</a>
+      </div>
+      <div>
+        <h4>Seguinos</h4>
+        <a href="#" onclick="return false;">Instagram</a>
+        <a href="#" onclick="return false;">Facebook</a>
+        <a href="#" onclick="return false;">Youtube</a>
+        <a href="#" onclick="return false;">Twitter</a>
+      </div>
+    </div>
+    <div class="sp-footer-copyright">Sporting © | Todos los derechos reservados.</div>
     <div class="sp-footer-terms">
       <div class="sp-terms-title">Términos más buscados</div>
       <ol class="sp-terms-list">
@@ -221,10 +471,15 @@
   // con el hash de la URL para poder compartir el link de una combinación
   // puntual.
   const MODULES = {
-    hero:          { name: 'hero',          onValue: 'on', offValue: 'off' },
-    categorias:    { name: 'categorias',    onValue: 'on', offValue: 'off' },
-    novedades:     { name: 'novedades',     onValue: 'on', offValue: 'off' },
-    disciplinas:   { name: 'disciplinas',   onValue: 'on', offValue: 'off' },
+    promos:       { name: 'promos',       onValue: 'on', offValue: 'off' },
+    categorias:   { name: 'categorias',   onValue: 'on', offValue: 'off' },
+    novedades:    { name: 'novedades',    onValue: 'on', offValue: 'off' },
+    adidas:       { name: 'adidas',       onValue: 'on', offValue: 'off' },
+    disciplinas:  { name: 'disciplinas',  onValue: 'on', offValue: 'off' },
+    elegiviendo:  { name: 'elegiviendo',  onValue: 'on', offValue: 'off' },
+    ultimas:      { name: 'ultimas',      onValue: 'on', offValue: 'off' },
+    clubes:       { name: 'clubes',       onValue: 'on', offValue: 'off' },
+    benefits:     { name: 'benefits',     onValue: 'on', offValue: 'off' },
   };
 
   function readState() {
