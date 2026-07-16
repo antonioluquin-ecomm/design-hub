@@ -27,7 +27,9 @@
     z-index: 100;
     font-family: var(--font), sans-serif;
   }
-  .ctrl-panel h2 { font-size: 13px; margin: 0 0 4px; }
+  .ctrl-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 4px; }
+  .ctrl-panel h2 { font-size: 13px; margin: 0; }
+  .ctrl-collapse-btn { width: auto !important; margin: 0 !important; padding: 4px 8px !important; font-size: 14px !important; line-height: 1; flex-shrink: 0; }
   .ctrl-panel .ctrl-hint { font-size: 11.5px; color: var(--muted); margin: 0 0 16px; line-height: 1.4; }
   .ctrl-group { margin-bottom: 16px; }
   .ctrl-group legend { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); padding: 0 0 8px; }
@@ -37,8 +39,14 @@
   .ctrl-copied { font-size: 11.5px; color: var(--success); margin-top: 8px; display: none; }
   .ctrl-copied.show { display: block; }
 
+  .ctrl-panel.collapsed { width: auto; }
+  .ctrl-panel.collapsed .ctrl-panel-body { display: none; }
+  .ctrl-panel.collapsed .ctrl-panel-head { margin: 0; }
+  .ctrl-panel.collapsed h2 { display: none; }
+
   @media (max-width: 1180px) {
     .ctrl-panel { position: static; width: auto; margin: 16px 28px; max-height: none; }
+    .ctrl-panel.collapsed { margin: 16px 28px; }
   }
 
   /* --- Reglas on/off: cada módulo tiene un estado por defecto oculto,
@@ -71,44 +79,50 @@
 <body data-seller="marketplace" data-video="on" data-discount="off" data-sizes="multi" data-stock="normal" data-coupon="ok">
 
   <aside class="ctrl-panel card">
-    <h2>Panel de control — PDP</h2>
-    <p class="ctrl-hint">Combiná los módulos para ver cualquier versión de la PDP. El estado queda en la URL, así que podés compartir el link de una combinación puntual.</p>
+    <div class="ctrl-panel-head">
+      <h2>Panel de control — PDP</h2>
+      <button type="button" id="collapseBtn" class="secondary ctrl-collapse-btn" title="Colapsar panel" aria-expanded="true">‹</button>
+    </div>
 
-    <fieldset class="ctrl-group">
-      <legend>Vendedor</legend>
-      <label class="ctrl-option"><input type="radio" name="seller" value="marketplace" checked /> Seller externo (marketplace)</label>
-      <label class="ctrl-option"><input type="radio" name="seller" value="propio" /> Tienda propia (Sporting)</label>
-    </fieldset>
+    <div class="ctrl-panel-body">
+      <p class="ctrl-hint">Combiná los módulos para ver cualquier versión de la PDP. El estado queda en la URL, así que podés compartir el link de una combinación puntual.</p>
 
-    <fieldset class="ctrl-group">
-      <legend>Video</legend>
-      <label class="ctrl-option"><input type="checkbox" name="video" checked /> Con video debajo de la galería</label>
-    </fieldset>
+      <fieldset class="ctrl-group">
+        <legend>Vendedor</legend>
+        <label class="ctrl-option"><input type="radio" name="seller" value="marketplace" checked /> Seller externo (marketplace)</label>
+        <label class="ctrl-option"><input type="radio" name="seller" value="propio" /> Tienda propia (Sporting)</label>
+      </fieldset>
 
-    <fieldset class="ctrl-group">
-      <legend>Precio</legend>
-      <label class="ctrl-option"><input type="radio" name="discount" value="off" checked /> Precio normal</label>
-      <label class="ctrl-option"><input type="radio" name="discount" value="on" /> Con descuento (tachado + badge)</label>
-    </fieldset>
+      <fieldset class="ctrl-group">
+        <legend>Video</legend>
+        <label class="ctrl-option"><input type="checkbox" name="video" checked /> Con video debajo de la galería</label>
+      </fieldset>
 
-    <fieldset class="ctrl-group">
-      <legend>Talles</legend>
-      <label class="ctrl-option"><input type="radio" name="sizes" value="multi" checked /> Varios talles</label>
-      <label class="ctrl-option"><input type="radio" name="sizes" value="single" /> Talle único</label>
-    </fieldset>
+      <fieldset class="ctrl-group">
+        <legend>Precio</legend>
+        <label class="ctrl-option"><input type="radio" name="discount" value="off" checked /> Precio normal</label>
+        <label class="ctrl-option"><input type="radio" name="discount" value="on" /> Con descuento (tachado + badge)</label>
+      </fieldset>
 
-    <fieldset class="ctrl-group">
-      <legend>Stock</legend>
-      <label class="ctrl-option"><input type="checkbox" name="stock" /> Última unidad disponible</label>
-    </fieldset>
+      <fieldset class="ctrl-group">
+        <legend>Talles</legend>
+        <label class="ctrl-option"><input type="radio" name="sizes" value="multi" checked /> Varios talles</label>
+        <label class="ctrl-option"><input type="radio" name="sizes" value="single" /> Talle único</label>
+      </fieldset>
 
-    <fieldset class="ctrl-group">
-      <legend>Cupones</legend>
-      <label class="ctrl-option"><input type="checkbox" name="coupon" /> No aplica cupones</label>
-    </fieldset>
+      <fieldset class="ctrl-group">
+        <legend>Stock</legend>
+        <label class="ctrl-option"><input type="checkbox" name="stock" /> Última unidad disponible</label>
+      </fieldset>
 
-    <button type="button" id="copyLinkBtn" class="secondary">Copiar link de esta vista</button>
-    <div class="ctrl-copied" id="copiedMsg">¡Link copiado!</div>
+      <fieldset class="ctrl-group">
+        <legend>Cupones</legend>
+        <label class="ctrl-option"><input type="checkbox" name="coupon" /> No aplica cupones</label>
+      </fieldset>
+
+      <button type="button" id="copyLinkBtn" class="secondary">Copiar link de esta vista</button>
+      <div class="ctrl-copied" id="copiedMsg">¡Link copiado!</div>
+    </div>
   </aside>
 
   <div class="sp-topline">
@@ -402,6 +416,23 @@
       setTimeout(() => msg.classList.remove('show'), 1800);
     });
   });
+
+  // --- Colapsar panel: estado persistido en localStorage para que se
+  // mantenga colapsado/abierto entre visitas.
+  const COLLAPSE_KEY = 'sp-pdp-panel-collapsed';
+  const panel = document.querySelector('.ctrl-panel');
+  const collapseBtn = document.getElementById('collapseBtn');
+
+  function setCollapsed(collapsed) {
+    panel.classList.toggle('collapsed', collapsed);
+    collapseBtn.textContent = collapsed ? '›' : '‹';
+    collapseBtn.title = collapsed ? 'Expandir panel' : 'Colapsar panel';
+    collapseBtn.setAttribute('aria-expanded', String(!collapsed));
+    localStorage.setItem(COLLAPSE_KEY, collapsed ? '1' : '0');
+  }
+
+  collapseBtn.addEventListener('click', () => setCollapsed(!panel.classList.contains('collapsed')));
+  setCollapsed(localStorage.getItem(COLLAPSE_KEY) === '1');
 
   // Estado inicial: hash de la URL (si viene con combinación) o defaults del panel.
   const initialState = hashToState();
