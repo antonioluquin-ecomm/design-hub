@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Design Hub</title>
+<link rel="stylesheet" href="design-system/tokens.css" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.6; }
+  .container { max-width: 780px; margin: 0 auto; padding: var(--space-8) var(--space-6) var(--space-9); }
+  h1 { font-size: 30px; margin: 0 0 var(--space-3); }
+  p.lead { color: var(--muted); margin: 0 0 var(--space-7); max-width: 620px; }
+  h2 { font-size: 15px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: var(--space-8) 0 var(--space-3); }
+  .list { display: grid; gap: var(--space-3); }
+  .list a {
+    display: flex; justify-content: space-between; align-items: center; gap: var(--space-4);
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 14px 18px; text-decoration: none; color: var(--text); font-weight: 600; font-size: 14px;
+    box-shadow: var(--shadow-sm);
+  }
+  .list a:hover { border-color: var(--primary-mid); }
+  .list a span.desc { font-weight: 400; color: var(--muted); font-size: 12.5px; display: block; margin-top: 2px; }
+  .list a .arrow { color: var(--muted); font-size: 16px; flex-shrink: 0; }
+  .theme-toggle-row { display: flex; justify-content: flex-end; margin-bottom: var(--space-4); }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="theme-toggle-row">
+    <button class="secondary" onclick="toggleTheme()">Cambiar tema</button>
+  </div>
+
+  <h1>Design Hub</h1>
+  <p class="lead">Espacio central de maquetación y alineación visual entre el portal de gestión de pedidos, los sitios propios (Sporting, Woker) y su documentación. No es un producto en desarrollo — es una herramienta de trabajo interna para proponer y validar cambios de UI antes de pasarlos a desarrollo real.</p>
+
+  <h2>Design system</h2>
+  <div class="list">
+    <a href="design-system/index.html">Referencia visual<span class="desc">Colores, tipografía, botones, cards y tablas vigentes (tokens.css)</span><span class="arrow">→</span></a>
+  </div>
+
+  <h2>Portal de gestión de pedidos</h2>
+  <div class="list">
+    <a href="mockups/pedidos-portal/index.html">Maqueta del portal<span class="desc">Login, menú, detalle de pedido, devoluciones y variante seller Adidas</span><span class="arrow">→</span></a>
+  </div>
+
+  <h2>Sitios propios</h2>
+  <div class="list">
+    <a href="mockups/sites/sporting/NOTAS.md">Sporting<span class="desc">Fase 2 — pendiente de kickoff</span><span class="arrow">→</span></a>
+  </div>
+
+  <h2>Documentación</h2>
+  <div class="list">
+    <a href="docs/cross-references.md">Cross-references<span class="desc">Qué maqueta depende de qué doc de sitio/portal</span><span class="arrow">→</span></a>
+    <a href="docs/roadmap.md">Roadmap<span class="desc">Próximos pasos y backlog</span><span class="arrow">→</span></a>
+  </div>
+</div>
+
+<script>
+  const saved = localStorage.getItem('design-hub-theme')
+    || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.dataset.theme = saved;
+
+  function toggleTheme() {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem('design-hub-theme', next);
+  }
+</script>
+</body>
+</html>
