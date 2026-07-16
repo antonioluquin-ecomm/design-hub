@@ -174,9 +174,10 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-navbar .sp-navbar-badge { margin-left: 4px; padding: 4px 10px; border-radius: 4px; background: var(--sp-bg); border: 1px solid var(--sp-line); font-size: 10.5px; font-weight: 700; letter-spacing: .02em; }
 .sp-navbar .sp-navbar-badges { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 
-.sp-breadcrumb { padding: 12px 28px; font-size: 12px; color: var(--sp-muted); }
+.sp-breadcrumb { padding: 12px 28px; font-size: 12px; color: var(--sp-muted); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .sp-breadcrumb a { color: var(--sp-muted); text-decoration: none; }
 .sp-breadcrumb .sep { margin: 0 4px; }
+.sp-breadcrumb-share { display: none; font-size: 16px; color: var(--sp-text); cursor: pointer; flex-shrink: 0; }
 
 /* PDP layout */
 .sp-pdp { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 32px; padding: 24px 28px; align-items: start; }
@@ -186,6 +187,7 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-thumbs img.active { border-color: var(--sp-green); }
 .sp-main-image { flex: 1; position: relative; }
 .sp-main-image img { width: 100%; border-radius: 4px; }
+.sp-gallery-dots { display: none; }
 
 .sp-badges-row { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
 .sp-badge-envio { color: var(--sp-green-dark); font-size: 12.5px; font-weight: 700; }
@@ -421,4 +423,36 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
   .sp-filter-apply-btn { background: var(--sp-green); border: none; color: #fff; }
   .sp-filter-apply-btn:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
   .sp-filter-drawer-count { text-align: center; font-size: 11.5px; color: var(--sp-muted); }
+}
+
+/*
+ * PDP mobile — capturado en vivo 2026-07-16 (viewport 375x812) navegando
+ * zapatillas-adidas-runblaze-de-hombre-6ih6705-000/p. Diferencias reales
+ * confirmadas contra desktop:
+ *   - El layout de 2 columnas (galería + info) pasa a 1 sola columna
+ *     apilada (galería arriba, info debajo) — no queda "position:static"
+ *     porque no hay contenido sticky, simplemente se apila.
+ *   - La galería es un swiper (confirmado por clase `swiper-container`):
+ *     la columna de miniaturas (`.sp-thumbs`) queda oculta (ancho 0 en la
+ *     captura real) y en su lugar hay paginación por puntos debajo de la
+ *     imagen — se agregó `.sp-gallery-dots`, mismo patrón visual que
+ *     `.sp-hero-dots` de la home.
+ *   - El ícono de "compartir" (`shareLabel`, confirmado por clase VTEX)
+ *     se ubica junto al breadcrumb en vez de en la fila de badges de la
+ *     info — se agregó `.sp-breadcrumb-share`, visible solo en mobile.
+ *   - Se descubrió en esta captura una sección real que no estaba
+ *     maquetada todavía: **"También te puede interesar"**, un segundo
+ *     carrusel debajo de "Productos similares" (no es mobile-only, es
+ *     contenido real de la PDP completa — se agregó siempre visible,
+ *     reusando `.sp-carousel-row`).
+ *   - El resto (precio, cuotas, talles, acordeón, orden de secciones) no
+ *     cambia respecto a desktop.
+ */
+@media (max-width: 720px) {
+  .sp-pdp { grid-template-columns: 1fr; padding: 16px; gap: 20px; }
+  .sp-thumbs { display: none; }
+  .sp-gallery-dots { display: flex; position: absolute; bottom: 12px; left: 0; right: 0; justify-content: center; gap: 6px; }
+  .sp-gallery-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(0,0,0,.2); }
+  .sp-gallery-dots span.active { background: var(--sp-text); }
+  .sp-breadcrumb-share { display: block; }
 }
