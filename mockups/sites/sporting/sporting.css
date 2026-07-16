@@ -214,11 +214,27 @@ body {
 .sp-video-info .sp-video-actions { display: flex; align-items: center; gap: 14px; font-size: 12px; }
 .sp-video-info .sp-video-actions a { color: var(--sp-text); text-decoration: none; font-weight: 600; }
 
-/* Footer */
-.sp-footer { background: var(--sp-black); color: #fff; }
-.sp-footer-benefit { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px; font-size: 13.5px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,.12); }
-.sp-footer-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; padding: 28px; }
-.sp-footer-links h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: rgba(255,255,255,.6); margin: 0 0 12px; }
-.sp-footer-links a { display: block; color: #fff; font-size: 13px; text-decoration: none; margin-bottom: 8px; opacity: .9; }
-.sp-footer-links a:hover { text-decoration: underline; }
-.sp-footer-bottom { text-align: center; font-size: 11.5px; color: rgba(255,255,255,.5); padding: 16px; border-top: 1px solid rgba(255,255,255,.12); }
+/*
+ * Footer — capturado en vivo el 2026-07-16 desde una PDP real
+ * (sporting.com.ar/zapatillas-adidas-runblaze-de-hombre-6ih6705-000/p).
+ * El footer real de este sitio VTEX IO es solo estas dos franjas: banda
+ * verde de newsletter + banda gris de "Términos más buscados". No tiene
+ * columnas de links, iconos sociales ni barra de copyright — eso era una
+ * estructura genérica inventada en la primera versión de la maqueta
+ * (ver NOTAS.md).
+ */
+.sp-footer-newsletter { background: var(--sp-green); padding: 28px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+.sp-newsletter-title { color: #fff; font-size: 20px; font-weight: 600; }
+.sp-newsletter-form { display: flex; gap: 10px; align-items: flex-end; max-width: 480px; width: 100%; }
+.sp-newsletter-field { flex: 1; text-align: left; display: flex; flex-direction: column; gap: 6px; }
+.sp-newsletter-field span { color: #fff; font-size: 13px; }
+.sp-newsletter-field input { border: 1px solid rgba(255,255,255,.5); border-radius: 4px; padding: 10px 12px; font-family: 'Poppins', sans-serif; font-size: 13px; background: rgba(255,255,255,.1); color: #fff; }
+.sp-newsletter-field input::placeholder { color: rgba(255,255,255,.75); }
+.sp-newsletter-btn { background: var(--sp-black); color: #fff; border: none; border-radius: 4px; padding: 10px 24px; font-weight: 700; font-size: 13px; cursor: pointer; font-family: 'Poppins', sans-serif; flex-shrink: 0; }
+.sp-newsletter-checkbox { color: #fff; font-size: 12px; display: flex; align-items: center; gap: 8px; }
+
+.sp-footer-terms { background: #f0f0f0; color: #111; padding: 24px 28px; text-align: center; }
+.sp-terms-title { font-size: 14px; font-weight: 600; margin: 0 0 12px; }
+.sp-terms-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 13px; color: #3f3f40; }
+.sp-terms-list a { color: inherit; text-decoration: none; }
+.sp-terms-list a:hover { text-decoration: underline; }
