@@ -33,6 +33,16 @@ A pedido del usuario, se está revisando la home módulo por módulo contra el s
 - Los **puntos de paginación NO van superpuestos en la imagen** — van en una fila aparte **debajo**, separados por `margin-top` (~10px). Son grises claro (`#cacbcc`) los inactivos y gris oscuro casi negro (`#333`) el activo, 10px cada uno, gap 18px. La maqueta los tenía overlay blancos sobre la imagen, mal en posición y en color.
 - Imagen: `1265x296px`, sin bordes redondeados.
 
+**Tira de cuotas/financiación — confirmado, cambio de diseño:**
+- No es una tira continua con separadores verticales (así estaba maquetada) — son **tarjetas individuales con borde propio**: 296×122px, blancas, borde `1px solid #d2d2d2`, radius 6px, padding 16px, gap 12px entre tarjetas, ícono de banco (33×33) a la izquierda.
+- El número grande y "Cuotas sin interés" van en **azul marino** (`#232b54`), no en el color de texto genérico del sitio. El sub-label (nombre del banco/condición) es negro 12px. "Ver legales" es azul marino subrayado (`#28345f`), no verde como el resto de los links del sitio.
+- Es un carrusel real de 8 tarjetas (4 visibles a 1280px) — la maqueta muestra las 4 que entran, sin lógica de slide (mismo criterio que el resto de los carruseles).
+
+**Categorías (Calzado/Indumentaria/Accesorios/Ofertas) — confirmado:**
+- Tarjeta 294px de ancho, imagen 172px alto (no 160), sin fondo/radius propio (`background: var(--sp-bg)` y `border-radius:8px` que tenía la maqueta eran inventados — la tarjeta real no tiene ni uno ni otro).
+- Título 18px bold negro centrado (no 16px). Botón "VER MÁS" verde con radius **3px** (no 6) y padding 13px 32px, font-size 16px (no 12.5px) — bastante más grande de lo que tenía la maqueta.
+- Gap real entre tarjetas 16px, padding izquierdo de la fila ~21-22px — mismo criterio que la tira de cuotas, así que se overridea puntualmente el padding de `.sp-section` (32px 28px) para esta sección en vez de tocar la regla compartida.
+
 ### Corrección 2026-07-16 — Footer real (v1, INCOMPLETA — ver v2 abajo)
 
 El footer original de la maqueta (barra "Envío gratis" + 3 columnas de links Ayuda/Sporting/Seguinos + copyright) era una **estructura genérica inventada**, nunca confirmada contra el sitio real (quedaba anotado en "Pendiente"). Se navegó en vivo `https://www.sporting.com.ar/zapatillas-adidas-runblaze-de-hombre-6ih6705-000/p` y se leyó el footer con `getComputedStyle`, concluyendo (mal, ver corrección de abajo) que el footer eran solo dos franjas sin columnas ni copyright.

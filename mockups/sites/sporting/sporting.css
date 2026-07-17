@@ -70,16 +70,25 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-hero-dots span.active { background: #333; }
 
 /*
- * Tira de cuotas/financiación — carrusel de tarjetas de bancos con
- * cuotas sin interés, debajo del slider principal.
+ * Tira de cuotas/financiación — medida en vivo 2026-07-16 con
+ * getBoundingClientRect. Son tarjetas individuales con borde propio
+ * (no una tira continua con separadores verticales como se había
+ * maqueteado): 296x122px, blancas, borde 1px `#d2d2d2`, radius 6px,
+ * padding 16px, gap entre tarjetas 12px, con ícono de banco (33x33) a
+ * la izquierda. Textos: número 44px/600 y "Cuotas sin interés" 14px/
+ * bold, ambos en azul marino `#232b54` (no negro); sub-label 13px
+ * normal negro; "Ver legales" 12px subrayado azul marino `#28345f`.
+ * Es un carrusel real (8 tarjetas, 4 visibles a la vez en 1280px) —
+ * acá se muestran las 4 que entran, sin lógica de slide.
  */
-.sp-promo-strip { display: flex; gap: 0; overflow-x: auto; padding: 20px 28px; border-bottom: 1px solid var(--sp-line); }
-.sp-promo-card { flex: 1; min-width: 200px; display: flex; align-items: center; gap: 12px; padding: 0 20px; border-right: 1px solid var(--sp-line); }
-.sp-promo-card:last-child { border-right: none; }
-.sp-promo-card .num { font-size: 26px; font-weight: 800; color: var(--sp-text); flex-shrink: 0; }
+.sp-promo-strip { display: flex; gap: 12px; overflow-x: auto; padding: 20px 22px; }
+.sp-promo-card { flex-shrink: 0; width: 296px; height: 122px; box-sizing: border-box; display: flex; align-items: flex-start; gap: 12px; padding: 16px; background: #fff; border: 1px solid #d2d2d2; border-radius: 6px; }
+.sp-promo-card .icon { width: 33px; height: 33px; flex-shrink: 0; border-radius: 50%; background: var(--sp-bg); display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .sp-promo-card .txt { font-size: 12.5px; line-height: 1.4; }
-.sp-promo-card .txt b { display: block; font-weight: 700; }
-.sp-promo-card .txt a { color: var(--sp-green-dark); font-size: 11px; text-decoration: none; font-weight: 600; }
+.sp-promo-card .txt .num { font-size: 32px; font-weight: 600; color: #232b54; line-height: 1; display: block; margin-bottom: 4px; }
+.sp-promo-card .txt b { display: block; font-weight: 700; color: #232b54; font-size: 13px; }
+.sp-promo-card .txt .sub { color: #000; font-size: 12px; display: block; margin: 2px 0 6px; }
+.sp-promo-card .txt a { color: #28345f; font-size: 11.5px; text-decoration: underline; font-weight: 400; }
 
 /* Sección genérica */
 .sp-section { padding: 32px 28px; }
@@ -115,12 +124,18 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 /* Grid genérico */
 .sp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
 
-/* Category card */
-.sp-cat-card { position: relative; border-radius: 8px; overflow: hidden; background: var(--sp-bg); text-decoration: none; color: inherit; display: block; }
-.sp-cat-card img { width: 100%; height: 160px; object-fit: cover; display: block; }
+/*
+ * Category card — medida en vivo 2026-07-16: tarjeta 294px, imagen
+ * 172px alto, título 18px/bold negro centrado, botón "VER MÁS" verde
+ * con radius 3px (no 6) y padding 13px 32px, font-size 16px. Gap real
+ * entre tarjetas 16px, padding izquierdo de la fila ~22px (igual
+ * criterio que la tira de cuotas).
+ */
+.sp-cat-card { position: relative; overflow: hidden; background: transparent; text-decoration: none; color: inherit; display: block; }
+.sp-cat-card img { width: 100%; height: 172px; object-fit: cover; display: block; }
 .sp-cat-card .sp-cat-body { padding: 16px; text-align: center; }
-.sp-cat-card .sp-cat-title { font-weight: 700; font-size: 16px; margin-bottom: 10px; }
-.sp-cat-card .sp-btn-outline { background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 9px 20px; font-weight: 700; font-size: 12.5px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-cat-card .sp-cat-title { font-weight: 700; font-size: 18px; color: #000; margin-bottom: 10px; }
+.sp-cat-card .sp-btn-outline { background: var(--sp-green); color: #fff; border: none; border-radius: 3px; padding: 13px 32px; font-weight: 700; font-size: 16px; cursor: pointer; font-family: 'Poppins', sans-serif; }
 .sp-btn-outline:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
 
 /* Discipline card */
