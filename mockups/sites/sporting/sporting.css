@@ -104,11 +104,16 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
  *    (`--sp-black`), apoyado en el borde de la fila (14px de inset),
  *    sin overlay sobre ninguna imagen (a diferencia de las del slider
  *    principal, que sí llevan círculo oscuro por estar sobre foto).
- *  - Tarjeta de producto 243px de ancho (bastante más angosta que la
- *    de Novedades/PLP que se venía usando, ~220-300px según sección;
- *    se deja el ancho actual de `.sp-product-card` vía `min-width` en
- *    `.sp-carousel-track` para no romper el resto de las tarjetas ya
- *    ajustadas, dado que 243px puntual no aporta fidelidad relevante).
+ *  - Tarjeta de producto 243px de ancho fijo (medido en vivo) — antes
+ *    se dejaba solo `min-width:220px` sin `width`, lo que hacía que
+ *    flexbox estirara cada tarjeta a ~311px (más ancha que las de la
+ *    PLP, que usan el mismo componente) y que las 3 tarjetas de
+ *    ejemplo llenaran el track exacto sin ningún "peek" de la próxima
+ *    tarjeta asomando — perdía la señal visual de carrusel. Corregido
+ *    2026-07-17: ancho fijo + 2 tarjetas de ejemplo más por sección
+ *    para que el track exceda el ancho visible, igual que ya hacían
+ *    Disciplinas (`.sp-disc-card`, 204px) y Elegí viendo
+ *    (`.sp-video-card`, 296px).
  *  - El espaciado real entre tarjetas visibles parece un artefacto de
  *    breakpoint del slick del sitio real (huecos de ~380px entre
  *    tarjeta y tarjeta) — no se reproduce, se usa un gap prolijo
@@ -121,7 +126,7 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-carousel-arrow { flex-shrink: 0; width: 22px; height: 44px; background: none; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; color: var(--sp-black); }
 .sp-carousel-arrow:hover:not(:disabled):not(.ctrl-panel *) { background: none; transform: none; }
 .sp-carousel-track { display: flex; gap: 16px; overflow-x: auto; flex: 1; margin: 0 6px; }
-.sp-carousel-track .sp-product-card { min-width: 220px; flex-shrink: 0; }
+.sp-carousel-track .sp-product-card { width: 243px; flex-shrink: 0; }
 
 /*
  * "Elegí viendo" — corregido por captura del usuario: NO son banners de

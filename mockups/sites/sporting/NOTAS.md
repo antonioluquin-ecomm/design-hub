@@ -222,6 +222,15 @@ Se navegó en vivo la misma categoría con viewport forzado a 375x812 (mobile) y
 
 Se implementó en `plp.html` reusando el mismo markup de filtros (sin duplicar HTML): a ≤720px el `<aside>` se convierte en panel `position:fixed` fuera de pantalla (`translateX`), con clase `.open` togglable por JS (botón "Filtrar" abre, ✕/"Aplicar"/click en el fondo oscuro cierran). El acordeón de filtros (abrir/cerrar cada grupo) sigue funcionando igual dentro del panel. Verificado en el navegador con `getComputedStyle`/`getBoundingClientRect` en ambos breakpoints (mobile y desktop) — screenshot no disponible en esta sesión (timeout persistente de la herramienta), verificación hecha por inspección de layout computado.
 
+### Fix 2026-07-17 — Carruseles de producto (Novedades / Tienda Oficial Adidas / Ultimas!!): tarjetas estiradas, no se parecían ni al sitio ni a la PLP
+
+El usuario pidió una revisión crítica y detallista de estos 3 carruseles porque "no se parecen a las del sitio ni a las de la PLP". Causa encontrada: `.sp-carousel-track .sp-product-card` solo tenía `min-width:220px` (sin `width`), así que flexbox estiraba cada tarjeta a **~311.5px de ancho real** (medido con `getBoundingClientRect`) en vez de los 243px que la propia nota de arriba (línea "Carrusel de producto... confirmado") ya decía haber medido en vivo y haber descartado "por no aportar fidelidad relevante". Consecuencias del estiramiento:
+
+- Las tarjetas quedaban **~40% más anchas que las mismas tarjetas en `plp.html`** (mismo componente `.sp-product-card`, pero ahí sí acotado por un grid de 4 columnas fijas — terminan en 243px también, coincide exacto con la medición real).
+- Con solo 3 tarjetas de ejemplo estirándose para llenar el track completo, **no quedaba ninguna tarjeta cortada asomando en el borde** — la señal visual mínima de "esto es un carrusel, hay más para el costado" desaparecía. Disciplinas (`.sp-disc-card`, 204px fijo) y Elegí viendo (`.sp-video-card`, 296px fijo) sí tenían ese "peek" porque ya usaban ancho fijo — la inconsistencia era interna del propio archivo, no solo contra el sitio real.
+
+**Fix:** `min-width:220px` → `width:243px` fijo en `.sp-carousel-track .sp-product-card` (`sporting.css`), y se sumaron 2 tarjetas de ejemplo más en cada una de las 3 secciones (5 en total por carrusel) para que el track exceda el ancho visible. Verificado en el navegador a 1280px: `scrollWidth` 1279px vs 1133px de ancho visible del track (overflow real) y `cardWidth` 243px exacto, igual en las 3 secciones de la home y en `plp.html`.
+
 ## Pantallas maquetadas
 
 | Archivo | Contenido |
