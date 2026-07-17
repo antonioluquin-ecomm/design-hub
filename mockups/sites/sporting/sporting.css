@@ -282,10 +282,23 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
  *   1. Banda verde: newsletter.
  *   2. Banda negra: 4 columnas de links (Nosotros/Información/Ayuda/
  *      Seguinos) + línea de copyright.
- *   3. Banda gris clara: "Términos más buscados".
  * Sí tiene columnas y copyright — lo que estaba mal en la corrección
  * anterior era el contenido (Ayuda/Sporting/Seguinos, inventado), no la
  * existencia de la estructura.
+ *
+ * Corrección 2026-07-16 (b) — "Términos más buscados" NO es del footer.
+ * Se había documentado acá una tercera banda gris con ese título y una
+ * lista numerada de términos, pero esa lectura fue un error: ese
+ * contenido pertenece al **autocomplete del buscador** (clases reales
+ * `vtex-search-2-x-biggy-autocomplete` / `itemList--top-search`), que
+ * solo se muestra al enfocar/abrir la caja de búsqueda — no es parte
+ * del footer ni aparece siempre en ninguna página. El error surgió
+ * porque una captura anterior por volcado de texto (`innerText` +
+ * scroll) mezcló contenido de ese componente (portal renderizado en el
+ * DOM) con el del footer real, que ya estaba scrolleado a la vista al
+ * mismo tiempo. Se sacó `.sp-footer-terms`/`.sp-terms-*` de todas las
+ * páginas del sitio (no se va a maquetar el autocomplete del buscador
+ * a menos que se pida específicamente).
  */
 .sp-footer-newsletter { background: var(--sp-green); padding: 28px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
 .sp-newsletter-title { color: #fff; font-size: 20px; font-weight: 600; }
@@ -303,12 +316,6 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-footer-columns a, .sp-footer-columns span { display: block; color: rgba(255,255,255,.85); font-size: 12px; text-decoration: none; margin-bottom: 8px; line-height: 1.5; }
 .sp-footer-columns a:hover { text-decoration: underline; color: #fff; }
 .sp-footer-copyright { background: var(--sp-black); color: rgba(255,255,255,.7); font-size: 11px; text-align: center; padding: 14px 28px 24px; border-top: 1px solid rgba(255,255,255,.12); }
-
-.sp-footer-terms { background: #f0f0f0; color: #111; padding: 24px 28px; text-align: center; }
-.sp-terms-title { font-size: 14px; font-weight: 600; margin: 0 0 12px; }
-.sp-terms-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 13px; color: #3f3f40; }
-.sp-terms-list a { color: inherit; text-decoration: none; }
-.sp-terms-list a:hover { text-decoration: underline; }
 
 /*
  * PLP (listado de categoría) — capturado en vivo 2026-07-16 navegando
@@ -493,7 +500,7 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
   .sp-header-actions .sp-icons span:first-child { display: none; }
   .sp-header-actions { margin-left: auto; }
 
-  .sp-footer-columns, .sp-footer-copyright, .sp-footer-terms { display: none; }
+  .sp-footer-columns, .sp-footer-copyright { display: none; }
 }
 
 /*
