@@ -177,6 +177,8 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-header-actions .sp-icons { display: flex; align-items: center; font-size: 18px; color: #fff; gap: 0; }
 .sp-header-actions .sp-icons > span:first-of-type { margin-right: 10px; }
 .sp-header-actions .sp-login-link { display: flex; align-items: center; font-size: 13px; font-weight: 500; color: #979899; text-decoration: none; padding: 0 10px; }
+.sp-hamburger-btn, .sp-search-icon-btn { display: none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; flex-shrink: 0; }
+.sp-hamburger-btn:hover:not(:disabled):not(.ctrl-panel *), .sp-search-icon-btn:hover:not(:disabled):not(.ctrl-panel *) { background: none; transform: none; }
 
 /*
  * Navbar de categorías — capturado en vivo el 2026-07-16: 8 categorías
@@ -210,9 +212,10 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-navbar .sp-navbar-badge { margin-left: 4px; padding: 4px 10px; border-radius: 4px; background: var(--sp-bg); border: 1px solid var(--sp-line); font-size: 10.5px; font-weight: 700; letter-spacing: .02em; }
 .sp-navbar .sp-navbar-badges { display: flex; gap: 32px; align-items: center; }
 
-.sp-breadcrumb { padding: 12px 28px; font-size: 12px; color: var(--sp-muted); }
+.sp-breadcrumb { padding: 12px 28px; font-size: 12px; color: var(--sp-muted); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .sp-breadcrumb a { color: var(--sp-muted); text-decoration: none; }
 .sp-breadcrumb .sep { margin: 0 4px; }
+.sp-breadcrumb-share { display: none; font-size: 16px; color: var(--sp-text); cursor: pointer; flex-shrink: 0; }
 
 /* PDP layout */
 .sp-pdp { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 32px; padding: 24px 28px; align-items: start; }
@@ -222,6 +225,7 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-thumbs img.active { border-color: var(--sp-green); }
 .sp-main-image { flex: 1; position: relative; }
 .sp-main-image img { width: 100%; border-radius: 4px; }
+.sp-gallery-dots { display: none; }
 
 .sp-badges-row { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
 .sp-badge-envio { color: var(--sp-green-dark); font-size: 12.5px; font-weight: 700; }
@@ -314,10 +318,23 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
  *   1. Banda verde: newsletter.
  *   2. Banda negra: 4 columnas de links (Nosotros/Información/Ayuda/
  *      Seguinos) + línea de copyright.
- *   3. Banda gris clara: "Términos más buscados".
  * Sí tiene columnas y copyright — lo que estaba mal en la corrección
  * anterior era el contenido (Ayuda/Sporting/Seguinos, inventado), no la
  * existencia de la estructura.
+ *
+ * Corrección 2026-07-16 (b) — "Términos más buscados" NO es del footer.
+ * Se había documentado acá una tercera banda gris con ese título y una
+ * lista numerada de términos, pero esa lectura fue un error: ese
+ * contenido pertenece al **autocomplete del buscador** (clases reales
+ * `vtex-search-2-x-biggy-autocomplete` / `itemList--top-search`), que
+ * solo se muestra al enfocar/abrir la caja de búsqueda — no es parte
+ * del footer ni aparece siempre en ninguna página. El error surgió
+ * porque una captura anterior por volcado de texto (`innerText` +
+ * scroll) mezcló contenido de ese componente (portal renderizado en el
+ * DOM) con el del footer real, que ya estaba scrolleado a la vista al
+ * mismo tiempo. Se sacó `.sp-footer-terms`/`.sp-terms-*` de todas las
+ * páginas del sitio (no se va a maquetar el autocomplete del buscador
+ * a menos que se pida específicamente).
  */
 .sp-footer-newsletter { background: var(--sp-green); padding: 28px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
 .sp-newsletter-title { color: #fff; font-size: 20px; font-weight: 600; }
@@ -336,8 +353,369 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-footer-columns a:hover { text-decoration: underline; color: #fff; }
 .sp-footer-copyright { background: var(--sp-black); color: rgba(255,255,255,.7); font-size: 11px; text-align: center; padding: 14px 28px 24px; border-top: 1px solid rgba(255,255,255,.12); }
 
-.sp-footer-terms { background: #f0f0f0; color: #111; padding: 24px 28px; text-align: center; }
-.sp-terms-title { font-size: 14px; font-weight: 600; margin: 0 0 12px; }
-.sp-terms-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 13px; color: #3f3f40; }
-.sp-terms-list a { color: inherit; text-decoration: none; }
-.sp-terms-list a:hover { text-decoration: underline; }
+/*
+ * PLP (listado de categoría) — capturado en vivo 2026-07-16 navegando
+ * https://www.sporting.com.ar/sporting/calzado/zapatillas/hombre (VTEX
+ * search-result-3). Breadcrumb de 4 niveles (Inicio › Sporting › Calzado
+ * › Zapatillas › Hombre), sidebar de filtros a la izquierda (chips de
+ * filtro activo, "Vendido por" Adidas/Sporting, Categoría, Tipo de
+ * producto, más grupos colapsados sin abrir en la captura —Sub Tipo,
+ * Talle, Marca, Disciplina, Ofertas, Colores, Clubes— y rango de precio
+ * con inputs $min/$max + botón Buscar), barra de resultados (contador +
+ * orden "Por Relevancia"), grid de tarjetas de producto (reusa
+ * .sp-product-card) y botón "Mostrar más" en vez de paginación numerada.
+ * Ver NOTAS.md para el detalle completo de la captura.
+ */
+.sp-plp-layout { display: grid; grid-template-columns: 240px 1fr; gap: 28px; padding: 20px 28px 40px; align-items: start; }
+
+.sp-filters-title { font-size: 15px; font-weight: 700; margin: 0 0 12px; }
+.sp-filter-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.sp-filter-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--sp-bg); border-radius: 4px; padding: 6px 10px; font-size: 11.5px; font-weight: 600; }
+.sp-filter-chip .x { cursor: pointer; color: var(--sp-muted); }
+
+.sp-filter-group { border-bottom: 1px solid var(--sp-line); padding: 14px 0; }
+.sp-filter-group:first-of-type { border-top: 1px solid var(--sp-line); }
+.sp-filter-group-title { display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 700; cursor: pointer; }
+.sp-filter-group-title .chev { font-size: 11px; color: var(--sp-muted); transition: transform .15s; }
+.sp-filter-group.open .sp-filter-group-title .chev { transform: rotate(180deg); }
+.sp-filter-options { display: none; flex-direction: column; gap: 2px; margin-top: 10px; }
+.sp-filter-group.open .sp-filter-options { display: flex; }
+.sp-filter-option { display: flex; align-items: center; gap: 8px; font-size: 12.5px; padding: 5px 0; cursor: pointer; color: var(--sp-text); }
+.sp-filter-option .count { color: var(--sp-muted); margin-left: auto; }
+
+.sp-price-range { display: flex; gap: 8px; margin-top: 10px; }
+.sp-price-range input { width: 0; flex: 1; border: 1px solid var(--sp-line); border-radius: 4px; padding: 8px 10px; font-family: 'Poppins', sans-serif; font-size: 12px; }
+.sp-price-search-btn { background: var(--sp-black); color: #fff; border: none; border-radius: 4px; padding: 0 14px; font-weight: 700; font-size: 11.5px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-price-search-btn:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-black); transform: none; }
+.sp-price-range-label { font-size: 11px; color: var(--sp-muted); margin-top: 8px; }
+
+.sp-results-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.sp-results-count { font-size: 13.5px; font-weight: 600; }
+.sp-sort-select { display: flex; align-items: center; gap: 8px; border: 1px solid var(--sp-line); border-radius: 6px; padding: 9px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer; background: #fff; font-family: 'Poppins', sans-serif; }
+.sp-sort-select .chev { font-size: 10px; color: var(--sp-muted); }
+
+.sp-plp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.sp-plp-grid .sp-product-media { cursor: pointer; }
+.sp-plp-card-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,.9); border: none; font-size: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity .15s; }
+.sp-product-media:hover .sp-plp-card-nav { opacity: 1; }
+.sp-plp-card-nav:hover:not(:disabled):not(.ctrl-panel *) { background: rgba(255,255,255,.9); transform: translateY(-50%); }
+.sp-plp-card-nav.left { left: 8px; }
+.sp-plp-card-nav.right { right: 8px; }
+.sp-plp-card-dots { position: absolute; bottom: 8px; left: 0; right: 0; display: flex; justify-content: center; gap: 4px; opacity: 0; transition: opacity .15s; }
+.sp-product-media:hover .sp-plp-card-dots { opacity: 1; }
+.sp-plp-card-dots span { width: 5px; height: 5px; border-radius: 50%; background: rgba(0,0,0,.25); }
+.sp-plp-card-dots span.active { background: #fff; }
+.sp-coupon-tag { display: inline-block; background: #1a2a6c; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; letter-spacing: .03em; margin-bottom: 6px; }
+
+.sp-load-more-row { text-align: center; margin-top: 32px; }
+.sp-load-more-count { font-size: 12.5px; color: var(--sp-muted); margin-bottom: 12px; }
+.sp-load-more-btn { background: #fff; border: 1px solid var(--sp-text); border-radius: 6px; padding: 12px 32px; font-weight: 700; font-size: 13px; letter-spacing: .02em; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-load-more-btn:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-text); color: #fff; transform: none; }
+
+@media (max-width: 900px) {
+  .sp-plp-layout { grid-template-columns: 1fr; }
+  .sp-plp-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/*
+ * PLP mobile — capturado en vivo 2026-07-16 (viewport 375x812) navegando
+ * la misma categoría de zapatillas hombre. Diferencias reales confirmadas
+ * contra desktop:
+ *   - No hay sidebar de filtros fija: hay una barra con 2 botones mitad y
+ *     mitad ("Ordenar Por / Relevancia" | "Filtrar") arriba del contador
+ *     de resultados.
+ *   - "Filtrar" abre un panel deslizante fijo desde la derecha (no un
+ *     bottom-sheet), de ~61% del ancho de pantalla (230px de 375px en la
+ *     captura), con los mismos grupos de filtro que el sidebar de
+ *     desktop y un footer fijo abajo con botones "Limpiar"/"Aplicar" +
+ *     contador de productos en vivo.
+ *   - El grid de productos pasa a 2 columnas (confirmado por
+ *     getBoundingClientRect de 2 tarjetas contiguas).
+ * El botón de cierre (✕) del panel no se vio explícito en la captura
+ * (posiblemente un ícono SVG no leído por el volcado de texto/DOM) — se
+ * agregó por usabilidad, inferido, no confirmado 1:1 contra el sitio real.
+ */
+.sp-plp-mobile-bar { display: none; }
+.sp-filter-backdrop { display: none; }
+.sp-filter-drawer-footer { display: none; }
+.sp-filter-drawer-close { display: none; }
+
+@media (max-width: 720px) {
+  .sp-plp-layout { grid-template-columns: 1fr; padding: 16px; }
+  .sp-plp-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+  .sp-plp-mobile-bar { display: flex; border: 1px solid var(--sp-line); border-radius: 6px; overflow: hidden; margin-bottom: 14px; }
+  .sp-plp-mobile-bar button { flex: 1; background: #fff; border: none; padding: 14px 10px; font-size: 12.5px; font-weight: 500; font-family: 'Poppins', sans-serif; cursor: pointer; }
+  .sp-plp-mobile-bar button:first-child { border-right: 1px solid var(--sp-line); }
+  .sp-plp-mobile-bar button:hover:not(:disabled):not(.ctrl-panel *) { background: #fff; transform: none; }
+  .sp-plp-mobile-bar b { font-weight: 700; }
+  .sp-results-bar .sp-sort-select { display: none; }
+
+  .sp-plp-layout aside { position: fixed; top: 0; right: 0; bottom: 0; width: 78%; max-width: 320px; background: #fff; z-index: 200; padding: 20px; overflow-y: auto; transform: translateX(100%); transition: transform .25s ease; box-shadow: -6px 0 24px rgba(0,0,0,.18); }
+  .sp-plp-layout aside.open { transform: translateX(0); }
+  .sp-filters-title { display: flex; align-items: center; justify-content: space-between; }
+  .sp-filter-drawer-close { display: block; background: none; border: none; font-size: 18px; cursor: pointer; color: var(--sp-text); }
+  .sp-filter-drawer-close:hover:not(:disabled):not(.ctrl-panel *) { background: none; transform: none; }
+
+  .sp-filter-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 190; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+  .sp-filter-backdrop.open { display: block; opacity: 1; pointer-events: auto; }
+
+  .sp-filter-drawer-footer { display: flex; flex-direction: column; gap: 10px; position: sticky; bottom: -20px; background: #fff; margin: 20px -20px -20px; padding: 14px 20px 20px; border-top: 1px solid var(--sp-line); }
+  .sp-filter-drawer-buttons { display: flex; gap: 10px; }
+  .sp-filter-drawer-buttons button { flex: 1; padding: 12px; border-radius: 6px; font-weight: 700; font-size: 12.5px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+  .sp-filter-clear-btn { background: #fff; border: 1px solid var(--sp-text); color: var(--sp-text); }
+  .sp-filter-clear-btn:hover:not(:disabled):not(.ctrl-panel *) { background: #fff; transform: none; }
+  .sp-filter-apply-btn { background: var(--sp-green); border: none; color: #fff; }
+  .sp-filter-apply-btn:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
+  .sp-filter-drawer-count { text-align: center; font-size: 11.5px; color: var(--sp-muted); }
+}
+
+/*
+ * PDP mobile — capturado en vivo 2026-07-16 (viewport 375x812) navegando
+ * zapatillas-adidas-runblaze-de-hombre-6ih6705-000/p. Diferencias reales
+ * confirmadas contra desktop:
+ *   - El layout de 2 columnas (galería + info) pasa a 1 sola columna
+ *     apilada (galería arriba, info debajo) — no queda "position:static"
+ *     porque no hay contenido sticky, simplemente se apila.
+ *   - La galería es un swiper (confirmado por clase `swiper-container`):
+ *     la columna de miniaturas (`.sp-thumbs`) queda oculta (ancho 0 en la
+ *     captura real) y en su lugar hay paginación por puntos debajo de la
+ *     imagen — se agregó `.sp-gallery-dots`, mismo patrón visual que
+ *     `.sp-hero-dots` de la home.
+ *   - El ícono de "compartir" (`shareLabel`, confirmado por clase VTEX)
+ *     se ubica junto al breadcrumb en vez de en la fila de badges de la
+ *     info — se agregó `.sp-breadcrumb-share`, visible solo en mobile.
+ *   - Se descubrió en esta captura una sección real que no estaba
+ *     maquetada todavía: **"También te puede interesar"**, un segundo
+ *     carrusel debajo de "Productos similares" (no es mobile-only, es
+ *     contenido real de la PDP completa — se agregó siempre visible,
+ *     reusando `.sp-carousel-row`).
+ *   - El resto (precio, cuotas, talles, acordeón, orden de secciones) no
+ *     cambia respecto a desktop.
+ */
+@media (max-width: 720px) {
+  .sp-pdp { grid-template-columns: 1fr; padding: 16px; gap: 20px; }
+  .sp-thumbs { display: none; }
+  .sp-gallery-dots { display: flex; position: absolute; bottom: 12px; left: 0; right: 0; justify-content: center; gap: 6px; }
+  .sp-gallery-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(0,0,0,.2); }
+  .sp-gallery-dots span.active { background: var(--sp-text); }
+  .sp-breadcrumb-share { display: block; }
+}
+
+/*
+ * Header/footer mobile — chrome global del sitio, capturado en vivo
+ * 2026-07-16 en `sporting.com.ar/` con viewport 375x812. Aplica a todas
+ * las páginas que usan `sporting.css` (mismo criterio que el resto del
+ * header/footer, que es idéntico en todo el sitio):
+ *   - El navbar de categorías (`.sp-navbar`) desaparece del flujo — sus 8
+ *     categorías viven dentro de un menú hamburguesa (confirmado: los
+ *     links de navbar existen en el DOM pero quedan fuera de pantalla,
+ *     `x` negativo, dentro de un panel lateral oculto).
+ *   - El `.sp-header-full` pasa a mostrar, de izquierda a derecha:
+ *     ícono ☰ (nuevo, `.sp-hamburger-btn`) + logo + ícono de lupa
+ *     (`.sp-search-icon-btn`, reemplaza al buscador expandido) + "Entrar"
+ *     + carrito. El buscador expandido (`.sp-searchbar`), el texto de
+ *     ubicación (`.sp-loc`) y el ícono de wishlist (♡) NO aparecen en
+ *     mobile (confirmado: sin rastro visible en la captura, colapsan al
+ *     ícono de lupa / quedan solo en el menú).
+ *   - El footer real en mobile es **solo la franja de newsletter**: las 4
+ *     columnas de links, el copyright y "Términos más buscados" no
+ *     están (confirmado: el contenedor del footer existe en el DOM pero
+ *     con 0 links y 0 imágenes adentro, solo el formulario de
+ *     newsletter). Puede ser una decisión real de UX mobile (footer más
+ *     corto) — no un fallo de carga, dado que el resto de la página sí
+ *     terminó de montar (carruseles con datos reales visibles).
+ */
+@media (max-width: 720px) {
+  .sp-navbar { display: none; }
+  .sp-header-full { padding: 14px 16px; gap: 14px; }
+  .sp-hamburger-btn { display: block; }
+  .sp-search-icon-btn { display: block; }
+  .sp-searchbar { display: none; }
+  .sp-header-actions .sp-loc { display: none; }
+  .sp-header-actions .sp-icons span:first-child { display: none; }
+  .sp-header-actions { margin-left: auto; }
+
+  .sp-footer-columns, .sp-footer-copyright { display: none; }
+}
+
+/*
+ * Home mobile — capturado en vivo 2026-07-16 (viewport 375x812)
+ * navegando `sporting.com.ar/`. Diferencias reales confirmadas:
+ *   - El slider principal sigue existiendo pero más bajo (~220px de alto
+ *     confirmado por `getBoundingClientRect`, vs 300px en desktop).
+ *   - La tira de cuotas/financiación (`.sp-promo-strip`) no cambia de
+ *     estructura — ya usa scroll horizontal (`overflow-x:auto`), así que
+ *     no necesitó ajuste.
+ *   - Secciones que en esta captura **no aparecieron en absoluto**, ni
+ *     siquiera colapsadas (confirmado por scroll incremental completo +
+ *     chequeo de que todos los `vtex-render__lazy-container` habían
+ *     montado): 🏆 Disciplinas, Elegí viendo, 🧭 Ultimas!!, ⚽ Clubes y
+ *     Selecciones de Fútbol, y la barra de beneficios. Se ocultan
+ *     siempre en mobile (independiente del toggle del panel de control,
+ *     que sigue pensado para desktop).
+ *   - Categorías, Novedades y Tienda Oficial Adidas sí están, con el
+ *     mismo patrón de carrusel/grid.
+ *   - Nota: los nombres de categoría vistos en la captura mobile
+ *     ("Zapatillas/Futbol/Running/Invierno") difirieron de los vistos en
+ *     la captura desktop original ("Calzado/Indumentaria/Accesorios/
+ *     Ofertas") — el contenido de esta sección parece rotar en vivo, no
+ *     se tomó como un cambio estructural mobile-vs-desktop y no se
+ *     modificaron los ejemplos ya maquetados.
+ */
+@media (max-width: 720px) {
+  .sp-hero-slider img { height: 220px; }
+  .mod-disciplinas, .mod-elegiviendo, .mod-ultimas, .mod-clubes, .sp-benefits-bar { display: none !important; }
+}
+
+/*
+ * Carrito (minicart) mobile — capturado en vivo 2026-07-16 agregando
+ * "Zapatillas adidas Runblaze De Hombre" al carrito desde la PDP en
+ * viewport 375x812. Es un panel deslizante (VTEX `minicart-2-x-drawer`),
+ * no una página propia: se abre automáticamente sobre un fondo oscuro al
+ * agregar un producto. Estructura real confirmada de arriba a abajo:
+ *   1. Header del panel: título "Carrito" + botón de cierre ✕.
+ *   2. Mensaje de envío gratis con ícono de camión: "Te faltan $X para
+ *      tener envío gratis." — texto plano, **no** hay barra de progreso
+ *      visual (se buscó explícitamente y no existe).
+ *   3. Línea de producto: miniatura de 90×90, nombre, talle, selector de
+ *      cantidad (stepper -/+, reusa `.sp-qty-stepper` de la PDP) y
+ *      precio — con un botón de quitar (✕ pequeño) en la esquina superior
+ *      derecha de la línea.
+ *   4. Fila de cross-sell horizontal (scroll, sin título visible arriba):
+ *      accesorios (gorras, riñoneras) con miniatura chica (~64px), precio
+ *      (a veces con descuento) y botón "Agregar al carrito" propio —
+ *      confirmado que hay bastantes más de los que entran en pantalla
+ *      (imágenes con `x` mucho más allá de los 375px de ancho real).
+ *   5. Total + botón "IR AL CHECKOUT" (ancho completo, sin sticky — es
+ *      `position:static`, parte del scroll normal del panel, no fijo).
+ *   6. Nota al pie: "Las promociones y costo de envío lo verás aplicado
+ *      en el carrito".
+ * El panel ocupa ~85% del ancho de pantalla (318.75px de 375px reales),
+ * deslizando desde la derecha — mismo patrón que el panel de filtros de
+ * `plp.html`, aunque son componentes VTEX distintos (minicart vs.
+ * search-result filter) que coinciden en esta convención de UI.
+ *
+ * Solo se maquetó la vista mobile (pedido explícito) — el carrito de
+ * desktop y el checkout completo quedan pendientes, ver NOTAS.md.
+ */
+.sp-cart-reopen-btn { position: relative; background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; padding: 0; }
+.sp-cart-reopen-btn:hover:not(:disabled):not(.ctrl-panel *) { background: none; transform: none; }
+.sp-cart-badge { position: absolute; top: -8px; right: -10px; background: var(--sp-black); color: #fff; font-size: 9.5px; font-weight: 800; min-width: 15px; height: 15px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0 3px; }
+
+.sp-cart-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 190; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+.sp-cart-backdrop.open { display: block; opacity: 1; pointer-events: auto; }
+
+/*
+ * Ancho del drawer — por defecto (desktop) es un panel angosto de ancho
+ * fijo, 415px, confirmado por `getBoundingClientRect` en vivo agregando
+ * un producto al carrito en viewport 1280px (ver corrección "Carrito
+ * desktop" más abajo). En mobile pasa a ser proporcional a la pantalla
+ * (~85%, ya confirmado antes).
+ */
+.sp-cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 415px; max-width: 415px; background: #fff; z-index: 200; overflow-y: auto; transform: translateX(100%); transition: transform .25s ease; box-shadow: -6px 0 24px rgba(0,0,0,.18); font-family: 'Poppins', sans-serif; }
+.sp-cart-drawer.open { transform: translateX(0); }
+@media (max-width: 720px) {
+  .sp-cart-drawer { width: 85%; max-width: 340px; }
+}
+.sp-cart-drawer-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--sp-line); }
+.sp-cart-drawer-header h2 { margin: 0; font-size: 17px; font-weight: 700; }
+.sp-cart-close-btn { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--sp-text); }
+.sp-cart-close-btn:hover:not(:disabled):not(.ctrl-panel *) { background: none; transform: none; }
+.sp-cart-drawer-body { padding: 16px 20px 24px; }
+
+.sp-cart-shipping-msg { font-size: 12.5px; color: var(--sp-text); background: var(--sp-bg); border-radius: 6px; padding: 10px 12px; margin-bottom: 18px; line-height: 1.4; }
+
+.sp-cart-item { position: relative; display: flex; gap: 12px; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid var(--sp-line); }
+.sp-cart-item img { width: 90px; height: 90px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+.sp-cart-item-remove { position: absolute; top: 0; right: 0; background: none; border: none; font-size: 14px; color: var(--sp-muted); cursor: pointer; padding: 4px; }
+.sp-cart-item-remove:hover:not(:disabled):not(.ctrl-panel *) { background: none; transform: none; }
+.sp-cart-item-body { flex: 1; padding-right: 20px; }
+.sp-cart-item-name { font-size: 13px; font-weight: 600; margin-bottom: 6px; line-height: 1.35; }
+.sp-cart-item-size { font-size: 11.5px; color: var(--sp-muted); margin-bottom: 12px; }
+.sp-cart-item-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.sp-cart-item-row .sp-qty-stepper button { width: 30px; height: 30px; font-size: 13px; }
+.sp-cart-item-row .sp-qty-stepper span { width: 28px; }
+.sp-cart-item-price { font-size: 14px; font-weight: 700; }
+
+.sp-cart-upsell-row { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 20px; margin-bottom: 18px; border-bottom: 1px solid var(--sp-line); }
+.sp-cart-upsell-card { flex-shrink: 0; width: 110px; }
+.sp-cart-upsell-card img { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; margin-bottom: 8px; }
+.sp-cart-upsell-name { font-size: 11px; line-height: 1.35; margin-bottom: 6px; min-height: 30px; }
+.sp-cart-upsell-price { font-size: 12.5px; font-weight: 700; margin-bottom: 8px; }
+.sp-cart-upsell-price .old { font-size: 10.5px; font-weight: 400; color: var(--sp-muted); text-decoration: line-through; margin-left: 4px; }
+.sp-cart-upsell-price .pct { font-size: 10px; font-weight: 800; color: #e0392b; margin-left: 4px; }
+.sp-cart-upsell-btn { width: 100%; background: #fff; border: 1px solid var(--sp-text); border-radius: 6px; padding: 8px 4px; font-size: 10px; font-weight: 700; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-cart-upsell-btn:hover:not(:disabled):not(.ctrl-panel *) { background: #fff; transform: none; }
+
+.sp-cart-total-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 16px; font-weight: 800; margin-bottom: 16px; }
+.sp-cart-checkout-btn { width: 100%; background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 14px; font-weight: 800; font-size: 13.5px; letter-spacing: .03em; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-cart-checkout-btn:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
+.sp-cart-footnote { font-size: 11px; color: var(--sp-muted); text-align: center; margin-top: 12px; line-height: 1.4; }
+
+/*
+ * Checkout (paso "Mi carrito") mobile — capturado en vivo 2026-07-16
+ * agregando un producto real y clickeando "Ir al checkout" desde la PDP,
+ * en viewport 375x812. El checkout de Sporting **no es la misma app**
+ * que el resto del sitio: es un módulo VTEX aparte ("checkout-v6",
+ * confirmado por el nombre del asset del logo), con su propio layout —
+ * no reutiliza el header/navbar/footer de `sporting.css`. Estructura
+ * real confirmada de arriba a abajo:
+ *   1. Header propio: fondo blanco, 68px de alto, **solo el logo
+ *      centrado** — sin buscador, sin navbar, sin íconos de wishlist ni
+ *      carrito (confirmado: esos íconos existen en el DOM pero con
+ *      `offsetParent: null`, ocultos en mobile).
+ *   2. Fondo de página gris claro (`rgb(245,245,245)`, no blanco) con
+ *      tarjetas blancas encima — confirmado por `getComputedStyle`.
+ *   3. Tarjeta "Mi carrito": línea de producto (nombre, color+talle,
+ *      precio) + link "Seguir comprando".
+ *   4. Tarjeta de totales: "Cupón de descuento" es un toggle colapsado
+ *      por default (el input+botón "Añadir" existen en el DOM pero con
+ *      `rect` en 0, se revelan al tocar) + tabla de Subtotal/Precio sin
+ *      impuestos/IVA incluido/Total + botón "FINALIZAR COMPRA" ancho
+ *      completo, verde institucional exacto (`rgb(37,182,12)` = mismo
+ *      `--sp-green` del resto del sitio, confirmado por
+ *      `getComputedStyle` — el checkout no tiene paleta propia).
+ *   5. "Completa tu compra con..." — cross-sell horizontal de
+ *      accesorios (gorras, riñoneras), varios con descuento tachado +
+ *      badge de porcentaje, reusa `.sp-cart-upsell-*` ya creado para el
+ *      minicart (mismo patrón visual, boton "Agregar al carrito" propio
+ *      por tarjeta).
+ *   6. Footer mínimo: una sola línea de copyright, sin columnas ni
+ *      newsletter — confirmado que el checkout no carga el footer del
+ *      sitio.
+ * Un banner de MODO (medio de pago) y una fila de badges de confianza
+ * (tarjeta/cambios/envíos) existen en el DOM (assets `MODO-Checkout-
+ * Mobile-large.png`, `checkout-v6-{tarjeta,cambios,envios-black}.png`)
+ * pero con `offsetParent: null` en mobile — son **desktop-only**, no se
+ * maquetaron acá.
+ *
+ * Solo se maquetó la vista mobile (pedido explícito) del primer paso
+ * del checkout ("Mi carrito"/resumen de compra) — los pasos siguientes
+ * (datos personales, envío, pago, confirmación) no se navegaron y
+ * quedan pendientes, ver NOTAS.md.
+ */
+.sp-checkout-body { margin: 0; background: #f5f5f5; font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif; color: var(--sp-text); }
+.sp-checkout-header { background: #fff; height: 68px; display: flex; align-items: center; justify-content: center; }
+.sp-checkout-content { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+.sp-checkout-card { background: #fff; border-radius: 6px; padding: 18px 16px; }
+.sp-checkout-title { font-size: 16px; font-weight: 700; margin: 0 0 14px; }
+.sp-checkout-item { padding-bottom: 14px; margin-bottom: 6px; border-bottom: 1px solid var(--sp-line); }
+.sp-checkout-item-name { font-size: 13.5px; font-weight: 600; margin-bottom: 4px; }
+.sp-checkout-item-variant { font-size: 12px; color: var(--sp-muted); margin-bottom: 8px; }
+.sp-checkout-item-price { font-size: 14px; font-weight: 700; }
+.sp-checkout-continue-link { display: inline-block; margin-top: 8px; font-size: 12.5px; color: var(--sp-green-dark); font-weight: 600; text-decoration: none; }
+
+.sp-checkout-coupon-toggle { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--sp-line); cursor: pointer; }
+.sp-checkout-coupon-toggle .chev { color: var(--sp-muted); }
+.sp-checkout-totals { margin-bottom: 16px; }
+.sp-checkout-total-row { display: flex; justify-content: space-between; font-size: 13.5px; padding: 6px 0; }
+.sp-checkout-total-row.sub { font-size: 12px; color: var(--sp-muted); }
+.sp-checkout-total-row.total { font-size: 16px; font-weight: 800; border-top: 1px solid var(--sp-line); margin-top: 6px; padding-top: 12px; }
+.sp-checkout-finalize-btn { width: 100%; background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 14px; font-weight: 800; font-size: 13.5px; letter-spacing: .03em; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-checkout-finalize-btn:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
+
+.sp-checkout-crosssell-title { font-size: 14px; font-weight: 700; margin-bottom: 14px; padding: 0 2px; }
+.sp-checkout-crosssell .sp-cart-upsell-row { border-bottom: none; padding-bottom: 4px; margin-bottom: 0; }
+
+.sp-checkout-footer { text-align: center; font-size: 11px; color: var(--sp-muted); padding: 20px 16px 28px; }

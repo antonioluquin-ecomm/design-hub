@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maqueta — Sporting (PLP: Zapatillas Hombre)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="sporting.css" />
+</head>
+<body>
+
+  <div class="sp-topline">
+    <a href="#" onclick="return false;">W WOKER</a>
+    <span class="sp-topline-center">Hasta 12 Cuotas con Macro (Miércoles y Sábados) <a href="#" onclick="return false;">Ver términos</a></span>
+    <a href="#" onclick="return false;">Segui tu pedido ⬅</a>
+  </div>
+
+  <div class="sp-header-full">
+    <button type="button" class="sp-hamburger-btn" onclick="return false;" title="Menú" aria-label="Abrir menú">☰</button>
+    <a class="sp-logo-full" href="index.html">SPORTING</a>
+    <div class="sp-searchbar">🔍 <input type="text" placeholder="Buscar..." /></div>
+    <button type="button" class="sp-search-icon-btn" onclick="return false;" title="Buscar" aria-label="Buscar">🔍</button>
+    <div class="sp-header-actions">
+      <span class="sp-loc">📍 Ingresá: Tu ubicación</span>
+      <div class="sp-icons"><a class="sp-login-link" href="#" onclick="return false;">Entrar</a><span>♡</span><span>🛒</span></div>
+    </div>
+  </div>
+
+  <div class="sp-navbar">
+    <a href="#" onclick="return false;">HOMBRE</a>
+    <a href="#" onclick="return false;">MUJER</a>
+    <a href="#" onclick="return false;">NIÑOS</a>
+    <a href="#" onclick="return false;">DEPORTES</a>
+    <a href="#" onclick="return false;">MARCAS</a>
+    <a href="#" class="offers" onclick="return false;">OFERTAS</a>
+    <a href="#" class="novedades" onclick="return false;">NOVEDADES</a>
+    <div class="sp-navbar-badges">
+      <a href="#" class="sp-navbar-badge" onclick="return false;" title="Adidas Seller">ADIDAS</a>
+      <a href="#" class="sp-navbar-badge" onclick="return false;" title="Botón de evento (campaña estacional, ver NOTAS.md)">EVENTO</a>
+    </div>
+  </div>
+
+  <div class="sp-breadcrumb">
+    <a href="index.html" onclick="return false;">Inicio</a>
+    <span class="sep">›</span><a href="#" onclick="return false;">SPORTING</a>
+    <span class="sep">›</span><a href="#" onclick="return false;">CALZADO</a>
+    <span class="sep">›</span><a href="#" onclick="return false;">ZAPATILLAS</a>
+    <span class="sep">›</span><a href="#" onclick="return false;">HOMBRE</a>
+  </div>
+
+  <div class="sp-filter-backdrop" id="filterBackdrop"></div>
+
+  <div class="sp-plp-layout">
+
+    <aside id="filtersDrawer">
+      <div class="sp-filters-title">Filtros <button class="sp-filter-drawer-close" id="closeFiltersBtn" type="button" title="Cerrar filtros">✕</button></div>
+
+      <div class="sp-filter-chips">
+        <span class="sp-filter-chip">Calzado (881) <span class="x">✕</span></span>
+        <span class="sp-filter-chip">Zapatillas (881) <span class="x">✕</span></span>
+      </div>
+
+      <div class="sp-filter-group open">
+        <div class="sp-filter-group-title">Vendido por <span class="chev">▾</span></div>
+        <div class="sp-filter-options">
+          <label class="sp-filter-option"><input type="checkbox" /> Adidas <span class="count">(443)</span></label>
+          <label class="sp-filter-option"><input type="checkbox" /> Sporting <span class="count">(438)</span></label>
+        </div>
+      </div>
+
+      <div class="sp-filter-group open">
+        <div class="sp-filter-group-title">Categoría <span class="chev">▾</span></div>
+        <div class="sp-filter-options">
+          <label class="sp-filter-option"><input type="checkbox" checked /> Calzado <span class="count">(881)</span></label>
+        </div>
+      </div>
+
+      <div class="sp-filter-group open">
+        <div class="sp-filter-group-title">Tipo de producto <span class="chev">▾</span></div>
+        <div class="sp-filter-options">
+          <label class="sp-filter-option"><input type="checkbox" checked /> Zapatillas <span class="count">(881)</span></label>
+          <label class="sp-filter-option"><input type="checkbox" /> Botines <span class="count">(227)</span></label>
+          <label class="sp-filter-option"><input type="checkbox" /> Ojotas y Chinelas <span class="count">(32)</span></label>
+          <label class="sp-filter-option"><input type="checkbox" /> Zapatos <span class="count">(7)</span></label>
+        </div>
+      </div>
+
+      <div class="sp-filter-group">
+        <div class="sp-filter-group-title">Sub Tipo <span class="chev">▾</span></div>
+        <div class="sp-filter-options"></div>
+      </div>
+      <div class="sp-filter-group">
+        <div class="sp-filter-group-title">Talle <span class="chev">▾</span></div>
+        <div class="sp-filter-options"></div>
+      </div>
+      <div class="sp-filter-group">
+        <div class="sp-filter-group-title">Marca <span class="chev">▾</span></div>
+        <div class="sp-filter-options"></div>
+      </div>
+      <div class="sp-filter-group">
+        <div class="sp-filter-group-title">Disciplina <span class="chev">▾</span></div>
+        <div class="sp-filter-options"></div>
+      </div>
+      <div class="sp-filter-group">
+        <div class="sp-filter-group-title">Ofertas <span class="chev">▾</span></div>
+        <div class="sp-filter-options"></div>
+      </div>
+      <div class="sp-filter-group">
+        <div class="sp-filter-group-title">Colores <span class="chev">▾</span></div>
+        <div class="sp-filter-options"></div>
+      </div>
+      <div class="sp-filter-group">
+        <div class="sp-filter-group-title">Clubes <span class="chev">▾</span></div>
+        <div class="sp-filter-options"></div>
+      </div>
+
+      <div class="sp-filter-group open">
+        <div class="sp-filter-group-title">Rangos de precio <span class="chev">▾</span></div>
+        <div class="sp-filter-options">
+          <div class="sp-price-range">
+            <input type="text" placeholder="$" />
+            <input type="text" placeholder="$" />
+            <button class="sp-price-search-btn" onclick="return false;">BUSCAR</button>
+          </div>
+          <div class="sp-price-range-label">$ 43.999 – $ 714.999</div>
+        </div>
+      </div>
+
+      <div class="sp-filter-drawer-footer">
+        <div class="sp-filter-drawer-buttons">
+          <button class="sp-filter-clear-btn" type="button" onclick="return false;">LIMPIAR</button>
+          <button class="sp-filter-apply-btn" type="button" id="applyFiltersBtn">APLICAR</button>
+        </div>
+        <div class="sp-filter-drawer-count">881 productos</div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="sp-plp-mobile-bar">
+        <button type="button" onclick="return false;">Ordenar Por <b>Relevancia</b></button>
+        <button type="button" id="openFiltersBtn">Filtrar</button>
+      </div>
+
+      <div class="sp-results-bar">
+        <div class="sp-results-count">881 productos</div>
+        <div class="sp-sort-select">Ordenar Por Relevancia <span class="chev">▾</span></div>
+      </div>
+
+      <div class="sp-plp-grid">
+        <div class="sp-product-card">
+          <div class="sp-product-media">
+            <img src="https://placehold.co/300x300/e8e8e8/999?text=Runblaze" />
+            <button class="sp-plp-card-nav left" onclick="return false;">‹</button>
+            <button class="sp-plp-card-nav right" onclick="return false;">›</button>
+            <div class="sp-plp-card-dots"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas adidas Runblaze De Hombre</div>
+            <div class="sp-product-price">$89.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $14.999</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+
+        <div class="sp-product-card">
+          <div class="sp-product-media">
+            <img src="https://placehold.co/300x300/e8e8e8/999?text=Response+Runner+2" />
+            <button class="sp-plp-card-nav left" onclick="return false;">‹</button>
+            <button class="sp-plp-card-nav right" onclick="return false;">›</button>
+            <div class="sp-plp-card-dots"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas adidas Response Runner 2 Unisex</div>
+            <div class="sp-product-price">$99.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $16.666</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+
+        <div class="sp-product-card">
+          <div class="sp-product-media">
+            <img src="https://placehold.co/300x300/e8e8e8/999?text=Runblaze+M" />
+            <button class="sp-plp-card-nav left" onclick="return false;">‹</button>
+            <button class="sp-plp-card-nav right" onclick="return false;">›</button>
+            <div class="sp-plp-card-dots"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas adidas Runblaze M De Hombre</div>
+            <div class="sp-product-price">$89.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $14.999</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+
+        <div class="sp-product-card">
+          <div class="sp-product-media">
+            <img src="https://placehold.co/300x300/e8e8e8/999?text=Duramo+RC+2" />
+            <button class="sp-plp-card-nav left" onclick="return false;">‹</button>
+            <button class="sp-plp-card-nav right" onclick="return false;">›</button>
+            <div class="sp-plp-card-dots"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas adidas Duramo RC 2 De Hombre</div>
+            <div class="sp-product-price">$99.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $16.666</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+
+        <div class="sp-product-card">
+          <div class="sp-product-media">
+            <img src="https://placehold.co/300x300/e8e8e8/999?text=Flyer+Lite+3" />
+            <button class="sp-plp-card-nav left" onclick="return false;">‹</button>
+            <button class="sp-plp-card-nav right" onclick="return false;">›</button>
+            <div class="sp-plp-card-dots"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas Puma Flyer Lite 3 De Hombre</div>
+            <div class="sp-product-price">$84.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $14.166</div>
+            <span class="sp-coupon-tag">PUMAON</span>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+
+        <div class="sp-product-card">
+          <div class="sp-product-media">
+            <img src="https://placehold.co/300x300/e8e8e8/999?text=Grand+Court+Alpha" />
+            <button class="sp-plp-card-nav left" onclick="return false;">‹</button>
+            <button class="sp-plp-card-nav right" onclick="return false;">›</button>
+            <div class="sp-plp-card-dots"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas adidas Grand Court Alpha De Hombre</div>
+            <div class="sp-product-price">$129.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $21.666</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+
+        <div class="sp-product-card">
+          <div class="sp-product-media">
+            <img src="https://placehold.co/300x300/e8e8e8/999?text=Dasher+Lite" />
+            <button class="sp-plp-card-nav left" onclick="return false;">‹</button>
+            <button class="sp-plp-card-nav right" onclick="return false;">›</button>
+            <div class="sp-plp-card-dots"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas Puma Dasher Lite De Hombre</div>
+            <div class="sp-product-price">$94.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $15.833</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+
+        <div class="sp-product-card">
+          <div class="sp-product-media"><span class="sp-product-brand">⚫</span>
+            <img src="https://placehold.co/300x300/e8e8e8/999?text=Response+2" />
+            <button class="sp-plp-card-nav left" onclick="return false;">‹</button>
+            <button class="sp-plp-card-nav right" onclick="return false;">›</button>
+            <div class="sp-plp-card-dots"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="sp-product-body">
+            <div class="sp-product-name">Zapatillas adidas de running RESPONSE 2 Hombre</div>
+            <div class="sp-product-price">$139.999</div>
+            <div class="sp-product-cuotas">Hasta 6 cuotas sin interés de $23.333</div>
+            <div class="sp-product-envio">Tienda adidas</div>
+            <button class="sp-btn-select">Seleccionar talle</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sp-load-more-row">
+        <div class="sp-load-more-count">Mostrando 24 de 881</div>
+        <button class="sp-load-more-btn" onclick="return false;">MOSTRAR MÁS</button>
+      </div>
+    </main>
+
+  </div>
+
+  <div class="sp-benefits-bar">
+    <div>
+      <div class="title">ENVÍOS A TODO EL PAÍS</div>
+      <div class="desc">Gratis desde $149.990</div>
+      <a href="#" onclick="return false;">Mas información</a>
+    </div>
+    <div>
+      <div class="title">CUOTAS Y FORMAS DE PAGO</div>
+      <div class="desc">Hasta 6 cuotas sin interés*</div>
+      <a href="#" onclick="return false;">*Mas información</a>
+    </div>
+    <div>
+      <div class="title">CAMBIOS Y DEVOLUCIONES</div>
+      <div class="desc">Primer cambio gratis</div>
+      <a href="#" onclick="return false;">Mas información</a>
+    </div>
+  </div>
+
+  <div class="sp-footer">
+    <div class="sp-footer-newsletter">
+      <div class="sp-newsletter-title">Suscribite a nuestro newsletter</div>
+      <div class="sp-newsletter-form">
+        <label class="sp-newsletter-field">
+          <span>Email</span>
+          <input type="text" placeholder="Ingresá tu email" />
+        </label>
+        <button class="sp-newsletter-btn" onclick="return false;">Enviar</button>
+      </div>
+      <label class="sp-newsletter-checkbox"><input type="checkbox" checked /> Quiero recibir el newsletter con promociones.</label>
+    </div>
+    <div class="sp-footer-columns">
+      <div>
+        <h4>Nosotros</h4>
+        <a href="#" onclick="return false;">Acerca de Nosotros</a>
+        <a href="#" onclick="return false;">Sucursales</a>
+        <a href="#" onclick="return false;">Contacto</a>
+        <a href="#" onclick="return false;">Trabaja con Nosotros</a>
+        <a href="#" onclick="return false;">Términos y Condiciones</a>
+      </div>
+      <div>
+        <h4>Información</h4>
+        <a href="#" onclick="return false;">Como comprar</a>
+        <a href="#" onclick="return false;">Medios de pago</a>
+        <a href="#" onclick="return false;">Preguntas frecuentes</a>
+        <a href="#" onclick="return false;">Guía de Talles</a>
+        <a href="#" onclick="return false;">Politicas de envio</a>
+        <a href="#" onclick="return false;">Politicas de privacidad</a>
+        <a href="#" onclick="return false;">Politicas de cambio y devolución</a>
+        <a href="#" onclick="return false;">Defensa del Consumidor</a>
+        <a href="#" onclick="return false;">Blog Informativo</a>
+        <a href="#" onclick="return false;">Mapa del Sitio</a>
+      </div>
+      <div>
+        <h4>Ayuda</h4>
+        <span>WP: Lu a Vi 8 a 17 | Sa 9 a 13</span>
+        <span>Tel: 0800-777-6789</span>
+        <a href="#" onclick="return false;">Cambios y devoluciones</a>
+        <a href="#" onclick="return false;">Botón de Arrepentimiento</a>
+        <a href="#" onclick="return false;">Gestión de Pedidos</a>
+        <a href="#" onclick="return false;">Compra segura</a>
+        <a href="#" onclick="return false;">Sugerencias y reclamos</a>
+      </div>
+      <div>
+        <h4>Seguinos</h4>
+        <a href="#" onclick="return false;">Instagram</a>
+        <a href="#" onclick="return false;">Facebook</a>
+        <a href="#" onclick="return false;">Youtube</a>
+        <a href="#" onclick="return false;">Twitter</a>
+      </div>
+    </div>
+    <div class="sp-footer-copyright">Sporting © | Todos los derechos reservados.</div>
+  </div>
+
+<script>
+  // Accordeón de filtros: prende/apaga la clase "open" al clickear el título de cada grupo.
+  document.querySelectorAll('.sp-filter-group-title').forEach(title => {
+    title.addEventListener('click', () => {
+      title.parentElement.classList.toggle('open');
+    });
+  });
+
+  // Drawer de filtros en mobile: el botón "Filtrar" abre un panel deslizante
+  // desde la derecha (confirmado por captura real en viewport 375px), que se
+  // cierra con la ✕, el botón "Aplicar" o tocando el fondo oscuro.
+  const drawer = document.getElementById('filtersDrawer');
+  const backdrop = document.getElementById('filterBackdrop');
+
+  function openDrawer() {
+    drawer.classList.add('open');
+    backdrop.classList.add('open');
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    backdrop.classList.remove('open');
+  }
+
+  document.getElementById('openFiltersBtn').addEventListener('click', openDrawer);
+  document.getElementById('closeFiltersBtn').addEventListener('click', closeDrawer);
+  document.getElementById('applyFiltersBtn').addEventListener('click', closeDrawer);
+  backdrop.addEventListener('click', closeDrawer);
+</script>
+</body>
+</html>
