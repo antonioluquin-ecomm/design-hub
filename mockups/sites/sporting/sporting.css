@@ -43,24 +43,31 @@ button:focus-visible:not(.ctrl-panel *) { outline: 2px solid var(--sp-green); ou
 button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 
 /*
- * Slider principal — corregido 2026-07-16: SÍ existe (se había pasado
- * por alto en la primera pasada, que buscaba texto en el DOM y este
- * slider es puro gráfico/imagen sin alt). Confirmado por screenshot:
- * banner a todo el ancho, ~300px alto, 11 slides con flechas prev/next
- * y paginación por puntos. El contenido real es gráfico (promos con
- * texto incrustado en la imagen) — se representa con placeholders.
- * No es el hero con cupón/descuento que tenía la maqueta original
- * (ese sí era inventado, no existe un hero de ese tipo).
+ * Slider principal — medido en vivo 2026-07-16 con getBoundingClientRect
+ * (la primera pasada solo estimaba a ojo por screenshot). Contenido real
+ * es gráfico (promos con texto incrustado en la imagen) — se representa
+ * con placeholders. No es el hero con cupón/descuento que tenía la
+ * maqueta original (ese sí era inventado).
+ *
+ * Correcciones de esta medición:
+ *  - Las flechas van SUPERPUESTAS en la imagen (eso sí estaba bien) pero
+ *    son rectángulos redondeados negro semitransparente (radius 8px,
+ *    ~31x35, bg rgba(0,0,0,.6)) — no círculos blancos.
+ *  - Los puntos de paginación NO van superpuestos en la imagen: van en
+ *    una fila aparte DEBAJO (margin-top ~10px), gris claro los inactivos
+ *    (#cacbcc) y gris oscuro casi negro el activo (#333), 10px cada uno,
+ *    gap 18px — nada de blanco ni overlay.
  */
-.sp-hero-slider { position: relative; }
-.sp-hero-slider img { width: 100%; height: 300px; object-fit: cover; display: block; }
-.sp-hero-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.9); border: none; cursor: pointer; font-size: 16px; z-index: 2; }
-.sp-hero-arrow.left { left: 16px; }
-.sp-hero-arrow.right { right: 16px; }
-.sp-hero-arrow:hover:not(:disabled):not(.ctrl-panel *) { background: rgba(255,255,255,.9); transform: translateY(-50%); }
-.sp-hero-dots { position: absolute; bottom: 14px; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; }
-.sp-hero-dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.5); }
-.sp-hero-dots span.active { background: #fff; }
+.sp-hero-slider { padding-bottom: 16px; }
+.sp-hero-slider img { width: 100%; height: 296px; object-fit: cover; display: block; }
+.sp-hero-slider-frame { position: relative; }
+.sp-hero-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 31px; height: 35px; border-radius: 8px; background: rgba(0,0,0,.6); border: none; cursor: pointer; font-size: 14px; color: #fff; z-index: 2; }
+.sp-hero-arrow.left { left: 10px; }
+.sp-hero-arrow.right { right: 10px; }
+.sp-hero-arrow:hover:not(:disabled):not(.ctrl-panel *) { background: rgba(0,0,0,.6); transform: translateY(-50%); }
+.sp-hero-dots { display: flex; justify-content: center; align-items: center; gap: 18px; margin-top: 10px; }
+.sp-hero-dots span { width: 10px; height: 10px; border-radius: 50%; background: #cacbcc; }
+.sp-hero-dots span.active { background: #333; }
 
 /*
  * Tira de cuotas/financiación — carrusel de tarjetas de bancos con
@@ -139,19 +146,37 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-btn-select:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
 
 /* Header completo (PDP / listados) — más rico que el header simplificado de home */
-.sp-topline { background: var(--sp-black); color: rgba(255,255,255,.8); display: flex; align-items: center; justify-content: space-between; padding: 8px 28px; font-size: 12px; }
+/*
+ * Topline — corregido 2026-07-16: sin padding horizontal (confirmado
+ * por getBoundingClientRect: el logo W WOKER queda en left:0 y "Segui
+ * tu pedido" en right:edge de la franja, ambos pegados al borde de la
+ * ventana, no a 28px como se había asumido). Alto real ~37px.
+ */
+.sp-topline { background: var(--sp-black); color: rgba(255,255,255,.8); display: flex; align-items: center; justify-content: space-between; padding: 10px 0; font-size: 12px; }
+.sp-topline > a:first-child { padding-left: 10px; }
+.sp-topline > a:last-child { padding-right: 10px; font-weight: 600; }
 .sp-topline a { color: #fff; text-decoration: none; }
-.sp-topline .sp-topline-center a { text-decoration: underline; color: #fff; }
+.sp-topline .sp-topline-center { font-weight: 700; }
+.sp-topline .sp-topline-center a { text-decoration: underline; color: #fff; font-weight: 400; }
 
-/* Header-full — corregido 2026-07-16: es verde (--sp-green), no blanco (confirmado por screenshot). */
-.sp-header-full { background: var(--sp-green); display: flex; align-items: center; gap: 24px; padding: 16px 28px; }
-.sp-header-full .sp-logo-full { font-size: 22px; font-weight: 800; letter-spacing: .03em; color: #fff; text-decoration: none; flex-shrink: 0; }
-.sp-searchbar { flex: 1; display: flex; align-items: center; background: #fff; border-radius: 24px; padding: 8px 16px; gap: 8px; color: var(--sp-muted); }
+/*
+ * Header-full — verde (--sp-green) confirmado por screenshot. Medidas
+ * de esta corrección tomadas con getBoundingClientRect en vivo
+ * (viewport 1280px): logo left:32/w150, buscador left:285/w552/h44
+ * radius:6px (rectángulo redondeado, NO píldora), gap logo→buscador
+ * 103px, buscador→ubicación 66px, ubicación→Entrar 64px, Entrar
+ * pegado al ícono de wishlist (gap 0), wishlist→carrito 10px. Padding
+ * horizontal de la fila ~32px (no 28).
+ */
+.sp-header-full { background: var(--sp-green); display: flex; align-items: center; padding: 14px 32px; }
+.sp-header-full .sp-logo-full { width: 150px; font-size: 22px; font-weight: 800; letter-spacing: .03em; color: #fff; text-decoration: none; flex-shrink: 0; margin-right: 103px; }
+.sp-searchbar { flex: 1; max-width: 552px; display: flex; align-items: center; background: #fff; border-radius: 6px; padding: 10px 16px; gap: 8px; color: var(--sp-muted); margin-right: 66px; }
 .sp-searchbar input { border: none; outline: none; flex: 1; font-family: 'Poppins', sans-serif; font-size: 13.5px; }
-.sp-header-actions { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
-.sp-header-actions .sp-loc { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: #fff; }
-.sp-header-actions .sp-icons { display: flex; gap: 16px; align-items: center; font-size: 18px; color: #fff; }
-.sp-header-actions .sp-login-link { display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: #fff; text-decoration: none; }
+.sp-header-actions { display: flex; align-items: center; gap: 0; flex-shrink: 0; margin-left: auto; }
+.sp-header-actions .sp-loc { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: #fff; margin-right: 64px; }
+.sp-header-actions .sp-icons { display: flex; align-items: center; font-size: 18px; color: #fff; gap: 0; }
+.sp-header-actions .sp-icons > span:first-of-type { margin-right: 10px; }
+.sp-header-actions .sp-login-link { display: flex; align-items: center; font-size: 13px; font-weight: 500; color: #979899; text-decoration: none; padding: 0 10px; }
 
 /*
  * Navbar de categorías — capturado en vivo el 2026-07-16: 8 categorías
@@ -159,8 +184,19 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
  * Seller), peso normal salvo OFERTAS (rojo, bold) y Novedades (verde,
  * bold) que son las únicas destacadas con color. Sin iconos al final —
  * eso era inventado en la primera versión de la maqueta.
+ *
+ * Medido en vivo 2026-07-16: gap real entre TODOS los items (incluidos
+ * los 2 badges finales) es de 32px parejo, font-size 14px (no 13),
+ * alto de fila ~46px. El sitio real centra la lista con
+ * `justify-content:center`, pero el centrado queda pisado por varios
+ * links ocultos del mega-menú (ancho 0 pero cuentan para el cálculo),
+ * lo que corre visualmente el bloque bastante a la izquierda de forma
+ * que no se puede reproducir limpio sin arrastrar ese mismo ruido —
+ * se optó por alinear a la izquierda con el mismo padding de 32px que
+ * el resto del header, más prolijo y consistente que imitar el
+ * corrimiento accidental.
  */
-.sp-navbar { display: flex; align-items: center; gap: 26px; padding: 0 28px; border-bottom: 1px solid var(--sp-line); font-size: 13px; font-weight: 400; }
+.sp-navbar { display: flex; align-items: center; gap: 32px; padding: 0 32px; border-bottom: 1px solid var(--sp-line); font-size: 14px; font-weight: 400; }
 .sp-navbar a { color: var(--sp-text); text-decoration: none; padding: 12px 0; display: inline-block; }
 .sp-navbar a.offers { color: #ff0033; font-weight: 700; }
 .sp-navbar a.novedades { color: var(--sp-green); font-weight: 700; }
@@ -172,7 +208,7 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
  * badges de texto compactos con la misma posición/tamaño.
  */
 .sp-navbar .sp-navbar-badge { margin-left: 4px; padding: 4px 10px; border-radius: 4px; background: var(--sp-bg); border: 1px solid var(--sp-line); font-size: 10.5px; font-weight: 700; letter-spacing: .02em; }
-.sp-navbar .sp-navbar-badges { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.sp-navbar .sp-navbar-badges { display: flex; gap: 32px; align-items: center; }
 
 .sp-breadcrumb { padding: 12px 28px; font-size: 12px; color: var(--sp-muted); }
 .sp-breadcrumb a { color: var(--sp-muted); text-decoration: none; }

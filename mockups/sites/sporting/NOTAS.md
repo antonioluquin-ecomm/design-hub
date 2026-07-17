@@ -6,6 +6,33 @@ Kickoff hecho 2026-07-16. Fuente: `https://www.sporting.com.ar/` navegado en viv
 
 Identidad propia capturada con `getComputedStyle` y lectura de DOM: verde institucional `#25b60c`, negro `#111111` (announcement bar), tipografía **Poppins**. Estilos en `sporting.css` — separados del design system interno, mismo criterio que `marketplace-portal/public` (no alinear al azul institucional sin confirmar).
 
+### Revisión módulo por módulo 2026-07-16 — en curso
+
+A pedido del usuario, se está revisando la home módulo por módulo contra el sitio real (no solo "a ojo", sino con `getBoundingClientRect`/`getComputedStyle` en vivo) para llegar a fidelidad exacta, no aproximada. Se va dejando registro acá por módulo a medida que se confirma.
+
+**Topline (barra negra superior) — confirmado:**
+- Sin padding horizontal: el logo W WOKER queda en `left:0` y "Segui tu pedido" en el borde derecho exacto de la franja (`right` = ancho total), no a 28px del borde como tenía la maqueta. Se dejó un padding chico (10px) a cada punta como aproximación razonable ya que el logo real es una imagen (con margen interno propio que no podemos medir) y acá se representa como texto.
+- Alto real de la franja: ~37px.
+- El mensaje promocional central es **bold** (700), el link "Ver términos" dentro es weight 400 subrayado.
+- "Segui tu pedido ⬅" es weight 600, **sin** subrayado (no es un link subrayado como el resto).
+
+**Header-full (fila verde) — confirmado:**
+- Padding horizontal real ~32px (no 28), alto ~72px.
+- Logo: `left:32, width:150`. Buscador: `left:285, width:552, height:44, border-radius:6px` (rectángulo redondeado, **no** píldora — la maqueta tenía `border-radius:24px`, mal).
+- Gaps medidos: logo→buscador 103px, buscador→ubicación 66px, ubicación→"Entrar" 64px, "Entrar"→ícono wishlist 0px (pegados), wishlist→carrito 10px.
+- **"Entrar" es gris** (`rgb(151,152,153)` / `#979899`), no blanco como tenía la maqueta — llamativo tratándose de texto sobre fondo verde, pero así está confirmado por `getComputedStyle`.
+- Se fijó el logo a `width:150px` (en vez de auto por el texto "SPORTING") para que los gaps posteriores anclen en la posición absoluta real — con eso el buscador cae exactamente en `left:285` como el sitio real. La posición de ubicación/Entrar/iconos queda ~13-17px corrida por la diferencia de ancho entre nuestro texto de ubicación y el real (166px vs ~147px), diferencia menor que no vale la pena perseguir pixel a pixel.
+
+**Navbar (fila blanca de categorías) — confirmado:**
+- Gap real entre **todos** los items (las 8 categorías + los 2 badges finales) es parejo: 32px (no 26). Font-size 14px (no 13), alto de fila 46px — coincide exacto en la maqueta ahora.
+- El sitio real usa `justify-content:center` en la lista, pero el "centrado" queda roto por varios links del mega-menú con ancho 0 que igual cuentan para el cálculo — el resultado visual real es un bloque compacto corrido bien a la izquierda (las categorías arrancan en `x:145` de un contenedor de 1265px, y el último badge termina en `x:960`, dejando ~305px vacíos a la derecha; no está centrado a pesar del CSS). Se decidió alinear todo a la izquierda con el mismo padding de 32px que el resto del header en vez de imitar ese corrimiento accidental — da un resultado más prolijo y consistente, y el efecto visual (bloque compacto, no estirado a los bordes) es el mismo.
+- Corregido un bug propio: los 2 badges finales (`ADIDAS`/`EVENTO`) tenían `margin-left:auto`, que los empujaba al borde derecho de la fila — el real los tiene pegados al resto de la lista (mismo gap de 32px después de Novedades), no separados al extremo opuesto.
+
+**Slider principal — confirmado, con 2 correcciones importantes de diseño:**
+- Las flechas van superpuestas en la imagen (eso ya estaba bien), pero son **rectángulos redondeados negro semitransparente** (`rgba(0,0,0,.6)`, radius 8px, ~31x35px) — la maqueta tenía círculos blancos, mal.
+- Los **puntos de paginación NO van superpuestos en la imagen** — van en una fila aparte **debajo**, separados por `margin-top` (~10px). Son grises claro (`#cacbcc`) los inactivos y gris oscuro casi negro (`#333`) el activo, 10px cada uno, gap 18px. La maqueta los tenía overlay blancos sobre la imagen, mal en posición y en color.
+- Imagen: `1265x296px`, sin bordes redondeados.
+
 ### Corrección 2026-07-16 — Footer real (v1, INCOMPLETA — ver v2 abajo)
 
 El footer original de la maqueta (barra "Envío gratis" + 3 columnas de links Ayuda/Sporting/Seguinos + copyright) era una **estructura genérica inventada**, nunca confirmada contra el sitio real (quedaba anotado en "Pendiente"). Se navegó en vivo `https://www.sporting.com.ar/zapatillas-adidas-runblaze-de-hombre-6ih6705-000/p` y se leyó el footer con `getComputedStyle`, concluyendo (mal, ver corrección de abajo) que el footer eran solo dos franjas sin columnas ni copyright.
