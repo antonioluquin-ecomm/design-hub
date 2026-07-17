@@ -95,28 +95,71 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-section-title { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; margin: 0 0 18px; }
 .sp-section-title .badge { background: var(--sp-green); color: #fff; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 2px 6px; letter-spacing: .04em; }
 
-/* Carrusel de productos — captado como slider real (Previous/Next + paginación),
-   acá se representa como fila con flechas decorativas + puntos, sin lógica de
-   slide real (alcanza para maquetación). */
-.sp-carousel-row { display: flex; align-items: center; gap: 12px; }
-.sp-carousel-arrow { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--sp-line); background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; }
-.sp-carousel-arrow:hover:not(:disabled):not(.ctrl-panel *) { background: #fff; transform: none; }
-.sp-carousel-track { display: flex; gap: 16px; overflow-x: auto; flex: 1; }
+/*
+ * Carrusel de productos (Novedades / Tienda Oficial Adidas / Ultimas!!)
+ * — medido en vivo 2026-07-16 sobre "🆕 Novedades". Es un slick-carousel
+ * real. Confirmado por getComputedStyle:
+ *  - La flecha NO es un botón con círculo/borde (así la teníamos) — es
+ *    un caret fino sin fondo, sin borde, ícono ~15x25 color `#111`
+ *    (`--sp-black`), apoyado en el borde de la fila (14px de inset),
+ *    sin overlay sobre ninguna imagen (a diferencia de las del slider
+ *    principal, que sí llevan círculo oscuro por estar sobre foto).
+ *  - Tarjeta de producto 243px de ancho (bastante más angosta que la
+ *    de Novedades/PLP que se venía usando, ~220-300px según sección;
+ *    se deja el ancho actual de `.sp-product-card` vía `min-width` en
+ *    `.sp-carousel-track` para no romper el resto de las tarjetas ya
+ *    ajustadas, dado que 243px puntual no aporta fidelidad relevante).
+ *  - El espaciado real entre tarjetas visibles parece un artefacto de
+ *    breakpoint del slick del sitio real (huecos de ~380px entre
+ *    tarjeta y tarjeta) — no se reproduce, se usa un gap prolijo
+ *    estándar en su lugar.
+ *  - Esta fila de carrusel NO tiene paginación por puntos (a diferencia
+ *    del slider principal) — se saca `.sp-carousel-dots` de estas 3
+ *    secciones.
+ */
+.sp-carousel-row { position: relative; display: flex; align-items: center; }
+.sp-carousel-arrow { flex-shrink: 0; width: 22px; height: 44px; background: none; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; color: var(--sp-black); }
+.sp-carousel-arrow:hover:not(:disabled):not(.ctrl-panel *) { background: none; transform: none; }
+.sp-carousel-track { display: flex; gap: 16px; overflow-x: auto; flex: 1; margin: 0 6px; }
 .sp-carousel-track .sp-product-card { min-width: 220px; flex-shrink: 0; }
-.sp-carousel-dots { display: flex; justify-content: center; gap: 6px; margin-top: 14px; }
-.sp-carousel-dots span { width: 6px; height: 6px; border-radius: 50%; background: var(--sp-line); }
-.sp-carousel-dots span:first-child { background: var(--sp-green); }
 
-/* "Elegí viendo" — banners de 4 categorías con CTA, sin precio/producto */
-.sp-banner-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.sp-banner-card { position: relative; border-radius: 8px; overflow: hidden; }
-.sp-banner-card img { width: 100%; height: 180px; object-fit: cover; display: block; }
-.sp-banner-card .cta { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px; text-align: center; }
-.sp-banner-card .cta button { width: 100%; background: #fff; color: var(--sp-text); border: none; border-radius: 4px; padding: 9px; font-weight: 700; font-size: 11.5px; letter-spacing: .03em; cursor: pointer; font-family: 'Poppins', sans-serif; }
-.sp-banner-card .cta button:hover:not(:disabled):not(.ctrl-panel *) { background: #fff; transform: none; }
+/*
+ * "Elegí viendo" — corregido por captura del usuario: NO son banners de
+ * categoría con CTA (así estaba maquetada) — es un **carrusel de video
+ * estilo Reels**: tarjetas verticales con miniatura de video, avatar +
+ * nombre de cuenta arriba, botón de play grande centrado, botón píldora
+ * "VER PRODUCTOS" abajo a la izquierda y marca de agua "S" abajo a la
+ * derecha. Flechas de carrusel oscuras semitransparentes (mismo estilo
+ * que el slider principal, por estar sobre foto) y paginación por
+ * puntos verde/gris (14 puntos en la captura del usuario).
+ */
+.sp-video-card { position: relative; width: 296px; flex-shrink: 0; border-radius: 8px; overflow: hidden; aspect-ratio: 3 / 4; background: #000; }
+.sp-video-card img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .92; }
+.sp-video-card .vc-top { position: absolute; top: 12px; left: 12px; right: 40px; display: flex; align-items: center; gap: 8px; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+.sp-video-card .vc-avatar { width: 26px; height: 26px; border-radius: 50%; background: #fff; color: var(--sp-text); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; flex-shrink: 0; }
+.sp-video-card .vc-meta { font-size: 12px; line-height: 1.3; }
+.sp-video-card .vc-caption { font-weight: 700; }
+.sp-video-card .vc-account { font-size: 11px; opacity: .85; }
+.sp-video-card .vc-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 56px; height: 40px; background: #e0392b; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; }
+.sp-video-card .vc-cta { position: absolute; bottom: 14px; left: 14px; background: var(--sp-green); color: #fff; border-radius: 20px; padding: 7px 14px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; }
+.sp-video-card .vc-watermark { position: absolute; bottom: 8px; right: 12px; color: rgba(255,255,255,.55); font-weight: 800; font-size: 20px; }
+
+.sp-video-dots { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 16px; }
+.sp-video-dots span { width: 8px; height: 8px; border-radius: 50%; background: #cacbcc; }
+.sp-video-dots span.active { background: var(--sp-green); }
+
+/*
+ * "Clubes y Selecciones de Fútbol" — corregido por captura del usuario:
+ * NO son tarjetas de producto (así estaba maquetada) — es una simple
+ * tira de logos/escudos circulares sin precio ni botón, con flechas de
+ * carrusel a los costados.
+ */
+.sp-club-logo { flex-shrink: 0; width: 90px; height: 90px; border-radius: 50%; background: var(--sp-bg); border: 1px solid var(--sp-line); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.sp-club-logo img { width: 100%; height: 100%; object-fit: cover; }
 
 /* Barra de beneficios — última sección de la home antes del footer real */
 .sp-benefits-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 28px; border-top: 1px solid var(--sp-line); text-align: center; }
+.sp-benefits-bar .icon { width: 44px; height: 44px; border-radius: 50%; background: var(--sp-bg); display: flex; align-items: center; justify-content: center; font-size: 18px; margin: 0 auto 10px; }
 .sp-benefits-bar .title { font-size: 12.5px; font-weight: 700; letter-spacing: .03em; margin-bottom: 4px; }
 .sp-benefits-bar .desc { font-size: 12px; color: var(--sp-muted); margin-bottom: 6px; }
 .sp-benefits-bar a { font-size: 11.5px; color: var(--sp-green-dark); text-decoration: none; font-weight: 600; }
@@ -139,10 +182,19 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-btn-outline:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
 
 /* Discipline card */
-.sp-disc-card { border-radius: 8px; overflow: hidden; background: var(--sp-bg); }
-.sp-disc-card .sp-disc-label { font-weight: 700; font-size: 12px; letter-spacing: .05em; padding: 10px 14px 0; }
-.sp-disc-card img { width: 100%; height: 150px; object-fit: cover; display: block; margin-top: 8px; }
-.sp-disc-links { padding: 12px 14px; font-size: 13px; display: flex; flex-direction: column; gap: 6px; color: var(--sp-text); }
+/*
+ * Disciplinas — corregido con captura del usuario (el scraping en vivo
+ * no la estaba renderizando esta sesión): ES un carrusel (flechas +
+ * puntos de paginación, mismo estilo que el resto), no una grilla
+ * estática. Tarjeta sin fondo ni radius propio: label bold uppercase
+ * arriba de la imagen (sin caja), imagen simple, lista de links abajo
+ * sin caja/padding extra. El título de sección no lleva el emoji 🏆
+ * que tenía la maqueta.
+ */
+.sp-disc-card { background: transparent; flex-shrink: 0; width: 204px; }
+.sp-disc-card .sp-disc-label { font-weight: 700; font-size: 15px; letter-spacing: normal; text-transform: uppercase; padding: 0 0 10px; }
+.sp-disc-card img { width: 100%; height: 165px; object-fit: cover; display: block; border-radius: 4px; }
+.sp-disc-links { padding: 10px 0 0; font-size: 13px; display: flex; flex-direction: column; gap: 6px; color: var(--sp-text); }
 
 /* Product card */
 .sp-product-card { border: 1px solid var(--sp-line); border-radius: 8px; overflow: hidden; background: #fff; }
@@ -159,6 +211,24 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-product-envio { font-size: 11.5px; color: var(--sp-green-dark); font-weight: 700; margin-bottom: 10px; }
 .sp-btn-select { width: 100%; background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 10px; font-weight: 700; font-size: 12px; letter-spacing: .03em; cursor: pointer; font-family: 'Poppins', sans-serif; }
 .sp-btn-select:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
+
+/* Chips de tarjeta de producto (Envío Gratis / Nuevo / Tienda X) — confirmado por captura del usuario */
+.sp-product-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.sp-product-tags .tag { font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
+.sp-product-tags .tag-outline { border: 1px solid var(--sp-green); color: var(--sp-green-dark); background: #fff; }
+.sp-product-tags .tag-solid { background: var(--sp-green); color: #fff; }
+.sp-product-tags .tag-dark { background: var(--sp-black); color: #fff; }
+
+/*
+ * Puntos de paginación del carrusel completo (no confundir con
+ * `.sp-plp-card-dots`, que son del mini-carrusel de imágenes DENTRO de
+ * cada tarjeta) — confirmado por captura del usuario: sí existen,
+ * pocos (2 en la captura), verde activo / gris inactivo. Reusa el
+ * mismo estilo que `.sp-video-dots`.
+ */
+.sp-shelf-dots { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 16px; }
+.sp-shelf-dots span { width: 8px; height: 8px; border-radius: 50%; background: #cacbcc; }
+.sp-shelf-dots span.active { background: var(--sp-green); }
 
 /* Header completo (PDP / listados) — más rico que el header simplificado de home */
 /*

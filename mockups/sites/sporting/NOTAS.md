@@ -43,6 +43,39 @@ A pedido del usuario, se está revisando la home módulo por módulo contra el s
 - Título 18px bold negro centrado (no 16px). Botón "VER MÁS" verde con radius **3px** (no 6) y padding 13px 32px, font-size 16px (no 12.5px) — bastante más grande de lo que tenía la maqueta.
 - Gap real entre tarjetas 16px, padding izquierdo de la fila ~21-22px — mismo criterio que la tira de cuotas, así que se overridea puntualmente el padding de `.sp-section` (32px 28px) para esta sección en vez de tocar la regla compartida.
 
+**Carruseles de producto (Novedades / ⭐ Tienda Oficial Adidas / 🧭 Ultimas!!) — confirmado, un solo componente compartido (`.sp-carousel-row`/`.sp-carousel-arrow`/`.sp-carousel-track`):**
+- Es un slick-carousel real. La flecha **no es un botón con círculo y borde** (así estaba maquetada) — es un caret fino sin fondo ni borde, ícono ~15x25 color `#111` (`--sp-black`), apoyado en el borde de la fila. A diferencia de las flechas del slider principal (que sí llevan círculo oscuro semitransparente porque están sobre una foto), estas van sobre fondo blanco así que no necesitan esa placa de contraste.
+- **Sin paginación por puntos** en estos carruseles de producto (a diferencia del slider principal, que sí tiene) — se sacó `.sp-carousel-dots` de las 4 secciones que lo usan (Novedades, Tienda Oficial Adidas, Ultimas!!, Clubes y Selecciones) y también de `producto-modular.html` ("Productos similares" / "También te puede interesar"), que comparte el mismo componente.
+- El espaciado real entre tarjetas del sitio muestra huecos de ~380px que parecen un artefacto de breakpoint del slick real (measurable pero no se ve así al ojo en un uso normal) — no se reprodujo, se dejó un gap prolijo estándar (16px) en su lugar. Mismo criterio ya aplicado: reproducir el diseño real, no bugs de implementación de un breakpoint puntual.
+- Este componente es compartido por las 3 secciones del pedido + "Productos similares"/"También te puede interesar" de la PDP — al ajustar `.sp-carousel-arrow`/`.sp-carousel-dots` en `sporting.css` se corrigen todas a la vez, no hace falta repetir por sección.
+
+**Disciplinas — confirmado por captura del usuario (el scraping en vivo no la renderizaba esa sesión):**
+- **Es un carrusel** (flechas + puntos de paginación), no una grilla estática de 6 tarjetas fijas como estaba maquetada.
+- El título de sección **no lleva el emoji 🏆** — era invención.
+- Tarjeta sin fondo ni `border-radius` propio: label bold uppercase (15px) directamente arriba de la imagen sin caja, imagen simple con radius chico, lista de links (Hombre/Mujer/Niños/Ver Todo) abajo sin caja ni padding extra, en negro.
+- Reusa el mismo componente `.sp-carousel-row`/`.sp-carousel-arrow` que Novedades/Adidas/Ultimas, más los puntos de paginación (`.sp-hero-dots`, mismo estilo gris/negro del slider principal — a diferencia de los carruseles de producto, esta sección sí tiene puntos).
+
+**Nota de proceso:** esta sección (y "Elegí viendo"/"Ultimas!!"/"Clubes y Selecciones"/barra de beneficios) dejaron de aparecer en varios intentos de scraping en vivo en la misma sesión — recarga completa + scroll forzado con eventos de wheel, 6+ intentos, contenido cortaba siempre después del carrusel de Tienda Oficial Adidas y saltaba al footer. El usuario confirmó con captura de pantalla que la sección sí existe en el sitio real — el problema fue de la sesión de scraping (probablemente un lazy-load que no se disparó), no del sitio. **Para las secciones restantes (Elegí viendo/Ultimas/Clubes/beneficios) se van a pedir capturas al usuario en vez de forzar más reintentos automatizados.**
+
+**"Elegí viendo" — reconstruido con capturas del usuario, era otro módulo completamente distinto:**
+- **No son banners de categoría con botón "VER PRODUCTOS"** (así estaba maquetada) — es un **carrusel de video estilo Reels/TikTok**: tarjetas verticales 296×395 (aspect-ratio 3:4), con:
+  - Arriba: avatar circular blanco "S" + nombre de cuenta "Sporting" + un caption corto por video (ej. "La camiseta que nos une", "🎾 Elegir la paleta justa" — algunos con emoji, otros no).
+  - Centro: botón de play grande, rectángulo rojo redondeado (no círculo).
+  - Abajo-izquierda: píldora verde "🛍 VER PRODUCTOS" (bastante más chica que un botón normal del sitio).
+  - Abajo-derecha: marca de agua "S" semitransparente.
+- Flechas de carrusel **oscuras semitransparentes** (mismo componente `.sp-hero-arrow` que el slider principal, por estar superpuestas sobre foto — NO el caret plano de los carruseles de producto).
+- Paginación por puntos: **14 puntos**, gris inactivo / **verde** activo (no gris oscuro como el slider principal) — nuevo componente `.sp-video-dots`.
+
+**Novedades / Tienda Oficial Adidas / Ultimas!! — corrección con capturas del usuario:**
+- Cada tarjeta de producto **es igual a las de la PLP**: tiene su propio mini-carrusel de imágenes con flechas (`.sp-plp-card-nav`) y puntos (`.sp-plp-card-dots`) — se agregó ese mismo markup a las tarjetas de estas 3 secciones (antes no lo tenían).
+- **El carrusel completo sí tiene paginación por puntos** (verde activo/gris inactivo, pocos puntos — 2 en la captura) — corrección sobre lo que se había concluido antes por inspección en vivo (que decía que no había puntos). Nuevo componente `.sp-shelf-dots`, no confundir con los puntos internos de cada tarjeta.
+- Las tarjetas muestran chips/píldoras de estado ("Envío Gratis" outline verde, "Nuevo" sólido verde, "Tienda Adidas" sólido negro) entre las cuotas y el botón — nuevo componente `.sp-product-tags .tag`.
+
+**⚽ Clubes y Selecciones de Fútbol — corrección con captura del usuario:**
+- **NO es un carrusel de tarjetas de producto** (así estaba maquetada, con precio y "Seleccionar talle") — es una simple **tira de logos/escudos circulares** (clubes y selecciones: Argentina, Real Madrid, Borussia Dortmund, San Martín, Juventus, Liverpool, Manchester United, Arsenal en la captura), sin precio ni botón, con flechas de carrusel a los costados. Nuevo componente `.sp-club-logo`.
+
+**Barra de beneficios:** se le agregó un ícono circular arriba de cada título (camión/tarjeta/paquete), visible en la captura pero que no estaba en la maqueta.
+
 ### Corrección 2026-07-16 — Footer real (v1, INCOMPLETA — ver v2 abajo)
 
 El footer original de la maqueta (barra "Envío gratis" + 3 columnas de links Ayuda/Sporting/Seguinos + copyright) era una **estructura genérica inventada**, nunca confirmada contra el sitio real (quedaba anotado en "Pendiente"). Se navegó en vivo `https://www.sporting.com.ar/zapatillas-adidas-runblaze-de-hombre-6ih6705-000/p` y se leyó el footer con `getComputedStyle`, concluyendo (mal, ver corrección de abajo) que el footer eran solo dos franjas sin columnas ni copyright.
