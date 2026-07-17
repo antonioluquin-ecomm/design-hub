@@ -149,12 +149,19 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-video-dots span.active { background: var(--sp-green); }
 
 /*
- * "Clubes y Selecciones de Fútbol" — corregido por captura del usuario:
- * NO son tarjetas de producto (así estaba maquetada) — es una simple
- * tira de logos/escudos circulares sin precio ni botón, con flechas de
- * carrusel a los costados.
+ * "Clubes y Selecciones de Fútbol" — corregido por captura del usuario
+ * (2 rondas): NO son tarjetas de producto (así estaba maquetada al
+ * principio) — es una tira de escudos/crests reales, con FORMA
+ * variada (algunos escudo, otros circulares), no círculos uniformes de
+ * un solo color con solo texto (segunda corrección). No se pueden
+ * reproducir los escudos reales — son marcas registradas de cada
+ * club/selección — así que se aproxima con placeholders más chicos y
+ * compactos (84px, gap 20px en vez de 90px/28px) y dos siluetas
+ * distintas (`.shield` vs circular por default) para no forzar todo a
+ * un mismo molde genérico.
  */
-.sp-club-logo { flex-shrink: 0; width: 90px; height: 90px; border-radius: 50%; background: var(--sp-bg); border: 1px solid var(--sp-line); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.sp-club-logo { flex-shrink: 0; width: 84px; height: 84px; border-radius: 50%; background: var(--sp-bg); border: 1px solid var(--sp-line); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.sp-club-logo.shield { border-radius: 42px 42px 6px 6px / 42px 42px 30px 30px; }
 .sp-club-logo img { width: 100%; height: 100%; object-fit: cover; }
 
 /* Barra de beneficios — última sección de la home antes del footer real */

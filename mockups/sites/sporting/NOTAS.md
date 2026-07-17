@@ -71,8 +71,9 @@ A pedido del usuario, se está revisando la home módulo por módulo contra el s
 - **El carrusel completo sí tiene paginación por puntos** (verde activo/gris inactivo, pocos puntos — 2 en la captura) — corrección sobre lo que se había concluido antes por inspección en vivo (que decía que no había puntos). Nuevo componente `.sp-shelf-dots`, no confundir con los puntos internos de cada tarjeta.
 - Las tarjetas muestran chips/píldoras de estado ("Envío Gratis" outline verde, "Nuevo" sólido verde, "Tienda Adidas" sólido negro) entre las cuotas y el botón — nuevo componente `.sp-product-tags .tag`.
 
-**⚽ Clubes y Selecciones de Fútbol — corrección con captura del usuario:**
-- **NO es un carrusel de tarjetas de producto** (así estaba maquetada, con precio y "Seleccionar talle") — es una simple **tira de logos/escudos circulares** (clubes y selecciones: Argentina, Real Madrid, Borussia Dortmund, San Martín, Juventus, Liverpool, Manchester United, Arsenal en la captura), sin precio ni botón, con flechas de carrusel a los costados. Nuevo componente `.sp-club-logo`.
+**⚽ Clubes y Selecciones de Fútbol — corrección con capturas del usuario (2 rondas):**
+- Ronda 1: **NO es un carrusel de tarjetas de producto** (así estaba maquetada, con precio y "Seleccionar talle") — es una tira de logos/escudos, sin precio ni botón, con flechas de carrusel a los costados. Nuevo componente `.sp-club-logo`.
+- Ronda 2 (el usuario marcó "ver bien a detalle"): los escudos reales tienen **forma variada** — los clubes argentinos (AFA, Boca, River, Independiente, Talleres) son escudo/shield, los internacionales de la segunda captura (Manchester City, AC Milan, Inter Miami) son circulares — no todos círculos uniformes de un solo color con solo texto, como había quedado. No se pueden reproducir los escudos reales (marcas registradas de cada club), así que se aproxima con placeholders de 84px (antes 90px) más compactos (gap 20px, antes 28px) y dos siluetas — `.sp-club-logo.shield` (escudo, esquinas superiores redondeadas + base en punta) y circular por default — en vez de forzar todo al mismo molde genérico.
 
 **Barra de beneficios:** se le agregó un ícono circular arriba de cada título (camión/tarjeta/paquete), visible en la captura pero que no estaba en la maqueta.
 
