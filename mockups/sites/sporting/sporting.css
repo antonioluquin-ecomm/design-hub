@@ -93,6 +93,7 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 /* Sección genérica */
 .sp-section { padding: 32px 28px; }
 .sp-section-title { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; margin: 0 0 18px; }
+.sp-section-title-center { justify-content: center; }
 .sp-section-title .badge { background: var(--sp-green); color: #fff; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 2px 6px; letter-spacing: .04em; }
 
 /*
@@ -137,8 +138,22 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
  * derecha. Flechas de carrusel oscuras semitransparentes (mismo estilo
  * que el slider principal, por estar sobre foto) y paginación por
  * puntos verde/gris (14 puntos en la captura del usuario).
+ *
+ * Corrección 2026-07-18 — medido en vivo con el bookmarklet Layout
+ * Inspector sobre sporting.com.ar: las tarjetas reales miden 316.8×546.2px
+ * (no 296×395) y van **pegadas entre sí, sin gap** (edge-to-edge; el
+ * carrusel real es un slick con 23 slides — 4 visibles + clones ocultos
+ * para el loop infinito — confirmado por las clases `slide--hidden` de
+ * los ítems no visibles, filtradas de esta medición). `.sp-video-track`
+ * pisa el gap de 16px que usa `.sp-carousel-track` en el resto de los
+ * carruseles. La proporción 7/12 aproxima el ratio medido (316.8/546.2);
+ * el alto exacto no se tomó como dato duro porque la captura se hizo con
+ * el viewport a 607px de alto (inusualmente bajo, probablemente devtools
+ * abierto en esa sesión) y podría depender de `vh` — remedir alto en una
+ * ventana de altura estándar (~900px) antes de confiar en el valor 1:1.
  */
-.sp-video-card { position: relative; width: 296px; flex-shrink: 0; border-radius: 8px; overflow: hidden; aspect-ratio: 3 / 4; background: #000; }
+.sp-video-track { gap: 0; }
+.sp-video-card { position: relative; width: 317px; flex-shrink: 0; border-radius: 8px; overflow: hidden; aspect-ratio: 7 / 12; background: #000; }
 .sp-video-card img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .92; }
 .sp-video-card .vc-top { position: absolute; top: 12px; left: 12px; right: 40px; display: flex; align-items: center; gap: 8px; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
 .sp-video-card .vc-avatar { width: 26px; height: 26px; border-radius: 50%; background: #fff; color: var(--sp-text); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; flex-shrink: 0; }
@@ -160,14 +175,28 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
  * variada (algunos escudo, otros circulares), no círculos uniformes de
  * un solo color con solo texto (segunda corrección). No se pueden
  * reproducir los escudos reales — son marcas registradas de cada
- * club/selección — así que se aproxima con placeholders más chicos y
- * compactos (84px, gap 20px en vez de 90px/28px) y dos siluetas
- * distintas (`.shield` vs circular por default) para no forzar todo a
- * un mismo molde genérico.
+ * club/selección.
+ *
+ * Corrección 2026-07-18 (comparación directa contra captura real del
+ * usuario, scraping en vivo no disponible esta sesión — misma falla ya
+ * documentada arriba de que esta sección no monta en el scraping):
+ * el título de esta sección va CENTRADO (a diferencia del resto de los
+ * títulos de la home, que van a la izquierda) — corregido con
+ * `.sp-section-title-center`, aplicada solo acá. Los escudos son
+ * notablemente más grandes y con más aire entre sí que el placeholder
+ * anterior (84px/gap 20px) — estimado por proporción contra la
+ * captura en 100px/gap 48px, que además calza casi exacto con el
+ * ancho del track a 1280px (8 × 100 + 7 × 48 = 1136px ≈ 1133px
+ * disponibles), consistente con la fila llena de punta a punta que se
+ * ve en la captura real, sin overflow. Pendiente: remedir con
+ * `getBoundingClientRect` en vivo cuando el scraping de esta sección
+ * vuelva a funcionar, para confirmar el valor exacto en vez de la
+ * estimación por proporción.
  */
-.sp-club-logo { flex-shrink: 0; width: 84px; height: 84px; border-radius: 50%; background: var(--sp-bg); border: 1px solid var(--sp-line); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.sp-club-logo.shield { border-radius: 42px 42px 6px 6px / 42px 42px 30px 30px; }
+.sp-club-logo { flex-shrink: 0; width: 100px; height: 100px; border-radius: 50%; background: var(--sp-bg); border: 1px solid var(--sp-line); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.sp-club-logo.shield { border-radius: 50px 50px 7px 7px / 50px 50px 36px 36px; }
 .sp-club-logo img { width: 100%; height: 100%; object-fit: cover; }
+.sp-club-track { gap: 48px; }
 
 /* Barra de beneficios — última sección de la home antes del footer real */
 .sp-benefits-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 28px; border-top: 1px solid var(--sp-line); text-align: center; }

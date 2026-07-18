@@ -6,6 +6,8 @@ Kickoff hecho 2026-07-16. Fuente: `https://www.sporting.com.ar/` navegado en viv
 
 Identidad propia capturada con `getComputedStyle` y lectura de DOM: verde institucional `#25b60c`, negro `#111111` (announcement bar), tipografía **Poppins**. Estilos en `sporting.css` — separados del design system interno, mismo criterio que `marketplace-portal/public` (no alinear al azul institucional sin confirmar).
 
+**Herramienta disponible desde 2026-07-18:** cuando el scraping en vivo automatizado no llega a medir un módulo (lazy-load que no monta, secciones que no aparecen pese a scrollear), el usuario puede correr el bookmarklet `layout-inspector` (`../../../../vtex-bookmarklets/layout-inspector/`) en su propio navegador y pasar el JSON resultante acá — ver el fix de "Elegí viendo" (2026-07-18) más abajo como ejemplo del flujo completo. Ver `../../CLAUDE.md` para el criterio general de uso.
+
 ### Revisión módulo por módulo 2026-07-16 — en curso
 
 A pedido del usuario, se está revisando la home módulo por módulo contra el sitio real (no solo "a ojo", sino con `getBoundingClientRect`/`getComputedStyle` en vivo) para llegar a fidelidad exacta, no aproximada. Se va dejando registro acá por módulo a medida que se confirma.
@@ -230,6 +232,33 @@ El usuario pidió una revisión crítica y detallista de estos 3 carruseles porq
 - Con solo 3 tarjetas de ejemplo estirándose para llenar el track completo, **no quedaba ninguna tarjeta cortada asomando en el borde** — la señal visual mínima de "esto es un carrusel, hay más para el costado" desaparecía. Disciplinas (`.sp-disc-card`, 204px fijo) y Elegí viendo (`.sp-video-card`, 296px fijo) sí tenían ese "peek" porque ya usaban ancho fijo — la inconsistencia era interna del propio archivo, no solo contra el sitio real.
 
 **Fix:** `min-width:220px` → `width:243px` fijo en `.sp-carousel-track .sp-product-card` (`sporting.css`), y se sumaron 2 tarjetas de ejemplo más en cada una de las 3 secciones (5 en total por carrusel) para que el track exceda el ancho visible. Verificado en el navegador a 1280px: `scrollWidth` 1279px vs 1133px de ancho visible del track (overflow real) y `cardWidth` 243px exacto, igual en las 3 secciones de la home y en `plp.html`.
+
+### Fix 2026-07-18 — "⚽ Clubes y Selecciones de Fútbol": título centrado + escudos más grandes y espaciados
+
+El usuario pidió comparar este módulo puntual contra una captura del sitio productivo, "muy al detalle". Se intentó remedir en vivo (`sporting.com.ar`, scroll incremental + eventos de wheel forzados, viewport 1280px) pero esta sección **volvió a no montar** en el scraping — mismo problema ya documentado arriba ("esta sección... dejaron de aparecer en varios intentos de scraping en vivo"), persiste en esta sesión. Se trabajó por comparación visual directa entre la captura del usuario (sitio real) y una captura equivalente de la maqueta, ambas al mismo zoom/viewport aproximado (se pudo calibrar la escala usando el header, que sí tiene medidas ya confirmadas — topline/header-full/navbar dieron la misma altura en píxeles en ambas capturas, confirmando que estaban a la misma escala).
+
+Hallazgos y fix:
+- **Título centrado**: a diferencia del resto de los títulos de sección de la home (que van alineados a la izquierda), el de este módulo va centrado. Se agregó `.sp-section-title-center` (solo `justify-content:center`, ya que `.sp-section-title` es `display:flex`) y se aplicó únicamente a este `<div class="sp-section-title">` — no se tocó la clase base para no afectar al resto de las secciones, que sí están confirmadas alineadas a la izquierda.
+- **Escudos más grandes y con más aire**: el placeholder anterior (84px, gap 20px) se veía sensiblemente más chico y apretado que la fila real. Estimado por proporción visual a **100px de ancho/alto, gap 48px** — este valor no es 100% arbitrario: con 8 escudos a 100px + 7 gaps de 48px da 1136px, que calza casi exacto con los 1133px disponibles del track a 1280px de viewport, consistente con que la fila real se ve llena de punta a punta sin overflow visible en la captura. Nuevo modificador `.sp-club-track` (`gap:48px`) sobre `.sp-carousel-track` de esta sección; `.sp-club-logo` pasó de 84px a 100px y el radius de `.shield` se escaló proporcionalmente (42/6/30 → 50/7/36).
+- **Fix menor de paso**: el título tenía el emoji ⚽ pegado al texto sin espacio (`⚽Clubes...`) — las demás secciones sí llevan espacio (`🆕 Novedades`). Corregido a `⚽ Clubes y Selecciones de Fútbol`.
+
+Verificado con `getBoundingClientRect` en el navegador (no se pudo tomar screenshot esta sesión, timeout persistente de la herramienta — mismo problema ya recurrente en este proyecto): `justifyContent:"center"` en el título, 8 escudos de 100px exactos, `track.scrollWidth` 1136 vs `clientWidth` 1133.
+
+**Pendiente:** esta corrección se hizo por proporción visual contra una captura, no por medición en vivo — cuando el scraping de esta sección puntual vuelva a funcionar (o el usuario pueda abrir el módulo y forzar el montado del lazy-load), remedir con `getBoundingClientRect`/`getComputedStyle` para confirmar el tamaño y gap exactos en vez de la estimación actual.
+
+### Fix 2026-07-18 — "Elegí viendo": medido en vivo con el bookmarklet Layout Inspector
+
+Primera medición real de este módulo con la herramienta nueva `layout-inspector` (repo `vtex-bookmarklets`, ver [su README](../../../../vtex-bookmarklets/layout-inspector/README.md)) — el usuario la corrió sobre `sporting.com.ar` apuntando al título "Elegí viendo" y pegó el JSON resultante.
+
+Datos crudos: 23 "ítems" detectados porque el carrusel real es un slick con loop infinito — 4 slides visibles (`slide--visible`, con imagen y texto "VER PRODUCTOS") + 19 clones ocultos (`slide--hidden`, sin contenido) que arman el buffer del loop. Filtrando por los visibles:
+
+- **Tarjeta: 316.8 × 546.2px** (la maqueta tenía 296×395, aspect-ratio 3:4) — bastante más angosta y sobre todo más alta de lo que estaba maquetado. Corregido a **317 × ~543px** (`aspect-ratio: 7/12`, que aproxima el ratio medido 316.8/546.2 con una fracción prolija).
+- **Gap entre tarjetas: 0px** — van pegadas entre sí (edge-to-edge), no con el gap de 16px que usa `.sp-carousel-track` en el resto de los carruseles de la home. Nuevo modificador `.sp-video-track` que pisa el gap solo en esta sección.
+- **Título "Elegí viendo"**: confirmado `text-align: start` (izquierda), no centrado — consistente con el resto de los títulos de la home (a diferencia de "Clubes y Selecciones", que sí va centrado).
+
+**Dato con reserva:** la captura se hizo con el viewport a 1366×**607** (alto inusualmente bajo, probablemente devtools ocupando espacio en esa sesión). El ancho (316.8px) no depende de esto, pero el alto sí podría estar afectado si el componente real usa `vh` en vez de un alto fijo — no se tomó el 546.2 como dato duro por esto, se aproximó con una fracción prolija en vez de fijar el px exacto. Si se puede, remedir con el mismo bookmarklet en una ventana de ~900px de alto para confirmar si el alto es fijo o relativo al viewport.
+
+Verificado en el navegador local: 4 tarjetas de 317×543.4px, gap 0px exacto entre las 3 uniones.
 
 ## Pantallas maquetadas
 

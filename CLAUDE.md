@@ -16,6 +16,21 @@
 
 ---
 
+## Medición en vivo de sitios reales — bookmarklet Layout Inspector
+
+Para maquetar con fidelidad pixel-exacta (`mockups/sites/<sitio>/`) muchas veces hace falta la geometría exacta de un módulo real: ancho/alto de cada ítem, gap entre ítems, si un título está centrado. El navegador automatizado de esta sesión **no siempre puede lograrlo**: sitios VTEX IO cargan secciones por lazy-load al hacer scroll, y ese lazy-load depende de que la pestaña tenga foco real de sistema operativo — algo que el Browser pane no siempre garantiza (ver `mockups/sites/sporting/NOTAS.md`, casos donde el scraping en vivo no llegó a montar una sección pese a scrollear).
+
+Para esos casos existe **`layout-inspector`**, un bookmarklet del repo hermano `../vtex-bookmarklets/`:
+
+- El usuario lo corre en su propio navegador (con foco real, sin las limitaciones del Browser pane) sobre el sitio real, apuntando al título de la sección a medir.
+- Devuelve ancho/alto/gap de los ítems (con estadística min/avg/max) y si el título está centrado — como JSON, listo para pegar acá y trasladar a la maqueta.
+- Filtra automáticamente ítems ocultos de carruseles con loop infinito (slick con clones).
+- Instalación y uso: [`../vtex-bookmarklets/layout-inspector/README.md`](../vtex-bookmarklets/layout-inspector/README.md).
+
+Si una corrección de módulo se basó en este JSON, dejarlo asentado en el `NOTAS.md` del sitio correspondiente (qué se midió, valores crudos relevantes, y cualquier salvedad del viewport usado).
+
+---
+
 ## Stack específico
 
 - Sitio estático puro — HTML/CSS/Vanilla JS, sin build step, sin framework
