@@ -260,6 +260,20 @@ Datos crudos: 23 "ítems" detectados porque el carrusel real es un slick con loo
 
 Verificado en el navegador local: 4 tarjetas de 317×543.4px, gap 0px exacto entre las 3 uniones.
 
+### Fix 2026-07-20 — "Prepárate para rendir en cada disciplina": medido en vivo, título centrado + tarjetas edge-to-edge
+
+Segunda medición real con `layout-inspector` (entre esta y la anterior, la herramienta pasó por dos rondas de fix — v1.1 y v1.2 — porque no detectaba la fila cuando el título vive en un bloque separado del bloque de las cards, justo el caso de esta sección; ver changelog en `../../../../vtex-bookmarklets/layout-inspector/docs/release-v1.md`).
+
+Datos crudos: 26 "ítems" detectados, mismo patrón de slick con loop infinito que "Elegí viendo" — 6 slides visibles (Hockey/Training/Moda/Running/Tenis/Outdoor, con imagen y texto) + 20 clones ocultos. Filtrando por los visibles:
+
+- **Tarjeta: 219.8 × 349.8px** (la maqueta tenía 204px de ancho) — corregido a **220px**.
+- **Gap entre tarjetas: 0px** (la maqueta tenía 16px, el gap por default de `.sp-carousel-track`) — mismo patrón edge-to-edge que ya se había visto en "Elegí viendo". Nuevo modificador `.sp-disc-track`.
+- **Título centrado** (`text-align: center` confirmado en el `<h3>` real, clase `vtex-rich-text-0-x-heading--slider-title-recommended`) — la maqueta lo tenía a la izquierda, igual que el resto de los títulos. Se le agregó `.sp-section-title-center` (mismo modificador ya usado en "Clubes y Selecciones").
+
+**Nota sobre el campo `looksCentered` del JSON:** dio `false` con un delta enorme (-879px) — es un falso negativo conocido del tool: el cálculo de centrado usa el centro de *todos* los ítems detectados (26, incluyendo los 20 clones ocultos del loop, que se extienden muy a la izquierda/derecha de la pantalla), no solo los 6 visibles. El dato confiable acá es `title.textAlign: "center"` directo sobre el `<h3>`, no el delta calculado contra la fila. Mismo caveat aplica a cualquier módulo slick con loop infinito — priorizar `textAlign`/`justifyContent` del título por sobre `looksCentered` cuando el carrusel tiene clones.
+
+Verificado en el navegador local: 6 tarjetas de 220px, gap 0px exacto entre las 5 uniones, título con `justify-content: center`.
+
 ## Pantallas maquetadas
 
 | Archivo | Contenido |

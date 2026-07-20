@@ -231,8 +231,21 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
  * arriba de la imagen (sin caja), imagen simple, lista de links abajo
  * sin caja/padding extra. El título de sección no lleva el emoji 🏆
  * que tenía la maqueta.
+ *
+ * Corrección 2026-07-20 — medido en vivo con el bookmarklet Layout
+ * Inspector v1.2 sobre sporting.com.ar: 6 slides visibles (Hockey/
+ * Training/Moda/Running/Tenis/Outdoor) de **219.8×349.8px** (no
+ * 204×165+label+links ~204 de ancho) y **gap 0** entre ellos —van
+ * pegados, mismo patrón edge-to-edge que "Elegí viendo" (el carrusel
+ * real es un slick con 26 slides — 6 visibles + 20 clones ocultos del
+ * loop infinito, filtrados de la medición). El título "Prepárate para
+ * rendir en cada disciplina" está **centrado** (`text-align: center`
+ * confirmado en el `<h3>` real) — antes iba a la izquierda como el
+ * resto de los títulos. Ancho de tarjeta 204→220px, gap 16→0
+ * (`.sp-disc-track`), título con `.sp-section-title-center`.
  */
-.sp-disc-card { background: transparent; flex-shrink: 0; width: 204px; }
+.sp-disc-track { gap: 0; }
+.sp-disc-card { background: transparent; flex-shrink: 0; width: 220px; }
 .sp-disc-card .sp-disc-label { font-weight: 700; font-size: 15px; letter-spacing: normal; text-transform: uppercase; padding: 0 0 10px; }
 .sp-disc-card img { width: 100%; height: 165px; object-fit: cover; display: block; border-radius: 4px; }
 .sp-disc-links { padding: 10px 0 0; font-size: 13px; display: flex; flex-direction: column; gap: 6px; color: var(--sp-text); }
