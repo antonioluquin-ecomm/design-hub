@@ -59,9 +59,13 @@
   body[data-ultimas="off"] .mod-ultimas,
   body[data-clubes="off"] .mod-clubes,
   body[data-benefits="off"] .mod-benefits { display: none; }
+
+  /* El mega-menú va con hover real (igual que el sitio real); este toggle
+     lo fuerza abierto para poder revisarlo sin necesidad de hover. */
+  body[data-megamenu="on"] .sp-mega-menu { display: flex; }
 </style>
 </head>
-<body data-heroslider="on" data-promos="on" data-categorias="on" data-novedades="on" data-adidas="on" data-disciplinas="on" data-elegiviendo="on" data-ultimas="on" data-clubes="on" data-benefits="on">
+<body data-heroslider="on" data-promos="on" data-categorias="on" data-novedades="on" data-adidas="on" data-disciplinas="on" data-elegiviendo="on" data-ultimas="on" data-clubes="on" data-benefits="on" data-megamenu="off">
 
   <aside class="ctrl-panel card">
     <div class="ctrl-panel-head">
@@ -84,6 +88,11 @@
         <label class="ctrl-option"><input type="checkbox" name="ultimas" checked /> Últimas!!</label>
         <label class="ctrl-option"><input type="checkbox" name="clubes" checked /> Clubes y Selecciones de Fútbol</label>
         <label class="ctrl-option"><input type="checkbox" name="benefits" checked /> Barra de beneficios</label>
+      </fieldset>
+
+      <fieldset class="ctrl-group">
+        <legend>Header</legend>
+        <label class="ctrl-option"><input type="checkbox" name="megamenu" /> Menú desplegado (Hombre) — fijo</label>
       </fieldset>
 
       <button type="button" id="copyLinkBtn" class="secondary">Copiar link de esta vista</button>
@@ -109,7 +118,90 @@
   </div>
 
   <div class="sp-navbar">
-    <a href="#" onclick="return false;">HOMBRE</a>
+    <div class="sp-nav-item">
+      <a href="#" onclick="return false;">HOMBRE</a>
+      <div class="sp-mega-menu">
+        <div class="sp-mega-col">
+          <a class="sp-mega-col-title" href="#" onclick="return false;">Calzado</a>
+          <a href="#" onclick="return false;">Zapatillas</a>
+          <a href="#" onclick="return false;">Zapatillas Running</a>
+          <a href="#" onclick="return false;">Zapatillas Training</a>
+          <a href="#" onclick="return false;">Zapatillas Moda</a>
+          <a href="#" onclick="return false;">Zapatillas Outdoor</a>
+          <a href="#" onclick="return false;">Botines</a>
+          <a href="#" onclick="return false;">Futbol 11</a>
+          <a href="#" onclick="return false;">Futbol 5</a>
+          <a href="#" onclick="return false;">Futbol Sala</a>
+          <a href="#" onclick="return false;">Ojotas/Chinelas</a>
+          <a class="sp-mega-col-all" href="#" onclick="return false;">Ver Todo</a>
+        </div>
+        <div class="sp-mega-col">
+          <a class="sp-mega-col-title" href="#" onclick="return false;">Indumentaria</a>
+          <a href="#" onclick="return false;">Buzos</a>
+          <a href="#" onclick="return false;">Camperas</a>
+          <a href="#" onclick="return false;">Pantalones</a>
+          <a href="#" onclick="return false;">Conjuntos</a>
+          <a href="#" onclick="return false;">Remeras</a>
+          <a href="#" onclick="return false;">Camisetas</a>
+          <a href="#" onclick="return false;">Shorts</a>
+          <a href="#" onclick="return false;">Bermudas</a>
+          <a href="#" onclick="return false;">Calzas</a>
+          <a href="#" onclick="return false;">Musculosas</a>
+          <a href="#" onclick="return false;">Chalecos</a>
+          <a href="#" onclick="return false;">Chombas</a>
+          <a href="#" onclick="return false;">Ropa Interior</a>
+          <a class="sp-mega-col-all" href="#" onclick="return false;">Ver Todo</a>
+        </div>
+        <div class="sp-mega-col">
+          <a class="sp-mega-col-title" href="#" onclick="return false;">Accesorios</a>
+          <a href="#" onclick="return false;">Bicicletas</a>
+          <a href="#" onclick="return false;">Musculación</a>
+          <a href="#" onclick="return false;">Gorras</a>
+          <a href="#" onclick="return false;">Mochilas</a>
+          <a href="#" onclick="return false;">Pelotas</a>
+          <a href="#" onclick="return false;">Canilleras</a>
+          <a href="#" onclick="return false;">Relojes</a>
+          <a href="#" onclick="return false;">Medias</a>
+          <a href="#" onclick="return false;">Bolsos</a>
+          <a href="#" onclick="return false;">Paletas</a>
+          <a href="#" onclick="return false;">Raquetas</a>
+          <a href="#" onclick="return false;">Palos De Hockey</a>
+          <a href="#" onclick="return false;">Porta Palos</a>
+          <a href="#" onclick="return false;">Guantes</a>
+          <a href="#" onclick="return false;">Cascos</a>
+        </div>
+        <div class="sp-mega-col">
+          <a class="sp-mega-col-title" href="#" onclick="return false;">Disciplinas</a>
+          <a href="#" onclick="return false;">Running</a>
+          <a href="#" onclick="return false;">Fútbol</a>
+          <a href="#" onclick="return false;">Training</a>
+          <a href="#" onclick="return false;">Ciclismo</a>
+          <a href="#" onclick="return false;">Outdoor</a>
+          <a href="#" onclick="return false;">Moda</a>
+          <a href="#" onclick="return false;">Padel</a>
+          <a href="#" onclick="return false;">Tenis</a>
+          <a href="#" onclick="return false;">Motorsport</a>
+          <a href="#" onclick="return false;">Rugby</a>
+          <a href="#" onclick="return false;">Básquet</a>
+        </div>
+        <div class="sp-mega-col">
+          <a class="sp-mega-col-title" href="#" onclick="return false;">Destacados</a>
+          <a href="#" onclick="return false;">Nuevo</a>
+          <a href="#" onclick="return false;">Más Vendidos</a>
+          <a href="#" onclick="return false;">Ofertas</a>
+          <a href="#" onclick="return false;">Últimas Unidades</a>
+          <a href="#" onclick="return false;">Fin De Temporada</a>
+          <a href="#" onclick="return false;">Selección Argentina</a>
+          <a href="#" onclick="return false;">Boca Juniors</a>
+          <a href="#" onclick="return false;">River Plate</a>
+        </div>
+        <div class="sp-mega-banner">
+          <img src="https://placehold.co/200x260/2b2b2b/ffffff?text=Hombre+running" />
+          <div class="sp-mega-banner-caption">Hombre</div>
+          <button class="sp-btn-outline" onclick="return false;">VER TODO</button>
+        </div>
+      </div>
+    </div>
     <a href="#" onclick="return false;">MUJER</a>
     <a href="#" onclick="return false;">NIÑOS</a>
     <a href="#" onclick="return false;">DEPORTES</a>
@@ -677,6 +769,7 @@
     ultimas:      { name: 'ultimas',      onValue: 'on', offValue: 'off' },
     clubes:       { name: 'clubes',       onValue: 'on', offValue: 'off' },
     benefits:     { name: 'benefits',     onValue: 'on', offValue: 'off' },
+    megamenu:     { name: 'megamenu',     onValue: 'on', offValue: 'off' },
   };
 
   function readState() {

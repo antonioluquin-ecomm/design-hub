@@ -351,6 +351,39 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-navbar .sp-navbar-badge { margin-left: 4px; padding: 4px 10px; border-radius: 4px; background: var(--sp-bg); border: 1px solid var(--sp-line); font-size: 10.5px; font-weight: 700; letter-spacing: .02em; }
 .sp-navbar .sp-navbar-badges { display: flex; gap: 32px; align-items: center; }
 
+/*
+ * Mega-menú de "Hombre" — medido en vivo 2026-07-20 con el bookmarklet
+ * Layout Inspector sobre sporting.com.ar apuntando a la columna "Calzado":
+ * cada ítem de la lista mide 129.6×26.1px exactos, con gap 0 (van
+ * pegados, sin separación entre renglones) y el título de columna ocupa
+ * el mismo alto de renglón que los links (mismo ancho 129.6, gap 0 con
+ * el primer link) — se redondea a 130×26px. Solo esta columna se pudo
+ * medir con la herramienta; el resto (Indumentaria/Accesorios/
+ * Disciplinas/Destacados) y el banner de la derecha se reconstruyeron a
+ * partir de una captura de pantalla del usuario (contenido de cada
+ * columna confirmado visualmente, geometría de ítem asumida igual a la
+ * de Calzado por ser el mismo componente — no remedida independientemente
+ * columna por columna). "Ver Todo" va en verde, distinto al resto de los
+ * links — confirmado por captura.
+ */
+.sp-nav-item { position: relative; }
+.sp-mega-menu {
+  display: none; position: absolute; top: 100%; left: 0; z-index: 60;
+  background: #fff; border-top: 1px solid var(--sp-line);
+  box-shadow: 0 16px 32px rgba(0,0,0,.14);
+  padding: 24px 32px; gap: 40px;
+}
+.sp-nav-item:hover .sp-mega-menu { display: flex; }
+.sp-mega-col { width: 130px; flex-shrink: 0; display: flex; flex-direction: column; }
+.sp-mega-col a { display: block; height: 26px; line-height: 26px; font-size: 14px; color: var(--sp-text); text-decoration: none; white-space: nowrap; }
+.sp-mega-col a.sp-mega-col-title { font-weight: 700; color: #000; }
+.sp-mega-col a.sp-mega-col-all { color: var(--sp-green); font-weight: 700; }
+.sp-mega-banner { width: 200px; flex-shrink: 0; text-align: center; }
+.sp-mega-banner img { width: 100%; height: 260px; object-fit: cover; border-radius: 8px; display: block; }
+.sp-mega-banner .sp-mega-banner-caption { font-size: 15px; font-weight: 600; margin: 10px 0; }
+.sp-mega-banner .sp-btn-outline { width: 100%; background: var(--sp-green); color: #fff; border: none; border-radius: 3px; padding: 13px 0; font-weight: 700; font-size: 15px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.sp-mega-banner .sp-btn-outline:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
+
 .sp-breadcrumb { padding: 12px 28px; font-size: 12px; color: var(--sp-muted); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .sp-breadcrumb a { color: var(--sp-muted); text-decoration: none; }
 .sp-breadcrumb .sep { margin: 0 4px; }

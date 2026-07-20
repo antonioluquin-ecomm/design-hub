@@ -274,6 +274,25 @@ Datos crudos: 26 "ítems" detectados, mismo patrón de slick con loop infinito q
 
 Verificado en el navegador local: 6 tarjetas de 220px, gap 0px exacto entre las 5 uniones, título con `justify-content: center`.
 
+### Creación 2026-07-20 — Mega-menú "Hombre" del navbar, con medición en vivo de la columna "Calzado"
+
+No existía en la maqueta — quedaba anotado como pendiente ("Header con menú de categorías desplegado", ver más abajo). Se construyó a partir de dos fuentes:
+
+1. **Medido en vivo** con `layout-inspector` v1.7 (repo `vtex-bookmarklets`) sobre `sporting.com.ar`, apuntando al link "Calzado" dentro del menú desplegado de "Hombre" — esta fue la corrida que terminó de darle sentido a las correcciones v1.6/v1.7 del tool (colisión de título con la sección "Categorías" de la home + límite de altura al "subir" por el DOM buscando la fila/columna). Resultado limpio: columna de **11 ítems** (10 categorías + "Ver Todo"), cada uno **129.6×26.1px**, **gap 0** (van pegados, sin separación entre renglones), alineados exactos con el título de la columna (mismo ancho, mismo `left`).
+2. **Captura de pantalla del usuario** para el resto del menú: qué columnas hay (Calzado, Indumentaria, Accesorios, Disciplinas, Destacados), el contenido de cada una, y el banner de la derecha (imagen + "Hombre" + botón "VER TODO").
+
+**Qué es dato duro y qué es inferido — importante no confundir:**
+- **Medido exacto:** geometría de ítem de la columna Calzado (129.6×26.1px redondeado a 130×26, gap 0) y su contenido completo (Zapatillas, Zapatillas Running, Zapatillas Training, Zapatillas Moda, Zapatillas Outdoor, Botines, Futbol 11, Futbol 5, Futbol Sala, Ojotas/Chinelas, Ver Todo).
+- **Inferido de la captura, no remedido:** el contenido de Indumentaria/Accesorios/Disciplinas/Destacados y del banner. La geometría de ítem (130×26px, gap 0) se **asumió igual** en las 5 columnas por ser el mismo componente repetido — no se confirmó columna por columna con el bookmarklet.
+- El título de columna ("Calzado", etc.) es un `<a>` real en el sitio (no un `<h4>` genérico) con el mismo ancho/alto de renglón que los links de abajo, sin gap extra — así quedó implementado (`.sp-mega-col-title` es un ítem más de la lista, solo en bold).
+- "Ver Todo" va en verde (`--sp-green`), distinto del resto de los links — confirmado por captura, no aparece en todas las columnas (Disciplinas y Destacados no lo tenían visible en la captura, se dejó sin ese link en esas dos).
+
+**Implementación:** `.sp-nav-item` (wrapper de "HOMBRE", `position:relative`) + `.sp-mega-menu` (`position:absolute`, oculto por default, `display:flex` en `:hover` real — igual que el sitio real) + `.sp-mega-col` (ancho fijo 130px) + `.sp-mega-banner`. Se agregó un toggle nuevo al panel de control ("Menú desplegado (Hombre) — fijo", `data-megamenu`) que **fuerza** el menú abierto sin necesitar hover — útil para revisar/capturar, no reemplaza el comportamiento real (que sigue siendo hover).
+
+**Lección de proceso para la próxima vez:** al verificar este cambio en el Browser pane, la primera tanda de mediciones dio resultados sin sentido (anchos variables 58-130px, alto uniforme 45px en vez de 26px) pese a que el HTML/CSS en disco ya tenían el fix — la pestaña tenía **cacheada una versión vieja del HTML y el CSS** (confirmado: el script cargado en la pestaña ni siquiera contenía el texto "megamenu"). Ni un `navigate` con `force:true` ni un query-string de cache-bust en la URL lo destrabaron — hizo falta abrir una **pestaña nueva** (`tabs_create`) para que el Browser pane tomara el archivo actualizado. Si una verificación da números que no tienen ningún sentido con el CSS que se acaba de escribir, sospechar primero de esto antes de asumir un bug real.
+
+**Pendiente:** remedir Indumentaria/Accesorios/Disciplinas/Destacados con el bookmarklet si se quiere confirmar que la geometría de ítem es 100% idéntica en las 5 columnas (razonablemente esperable al ser el mismo componente, pero no confirmado). Contenido exacto de "Ver Todo" en Disciplinas/Destacados sin confirmar (se asumió que no existe en esas 2, según lo que se veía en la captura).
+
 ## Pantallas maquetadas
 
 | Archivo | Contenido |
@@ -336,7 +355,7 @@ Se creó `checkout.html` como página nueva, **solo con la vista mobile** del pr
 - [x] Carrito de escritorio — capturado y maqueteado 2026-07-16, mismo componente que mobile con ancho fijo (415px)
 - [ ] Checkout: solo se capturó el primer paso ("Mi carrito") en mobile — faltan datos personales, envío, medios de pago y confirmación, y toda la versión desktop
 - [x] Vista mobile de home, PLP y PDP — capturadas y maquetadas (ver correcciones 2026-07-16 arriba). Header/footer mobile son chrome global, comparten CSS en las 3 páginas.
-- [ ] Header con menú de categorías desplegado (el `☰`/navbar no se abrió en la captura, solo se vieron los links del mega-menú en el DOM)
+- [x] Header con menú de categorías desplegado — creado 2026-07-20, mega-menú de "Hombre" con 5 columnas + banner (ver corrección de esa fecha arriba). Solo el menú de "Hombre"; Mujer/Niños/Deportes/Marcas no se capturaron, quedan pendientes si hacen falta.
 - [ ] Contenido real de "Especificaciones" y "Detalles" (se maquetaron con placeholder — no se expandieron en la captura)
 - [ ] Contenido exacto de las tarjetas de "⚽ Clubes y Selecciones de Fútbol" (se infirió de los nombres de club/selección que aparecen en el mega-menú, no se llegó a abrir el carrusel real)
 - [ ] "Últimos vistos" — deliberadamente no maquetado (es contenido personalizado por sesión, no hay un "real" fijo que capturar)
