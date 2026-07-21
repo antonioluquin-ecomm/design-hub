@@ -233,6 +233,18 @@ El usuario pidió una revisión crítica y detallista de estos 3 carruseles porq
 
 **Fix:** `min-width:220px` → `width:243px` fijo en `.sp-carousel-track .sp-product-card` (`sporting.css`), y se sumaron 2 tarjetas de ejemplo más en cada una de las 3 secciones (5 en total por carrusel) para que el track exceda el ancho visible. Verificado en el navegador a 1280px: `scrollWidth` 1279px vs 1133px de ancho visible del track (overflow real) y `cardWidth` 243px exacto, igual en las 3 secciones de la home y en `plp.html`.
 
+### Corrección 2026-07-21 — Tarjeta de producto: ancho/gap confirmados en vivo, imagen corregida a 243×243 `contain`
+
+El usuario midió "Novedades" con `layout-inspector` v1.7 apuntando al título de la sección. El JSON crudo reportó **20 ítems**, pero solo **5 son tarjetas reales** (`<section class="...custom-shelf...product-card...">`, 242.6×529px, con imagen y texto) — los otros 15 son `<div>` vacíos de 243×243px sin texto, ruido de un patrón distinto al de los clones de slick ya conocidos: este carrusel en particular parece usar un contenedor con scroll (no `overflow:hidden` + transform), así que los slides todavía no hidratados (placeholders de imagen sin el componente completo montado) no quedan recortados por `isClippedAway()` — quedan "visibles" para el tool aunque un usuario real no los vea sin scrollear. Pendiente evaluar si vale la pena que el tool también filtre por uniformidad de alto (hoy solo pondera ancho para filas), no se tocó esta vez.
+
+Filtrando a las 5 tarjetas reales:
+- **Ancho 242.6–243px y gap 15.5–16px** — coinciden exactos con lo que ya estaba fijado (`width:243px`, gap 16px, fix del 2026-07-17) — confirma que ese fix seguía vigente y que aplica igual a Adidas/Ultimas!! (mismo componente, no hace falta remedirlas).
+- **Alto de tarjeta 529px** — bastante más que los 388.1px que rendía la maqueta. El tool no desglosa sub-elementos de un ítem, así que no alcanzaba para saber qué parte explicaba la diferencia.
+
+El usuario remidió apuntando el selector CSS avanzado directo a `img.sportingio-custom-shelf-0-x-image` de una tarjeta real (captura de DevTools): **243×243px exactos** (cuadrada, ratio 1:1 — no 200px de alto como estaba) y **`object-fit: contain`** (no `cover` — la imagen entra completa, no se recorta). Corregido en `.sp-product-media img`.
+
+Con el fix de imagen la tarjeta pasa de 388.1px a **431.1px** de alto — más cerca del real (529px) pero **todavía quedan ~98px sin explicar** (otra sub-parte de la tarjeta, no identificada — candidatos: más padding en el body, tags en más de una fila, o espacio para los puntos de paginación interna que no se llegó a medir). Pendiente si se quiere cerrar la diferencia del todo: medir con el selector avanzado el `.sp-product-body` (o sub-partes) de una tarjeta real.
+
 ### Fix 2026-07-18 — "⚽ Clubes y Selecciones de Fútbol": título centrado + escudos más grandes y espaciados
 
 El usuario pidió comparar este módulo puntual contra una captura del sitio productivo, "muy al detalle". Se intentó remedir en vivo (`sporting.com.ar`, scroll incremental + eventos de wheel forzados, viewport 1280px) pero esta sección **volvió a no montar** en el scraping — mismo problema ya documentado arriba ("esta sección... dejaron de aparecer en varios intentos de scraping en vivo"), persiste en esta sesión. Se trabajó por comparación visual directa entre la captura del usuario (sitio real) y una captura equivalente de la maqueta, ambas al mismo zoom/viewport aproximado (se pudo calibrar la escala usando el header, que sí tiene medidas ya confirmadas — topline/header-full/navbar dieron la misma altura en píxeles en ambas capturas, confirmando que estaban a la misma escala).
