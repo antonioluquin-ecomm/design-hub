@@ -352,29 +352,43 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-navbar .sp-navbar-badges { display: flex; gap: 32px; align-items: center; }
 
 /*
- * Mega-menú de "Hombre" — medido en vivo 2026-07-20 con el bookmarklet
- * Layout Inspector sobre sporting.com.ar apuntando a la columna "Calzado":
- * cada ítem de la lista mide 129.6×26.1px exactos, con gap 0 (van
- * pegados, sin separación entre renglones) y el título de columna ocupa
- * el mismo alto de renglón que los links (mismo ancho 129.6, gap 0 con
- * el primer link) — se redondea a 130×26px. Solo esta columna se pudo
- * medir con la herramienta; el resto (Indumentaria/Accesorios/
- * Disciplinas/Destacados) y el banner de la derecha se reconstruyeron a
- * partir de una captura de pantalla del usuario (contenido de cada
- * columna confirmado visualmente, geometría de ítem asumida igual a la
- * de Calzado por ser el mismo componente — no remedida independientemente
- * columna por columna). "Ver Todo" va en verde, distinto al resto de los
- * links — confirmado por captura.
+ * Mega-menú de "Hombre" — medido en vivo con el bookmarklet Layout
+ * Inspector sobre sporting.com.ar. Contenido y geometría de las 5
+ * columnas (Calzado/Indumentaria/Accesorios/Disciplinas/Destacados)
+ * ahora medidas todas, no solo Calzado (corrección 2026-07-21, ver
+ * NOTAS.md):
+ *  - Alto de ítem 26.1px y gap vertical 0 (renglones pegados, sin
+ *    separación) — igual en las 5 columnas, confirmado.
+ *  - El ANCHO es distinto por columna, no uniforme como se había
+ *    asumido en la primera versión (solo con el dato de Calzado):
+ *    Calzado 129.6→130px, Indumentaria 100.2→100px, Accesorios
+ *    114.3→114px, Disciplinas 79.3→79px, Destacados 139.9→140px.
+ *  - Gap horizontal ENTRE columnas: no lo mide directamente el tool
+ *    (mide una columna a la vez), pero se puede derivar comparando la
+ *    posición `left` de los 4 títulos entre sí — da ~63.5px consistente
+ *    en las 4 uniones, se corrigió de los 40px estimados por captura.
+ *  - "Ver Todo" (verde, distinto al resto de los links) está en
+ *    Calzado, Indumentaria y Accesorios, confirmado que NO está en
+ *    Disciplinas ni Destacados (esas dos terminan directo en su último
+ *    ítem real) — antes se había asumido que faltaba en Accesorios
+ *    también, corregido.
+ *  - El banner de la derecha no se pudo medir (no es una lista de
+ *    ítems) — sigue basado en la captura de pantalla del usuario.
  */
 .sp-nav-item { position: relative; }
 .sp-mega-menu {
   display: none; position: absolute; top: 100%; left: 0; z-index: 60;
   background: #fff; border-top: 1px solid var(--sp-line);
   box-shadow: 0 16px 32px rgba(0,0,0,.14);
-  padding: 24px 32px; gap: 40px;
+  padding: 24px 32px; gap: 63.5px;
 }
 .sp-nav-item:hover .sp-mega-menu { display: flex; }
-.sp-mega-col { width: 130px; flex-shrink: 0; display: flex; flex-direction: column; }
+.sp-mega-col { flex-shrink: 0; display: flex; flex-direction: column; }
+.sp-mega-col.calzado { width: 130px; }
+.sp-mega-col.indumentaria { width: 100px; }
+.sp-mega-col.accesorios { width: 114px; }
+.sp-mega-col.disciplinas { width: 79px; }
+.sp-mega-col.destacados { width: 140px; }
 .sp-mega-col a { display: block; height: 26px; line-height: 26px; font-size: 14px; color: var(--sp-text); text-decoration: none; white-space: nowrap; }
 .sp-mega-col a.sp-mega-col-title { font-weight: 700; color: #000; }
 .sp-mega-col a.sp-mega-col-all { color: var(--sp-green); font-weight: 700; }

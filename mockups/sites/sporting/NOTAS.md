@@ -293,6 +293,22 @@ No existía en la maqueta — quedaba anotado como pendiente ("Header con menú 
 
 **Pendiente:** remedir Indumentaria/Accesorios/Disciplinas/Destacados con el bookmarklet si se quiere confirmar que la geometría de ítem es 100% idéntica en las 5 columnas (razonablemente esperable al ser el mismo componente, pero no confirmado). Contenido exacto de "Ver Todo" en Disciplinas/Destacados sin confirmar (se asumió que no existe en esas 2, según lo que se veía en la captura).
 
+### Corrección 2026-07-21 — Mega-menú: las 5 columnas medidas, ancho NO era uniforme
+
+El usuario remidió las 4 columnas restantes con `layout-inspector` v1.7. El intento de reproducir la interacción en el navegador de esta sesión falló (el sitio mostró el menú **mobile** — `sportingio-drawer-menu-0-x-*`, oculto fuera de pantalla — en vez del mega-menú de escritorio `sportingio-custom-menu-0-x-*`, aparentemente porque esta sesión no logra que el sitio detecte viewport de escritorio; mismo tipo de limitación de scraping en vivo ya documentado para este sitio). El usuario lo hizo desde su propio navegador y pasó los 4 JSON.
+
+Confirmado con los 4 JSON + el de Calzado ya tomado:
+
+- **El ancho NO es uniforme entre columnas** (se había asumido 130px para las 5 por ser "el mismo componente") — cada columna tiene su propio ancho fijo, aparentemente dimensionado al texto más largo de esa columna: Calzado 129.6→**130px**, Indumentaria 100.2→**100px**, Accesorios 114.3→**114px**, Disciplinas 79.3→**79px**, Destacados 139.9→**140px**. Alto de ítem (26.1→26px) y gap vertical (0) sí son idénticos en las 5, eso sí se confirmó.
+- **Gap entre columnas:** el tool no lo mide directamente (mide una columna a la vez), pero se derivó comparando la posición `left` de los 4 títulos entre sí — da **63.5px** exactos y consistentes en las 4 uniones (Calzado→Indumentaria, Indumentaria→Accesorios, Accesorios→Disciplinas, Disciplinas→Destacados). Corregido de los 40px estimados por captura.
+- **"Ver Todo" en Accesorios:** SÍ está (16 ítems reales, el último es "Ver Todo") — se había asumido que no, por no verse completo en la captura de pantalla original. Confirmado que Disciplinas y Destacados siguen sin él (11 y 8 ítems reales respectivamente, ninguno termina en "Ver Todo").
+
+Se agregaron clases modificadoras por columna (`.sp-mega-col.calzado/.indumentaria/.accesorios/.disciplinas/.destacados`, cada una con su `width` propio) en vez del `.sp-mega-col { width:130px }` único que había antes, se ajustó el gap del `.sp-mega-menu` a 63.5px, y se sumó el link "Ver Todo" faltante en Accesorios.
+
+Verificado en el navegador (pestaña nueva, por el problema de caché ya documentado arriba): anchos 130/100/114/79/140px exactos por columna, gap entre columnas 63.5px en las 4 uniones, "Ver Todo" presente en Calzado/Indumentaria/Accesorios y ausente en Disciplinas/Destacados — todo coincide con lo medido.
+
+**Pendiente actualizado:** el banner de la derecha sigue sin medir (no es una lista de ítems, el tool no aplica) — sigue basado en la captura de pantalla.
+
 ## Pantallas maquetadas
 
 | Archivo | Contenido |
