@@ -270,7 +270,15 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-product-body { padding: 10px 12px 14px; }
 .sp-product-name { font-size: 13px; font-weight: 500; margin-bottom: 6px; line-height: 1.35; min-height: 35px; }
 .sp-product-price { font-size: 17px; font-weight: 700; margin-bottom: 2px; }
-.sp-product-cuotas { font-size: 11.5px; color: var(--sp-muted); margin-bottom: 4px; }
+/*
+ * Medido en vivo 2026-07-21 con selector avanzado sobre
+ * `.sportingio-custom-shelf-0-x-container_installments` de una tarjeta
+ * real: 34px de alto (la maqueta rendía 17px, la mitad) — el texto real
+ * parece ocupar 2 líneas dentro del ancho de la tarjeta. `min-height`
+ * reserva el mismo espacio sin forzar el wrap si el texto de ejemplo
+ * entra en una sola línea.
+ */
+.sp-product-cuotas { font-size: 11.5px; color: var(--sp-muted); margin-bottom: 4px; min-height: 34px; }
 .sp-product-envio { font-size: 11.5px; color: var(--sp-green-dark); font-weight: 700; margin-bottom: 10px; }
 .sp-btn-select { width: 100%; background: var(--sp-green); color: #fff; border: none; border-radius: 6px; padding: 10px; font-weight: 700; font-size: 12px; letter-spacing: .03em; cursor: pointer; font-family: 'Poppins', sans-serif; }
 .sp-btn-select:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
