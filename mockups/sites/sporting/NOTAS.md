@@ -277,6 +277,24 @@ El usuario notó que el breadcrumb "no se veía como en productivo" aunque estab
 
 Estilo actualizado en `.sp-breadcrumb`/`.sp-breadcrumb a`/`.sp-breadcrumb a.current`/`.sp-breadcrumb .sep` en `sporting.css`.
 
+### Corrección 2026-08-04 — Switcher de grilla/lista faltante en la barra de resultados
+
+El usuario notó que faltaba el botón para cambiar la vista de grilla en desktop. Confirmado en vivo: existe un control con 2 botones (`aria-label="Switch to grid layout"` / `"Switch to list layout"`, clase real `vtex-search-result-3-x-galleryLayoutSwitcher`), ubicado en la barra de resultados **entre el contador de productos y "Ordenar Por"**, con la opción de grilla activa por defecto (clase `--selected`). Botón grilla 60px de ancho, botón lista 44px, ambos 28px de alto, sin borde de contenedor.
+
+Los íconos reales son un sprite SVG (`<use xlink:href="#mpa-gallery">`) que no llegó a renderizar visualmente en la sesión de captura (mismo problema ya visto con el ícono de "Inicio" del breadcrumb) — se aproximaron con glifos unicode ⊞ (grilla) / ☰ (lista) en vez de perseguir el ícono exacto, mismo criterio ya usado en otros badges de esta maqueta cuando el asset real no es reproducible. Nuevo markup `.sp-results-right`/`.sp-layout-switcher`/`.sp-layout-btn` en `plp.html`/`sporting.css`, decorativo (sin lógica real de alternar grilla/lista).
+
+### Corrección 2026-08-04 — Módulo faltante: "globitos" de categoría
+
+El usuario pidió comparar contra `sporting.com.ar/sporting` (PLP general de la marca, sin filtro de género/tipo — a diferencia de `plp.html`, que maqueta la vista filtrada "Zapatillas Hombre") y señaló un módulo ausente: una fila de categorías circulares justo debajo del breadcrumb.
+
+Confirmado en vivo (`sportingio-store-components-1-x-slideItem*`): son **9 círculos de 100×100px contiguos** (gap 0 entre ítems, `getBoundingClientRect` confirmado) con imagen de categoría + título 14px negro regular centrado debajo (margin-top 7px) — **Argentina, Zapatillas, Botines, Camisetas, Remeras, Shorts, Bicicletas, Mochilas, Pelotas**. Sin título de sección arriba. Es un componente de carrusel VTEX (mismo patrón que el banner del punto anterior) pero en este ancho de contenido (898px) los 9 ítems entran exactos sin necesitar flechas — no se agregó lógica de carrusel.
+
+**Alineación importante:** este módulo va dentro del área de contenido (`<main>`, mismo ancho que la grilla de productos), **no** a todo el ancho de la página como el breadcrumb o el banner informativo — confirmado comparando su `left` real (346px) contra el de "Filtros" del sidebar (que arranca en x:10) y el del contador "881 productos" (x:336, prácticamente el mismo borde). Se agregó como primer elemento de `<main>`, antes del H1.
+
+**Nota de alcance:** esta categoría puntual (`/sporting`, sin filtro) es una PLP distinta de la que ya maqueta este archivo (`/hombre?...zapatillas/hombre`) — no se remidió si el resto de los módulos (filtros, tarjetas) cambian entre una y otra vista; se asume que comparten el mismo chrome ya documentado y que este módulo de categorías simplemente se agrega sin tocar el resto.
+
+**Ajuste 2026-08-04 (mismo día):** las 9 imágenes se habían maquetado primero con texto abreviado por categoría (`Arg`, `Zap`, `Bot`...), mismo criterio que las tarjetas de producto (que sí llevan el nombre del producto de ejemplo en la imagen). Corregido a placeholder gris + medidas (`100x100`), igual criterio que el banner informativo — son fotos de contenido real (no productos de catálogo), y el nombre de cada categoría ya está en el label de texto debajo, así que repetirlo en la imagen era redundante. Criterio general para esta maqueta: **imagen de producto de catálogo → nombre de ejemplo en el placeholder; imagen de contenido/marketing no reproducible → gris + medidas.**
+
 
 Se agregó `<h1 class="sp-plp-title">Zapatillas de Hombre</h1>` como primer elemento de `<main>`, entre el breadcrumb y la barra de resultados (contador + orden) — ubicación estándar de PLP. Texto elegido para calzar con la última migaja del breadcrumb ("Hombre") sin repetir "Sporting". Estilo nuevo `.sp-plp-title` en `sporting.css` (20px bold), pensado para no romper el layout real ya confirmado del resto de la página. Se verificó que no hay conflicto con otro `<h1>` en la página (el logo es un `<a>`, no un heading).
 
