@@ -15,10 +15,12 @@
   --pp-bg:         #ebebeb;
   --pp-card:       #ffffff;
   --pp-text:       #222222;
-  --pp-muted:      #757575;
+  --pp-muted:      #8a6a4a; /* tono cálido/marrón confirmado en breadcrumb y opción deshabilitada — no gris puro; aprox. a ojo, revisar con getComputedStyle si hace falta precisión */
+  --pp-celeste:    #3a9fc2; /* fondo-celeste de las info-cards, más claro que --pp-teal (fondo-celeste-oscuro) — derivado aproximando --pp-teal aclarado, sin sampleo real */
   --pp-line:       #e0e0e0;
   --pp-green:      #2fb457;
   --pp-green-bg:   #2fb457;
+  --pp-yellow:     #ffcf00; /* aprox. de captura, sin color-picker — revisar si hace falta precisión */
 }
 
 body {
@@ -77,10 +79,13 @@ body {
 .pp-option-item:last-child { border-bottom: none; }
 .pp-option-item:hover { background: #f7f7f7; }
 .pp-option-item .pp-chevron { color: var(--pp-muted); font-size: 18px; }
+.pp-option-item.disabled { color: var(--pp-muted); cursor: default; pointer-events: none; }
+.pp-option-item.disabled:hover { background: none; }
+.pp-option-item.disabled .pp-chevron { color: var(--pp-muted); opacity: .7; }
 
-/* Info cards (teal, con icono) */
+/* Info cards (celeste, con icono) */
 .pp-info-card {
-  background: var(--pp-teal);
+  background: var(--pp-celeste);
   color: #fff;
   border-radius: 4px;
   padding: 16px 20px;
@@ -129,18 +134,22 @@ body {
 .pp-package { background: var(--pp-teal); color: #fff; border-radius: 4px; margin-bottom: 14px; overflow: hidden; }
 .pp-package-header {
   display: grid;
-  grid-template-columns: 90px 1fr 1fr 40px;
+  grid-template-columns: 90px 1fr 40px;
   align-items: center;
   gap: 16px;
   padding: 16px 20px;
   cursor: pointer;
 }
 .pp-package-num-label { font-size: 11px; opacity: .85; margin-bottom: 2px; }
-.pp-package-num { font-size: 22px; font-weight: 800; background: #fff; color: var(--pp-teal); border-radius: 3px; text-align: center; padding: 6px 0; }
+.pp-package-num { font-size: 22px; font-weight: 800; background: #fff; color: var(--pp-teal); border-radius: 6px; text-align: center; padding: 6px 0; }
+.pp-package-fields { display: flex; flex-direction: column; gap: 10px; }
+.pp-package-fields-row { display: flex; gap: 40px; }
 .pp-package-field { font-size: 12px; }
 .pp-package-field .k { opacity: .85; margin-bottom: 3px; }
 .pp-package-field .v { background: #fff; color: var(--pp-teal); border-radius: 3px; padding: 4px 10px; font-weight: 600; display: inline-block; }
-.pp-badge-estado { background: var(--pp-green); color: #fff; font-weight: 700; font-size: 12px; border-radius: 3px; padding: 5px 14px; display: inline-block; }
+.pp-badge-estado { font-weight: 700; font-size: 12px; border-radius: 3px; padding: 4px 10px; display: inline-block; }
+.pp-badge-estado.ok { background: var(--pp-green); color: #fff; }
+.pp-badge-estado.warn { background: var(--pp-yellow); color: #222; }
 .pp-package-toggle { width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; font-size: 12px; justify-self: end; }
 
 .pp-package-body { background: var(--pp-teal); padding: 0 20px 20px; display: none; }

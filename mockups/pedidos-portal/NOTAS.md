@@ -43,9 +43,26 @@ El usuario compartió una captura del formulario de confirmación con sus datos 
 
 Estilos propios en `portal.css` — identidad separada del design system interno (teal `#007e9e`, Lato), igual criterio que el verde de Sporting en `marketplace-portal/public`.
 
+### Corrección 2026-07-21 — header de paquete: faltaban los campos "Estado" y "Cantidad"
+
+Screenshot + HTML en vivo de un pedido en estado "En Preparación" (compartidos por el usuario) mostraron que el header colapsado de cada paquete tiene **2 filas de campos**, no 1: `N° de seguimiento` / `Tipo` arriba, y `Estado` (badge de color) / `Cantidad` abajo. La maqueta solo tenía la primera fila. Se corrigió `.pp-package-header` (grid `90px 1fr 40px` + `.pp-package-fields` interno con 2 `.pp-package-fields-row`) y se agregó `.pp-badge-estado` con variantes `.ok` (verde, "Entregado") y `.warn` (amarillo, "En Preparación") en `portal.css`. El color amarillo (`--pp-yellow`) es aproximado a ojo desde la captura, sin color-picker — revisar si se necesita precisión.
+
+También se confirmó con este JSON del Layout Inspector (medido sobre `pp-card`/filas del resumen del pedido) que el espaciado vertical actual de `.pp-order-row` (gap ~20.6–20.7px medido vs. ~21px de la maqueta) ya es correcto — sin cambios ahí.
+
+Con el bookmarklet se detectó también un falso positivo en la sección "¿Qué acción deseas realizar?": el Layout Inspector mezcló la tarjeta de opción con las info-cards de abajo bajo el mismo contenedor genérico `.pagina` (limitación conocida de layouts mixtos). Pendiente re-medir esa sección con selector CSS acotado (`.tarjeta.sombras.bordes-redondos-md-0` o similar) antes de tocar `.pp-option-list`.
+
+### Corrección 2026-07-21 — estructura de "¿Qué acción deseas realizar?" y estado deshabilitado
+
+HTML en vivo (`ver-código-fuente` compartido por el usuario) confirmó que la tarjeta compartida con separador para las 2 opciones **sí era correcta** — la mezcla del JSON del Layout Inspector era el falso positivo de layouts mixtos ya documentado arriba, no un error de la maqueta.
+
+También reveló un estado nuevo: la opción "Cambios y devoluciones" puede estar deshabilitada (`boton-deshabilitado`) cuando el pedido no es elegible (regla de 180 días / no entregado aún). El texto deshabilitado y el breadcrumb "Términos y condiciones" se ven en un tono cálido marrón/anaranjado, no gris puro — se ajustó `--pp-muted` en `portal.css` a ese tono (aproximado a ojo desde la captura, revisar con `getComputedStyle` si se necesita precisión). También se separó `--pp-celeste` (fondo de `.pp-info-card`, más claro) de `--pp-teal` (topbar/paquetes), derivado aclarando `--pp-teal` — no es un valor sampleado.
+
+Se agregó un panel de control en `menu.html` (mismo patrón que `devolucion-opciones-modular.html`) con toggle "Elegibilidad" (Sí/No) que alterna `.pp-option-item.disabled` en "Cambios y devoluciones", para no perder la navegación funcional hacia `devolucion-opciones-modular.html` en el estado por defecto.
+
 ## Pendiente / no capturado todavía
 
-- [ ] Estado de un pedido que NO esté en "Entregado" (ej. En Preparación, En Camino) — solo se vio el caso "todo entregado"
+- [ ] Contenido expandido de un paquete en estado distinto a "Entregado" (ej. acordeón abierto con "En Preparación" — solo se vio colapsado)
+- [ ] Confirmar con color-picker el valor exacto de `--pp-muted` (cálido) y `--pp-celeste` (info-cards) — hoy son aproximaciones a ojo
 - [ ] Flujo de "Cambio" (B2C) — solo se maquetó "Devolución" y "Devolución por garantía"
 - [ ] Pantalla de confirmación final / éxito después de "Finalizar gestión" en `garantia-confirmar.html`
 - [ ] Confirmar si otros sellers (más allá de Adidas y el caso B2C genérico) tienen reglas propias de opciones
