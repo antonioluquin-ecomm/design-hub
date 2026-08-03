@@ -585,12 +585,32 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-filter-group.open .sp-filter-options { display: flex; }
 .sp-filter-option { display: flex; align-items: center; gap: 8px; font-size: 12.5px; padding: 5px 0; cursor: pointer; color: var(--sp-text); }
 .sp-filter-option .count { color: var(--sp-muted); margin-left: auto; }
+/*
+ * Confirmado en vivo 2026-08-03: los grupos con más de 10 opciones
+ * (Talle/Marca/Disciplina/Colores) muestran solo las primeras 10 y un
+ * link "Mostrar X más" para expandir — Sub Tipo/Ofertas/Clubes no lo
+ * tienen porque su lista completa ya entra en 10 o menos.
+ */
+.sp-filter-more { display: block; background: none; border: none; padding: 6px 0 0; margin: 0; font-size: 12px; font-weight: 600; color: var(--sp-green-dark); cursor: pointer; text-align: left; font-family: 'Poppins', sans-serif; }
+.sp-filter-more:hover:not(:disabled):not(.ctrl-panel *) { background: none; transform: none; text-decoration: underline; }
 
 .sp-price-range { display: flex; gap: 8px; margin-top: 10px; }
 .sp-price-range input { width: 0; flex: 1; border: 1px solid var(--sp-line); border-radius: 4px; padding: 8px 10px; font-family: 'Poppins', sans-serif; font-size: 12px; }
 .sp-price-search-btn { background: var(--sp-black); color: #fff; border: none; border-radius: 4px; padding: 0 14px; font-weight: 700; font-size: 11.5px; cursor: pointer; font-family: 'Poppins', sans-serif; }
 .sp-price-search-btn:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-black); transform: none; }
 .sp-price-range-label { font-size: 11px; color: var(--sp-muted); margin-top: 8px; }
+/*
+ * Slider de rango de precio — confirmado en vivo 2026-08-03
+ * (`.vtex-slider-container` real): track 4px gris `#e3e4e6`, relleno y
+ * manijas negras (no verde institucional, aunque el resto de botones
+ * del sitio sí lo son), manijas circulares 12px sin borde. La maqueta
+ * no tenía slider, solo los 2 inputs + botón — se agrega decorativo,
+ * sin arrastre real, con las manijas en los extremos (estado sin
+ * filtro aplicado, igual al que se vio en vivo).
+ */
+.sp-price-slider { position: relative; height: 12px; margin: 14px 2px 2px; }
+.sp-price-slider-track { position: absolute; top: 50%; left: 0; right: 0; height: 4px; background: #000; border-radius: 999px; transform: translateY(-50%); }
+.sp-price-slider-handle { position: absolute; top: 50%; width: 12px; height: 12px; border-radius: 50%; background: #000; transform: translate(-50%, -50%); }
 
 .sp-plp-title { font-size: 20px; font-weight: 700; margin: 0 0 14px; color: var(--sp-text); }
 
@@ -606,11 +626,51 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-plp-card-nav:hover:not(:disabled):not(.ctrl-panel *) { background: rgba(255,255,255,.9); transform: translateY(-50%); }
 .sp-plp-card-nav.left { left: 8px; }
 .sp-plp-card-nav.right { right: 8px; }
+/*
+ * Corregido 2026-08-03 con inspección en vivo del `.slick-dots` real de
+ * la PLP (`sporting.com.ar/hombre?...zapatillas/hombre`): son botones
+ * de 6x6px con el número oculto (`font-size:0`), activo negro `#000`,
+ * inactivo gris claro `#d9d9d9` — la maqueta tenía un overlay blanco
+ * translúcido sobre la foto, mal. Se dejó el comportamiento de
+ * aparecer al hover (no reconfirmado si el real es siempre visible).
+ */
 .sp-plp-card-dots { position: absolute; bottom: 8px; left: 0; right: 0; display: flex; justify-content: center; gap: 4px; opacity: 0; transition: opacity .15s; }
 .sp-product-media:hover .sp-plp-card-dots { opacity: 1; }
-.sp-plp-card-dots span { width: 5px; height: 5px; border-radius: 50%; background: rgba(0,0,0,.25); }
-.sp-plp-card-dots span.active { background: #fff; }
+.sp-plp-card-dots span { width: 6px; height: 6px; border-radius: 50%; background: #d9d9d9; }
+.sp-plp-card-dots span.active { background: #000; }
 .sp-coupon-tag { display: inline-block; background: #1a2a6c; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; letter-spacing: .03em; margin-bottom: 6px; }
+
+/*
+ * Badge de seller/estado superpuesto sobre la imagen — corregido
+ * 2026-08-03: en vivo, "Tienda adidas"/"Nuevo" van en la esquina
+ * superior izquierda de la FOTO (overlay), no como texto aparte entre
+ * las cuotas y el botón como tenía la maqueta antes.
+ */
+.sp-plp-badge { position: absolute; top: 0; left: 0; z-index: 2; font-size: 12px; font-weight: 600; padding: 4px 10px; color: #fff; }
+.sp-plp-badge.seller { background: var(--sp-black); }
+.sp-plp-badge.new { background: #acdba3; }
+
+/*
+ * Precio con descuento — confirmado en vivo (tarjeta "Puma Softride
+ * Enzo 5"): precio de lista arriba en gris sin tachar, precio final
+ * abajo en rojo bold, badge "-XX%" en píldora roja aparte.
+ */
+.sp-product-price-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 2px; }
+.sp-price-list { font-size: 13px; color: #2e2e2e; }
+.sp-price-sale { font-size: 14.5px; font-weight: 600; color: #cb0900; }
+.sp-discount-badge { background: #cb0900; color: #fff; font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 3px; }
+
+/*
+ * Tira de financiación entre navbar y breadcrumb — encontrada en vivo
+ * 2026-08-03 en la PLP real, no estaba maquetada (solo se había
+ * documentado la versión "tira de cuotas" de tarjetas grandes de la
+ * home, que es un componente distinto). Fila compacta de logos de
+ * banco + condición, aproximada con placeholders de texto.
+ */
+.sp-plp-promo-strip { display: flex; align-items: center; gap: 16px; padding: 6px 28px; border-bottom: 1px solid var(--sp-line); flex-wrap: wrap; }
+.sp-plp-promo-strip img { height: 18px; display: block; }
+.sp-plp-promo-item { font-size: 11px; font-weight: 700; color: var(--sp-text); }
+.sp-plp-promo-item.pct { color: #e0392b; }
 
 .sp-load-more-row { text-align: center; margin-top: 32px; }
 .sp-load-more-count { font-size: 12.5px; color: var(--sp-muted); margin-bottom: 12px; }

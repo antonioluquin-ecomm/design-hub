@@ -216,6 +216,50 @@ Se creó `plp.html` como página estática (sin panel de control modular, a dife
 
 El equipo de SEO pidió agregar el H1 de categoría, que faltaba en `plp.html`. **No se navegó en vivo para esto** — a diferencia del resto de las correcciones de este archivo, es una adición por requerimiento de SEO, no una corrección de fidelidad visual. No se verificó si el sitio real tiene un H1 (visualmente oculto o ausente) en esta URL — si en el futuro se confirma contra el sitio real, actualizar esta nota.
 
+### Corrección 2026-08-03 — H1 confirmado en vivo + revisión a fondo de la PLP (tanda 1: financiación, badges, descuento, paginación)
+
+Se navegó en vivo `sporting.com.ar` → Hombre → Calzado → Zapatillas (URL real usa query params VTEX intelligent search, no el path viejo `/sporting/calzado/zapatillas/hombre` que daba 404 — la ruta correcta se resuelve navegando desde el mega-menú). Aprovechando la visita se confirmó primero el H1: **`document.querySelectorAll('h1').length` da 0** — no existe, ni oculto. Confirma la premisa del fix anterior.
+
+Se hizo una revisión módulo por módulo a pedido del usuario ("que se parezca más a productivo"), con `getComputedStyle`/`getBoundingClientRect` en vivo. Hallazgos de esta primera tanda, ya aplicados:
+
+- **Tira de financiación entre navbar y breadcrumb**: no estaba maquetada — es una fila compacta de logos de banco + condición (ej. "Banco Galicia · 9 cuotas", "MODO · 20% off", "Banco Macro · 10 cuotas"), distinta de la "tira de cuotas" de tarjetas grandes ya documentada para la home (componente distinto, mismo criterio de "no es lo mismo aunque se parezca"). Se agregó `.sp-plp-promo-strip` con placeholders de texto/logo — contenido real de bancos no confirmado más allá de lo visto en esa sesión, puede variar.
+- **Badges "Tienda adidas"/"Nuevo" van superpuestos en la esquina superior izquierda de la foto** (overlay, `position:absolute;top:0;left:0` sobre el contenedor de imagen) — la maqueta los tenía como texto aparte entre las cuotas y el botón (`.sp-product-envio`). Corregido con `.sp-plp-badge` (`.seller` negro, `.new` verde claro `#acdba3`, ambos texto blanco 12px), confirmado por `getComputedStyle` real. **Nota:** `.sp-product-envio` sigue existiendo en `sporting.css` sin tocar porque la usan `producto-adidas.html`/`producto-sporting.html` (snapshots congeladas) — no se auditó si esas páginas tienen el mismo error, queda pendiente si se retoman.
+- **Paginación interna de cada tarjeta**: confirmado que son botones numerados de 6×6px con el número oculto (`font-size:0`), activo negro `#000`, inactivo gris claro `#d9d9d9` (antes: overlay blanco translúcido sobre foto, inventado). Corregido color en `.sp-plp-card-dots`. No se reconfirmó si el comportamiento de aparecer solo al hover es real o si están siempre visibles (el real usa `bottom:-15px`, fuera del hover-only que tiene la maqueta) — queda como aproximación.
+- **Precio con descuento**: no había ningún ejemplo maquetado. Confirmado en vivo (tarjeta real "Puma Softride Enzo 5"): precio de lista arriba en gris `#2e2e2e` 13px **sin tachar** (no hay `text-decoration:line-through`, a diferencia del patrón típico de otros sitios), precio final abajo en rojo `#cb0900` bold, badge "-XX%" en píldora roja aparte. Se agregó el ejemplo en la tarjeta "Puma Dasher Lite" (`$109.999` → `$69.999`, `-36%`) con clases nuevas `.sp-product-price-row`/`.sp-price-list`/`.sp-price-sale`/`.sp-discount-badge`.
+- **Contador real "878 productos"** al momento de la captura (antes 881) — no se tocó el número de la maqueta, es dato dinámico que cambia con el stock, no vale la pena perseguirlo exacto.
+
+**Pendiente de esta revisión (tandas siguientes, no aplicadas todavía):**
+- Contenido real de los 7 grupos de filtro (ya relevado, falta volcarlo a `plp.html`): Sub Tipo (Botines 227/Ojotas y Chinelas 32/Zapatos 7/Zapatillas Outdoor/Zapatillas Ciclismo), Talle (34.5 a 39+), Marca (Adidas/Puma/Nike/Fila/Topper/On/Salomon/Saucony/Under Armour/Joma), Disciplina (Boxeo/Ciclismo/Fútbol/Golf/Handball/Hockey/Moda/Motorsport/Outdoor/Padel), Colores (Amarillo/Azul/Azul Marino/Azul Oscuro/Beige/Blanco/Bordó/Celeste/Crudo/Dorado — checkboxes simples, sin swatch de color), Clubes (Argentina, Mercedes AMG Petronas F1 Team, No aplica — no son los clubes de fútbol argentino que se había asumido en otra sección de este documento; en esta categoría puntual el filtro trae otro dataset).
+- El filtro de "Rangos de precio" real tiene un **slider de doble manija** (`vtex-slider-container`) debajo de los 2 inputs — la maqueta solo tiene los inputs + botón + texto estático, sin slider.
+- Dropdown de "Ordenar Por" real tiene 6 opciones confirmadas: Relevancia, Más Vendidos, Fecha de Lanzamiento, Mejor Descuento, Mayor Precio, Menor Precio (la maqueta lo deja como decorativo, no es prioritario si no se pide).
+
+### Corrección 2026-08-03 — Tanda 2: contenido real de los 7 grupos de filtro
+
+Se volcó a `plp.html` el contenido real relevado en la tanda anterior, con un hallazgo adicional confirmado en vivo: los grupos con más de 10 opciones (**Talle, Marca, Disciplina, Colores**) no muestran la lista completa — VTEX corta en 10 y agrega un botón **"Mostrar X más"** (confirmado buscando ese texto en cada contenedor de filtro real). Sub Tipo (5 opciones), Ofertas (1) y Clubes (3) no lo tienen porque su lista completa ya entra en 10.
+
+- **Sub Tipo:** Botines (242), Ojotas y Chinelas (38), Zapatos (6), Zapatillas Outdoor (29), Zapatillas Ciclismo (9) — lista completa.
+- **Talle:** 34.5 a 39 (10 valores) + "Mostrar 18 más" — hay más talles por encima de 39, no confirmados (el botón no se expandió en esta sesión).
+- **Marca:** Adidas, Puma, Nike, Fila, Topper, On, Salomon, Saucony, Under Armour, Joma (10) + "Mostrar 6 más" (16 marcas en total, las 6 restantes no confirmadas).
+- **Disciplina:** Boxeo, Ciclismo, Fútbol, Golf, Handball, Hockey, Moda, Motorsport, Outdoor, Padel (10) + "Mostrar 5 más" (15 en total).
+- **Ofertas:** un solo checkbox "Ofertas (77)".
+- **Colores:** Amarillo, Azul, Azul Marino, Azul Oscuro, Beige, Blanco, Bordó, Celeste, Crudo, Dorado (10) + "Mostrar 15 más" (25 en total) — son checkboxes simples, **sin swatch de color** (confirmado por inspección de DOM, no hay elemento de color de fondo en el label).
+- **Clubes:** Argentina (1), Mercedes AMG Petronas Formula One Team (7), No aplica (357) — dataset real de esta categoría puntual (zapatillas), distinto de los clubes de fútbol argentino (Boca/River/Selección) que aparecen en otras secciones del sitio (esos son de indumentaria/camisetas, no de esta categoría).
+- **Rango de precio:** actualizado el label a `$ 49.899 – $ 714.999` (valor visto en esta sesión, dato dinámico que cambia con el stock — no perseguir el número exacto en el futuro).
+
+Nuevo componente `.sp-filter-more` en `sporting.css` (link de texto, sin funcionalidad real de expandir — es decorativo, como el resto de los controles de esta maqueta).
+
+**Pendiente:** el slider de doble manija (`vtex-slider`) del rango de precio, que sigue sin maquetar (ver tanda anterior). **Resuelto, ver tanda 3 abajo.**
+
+### Corrección 2026-08-03 — Tanda 3: slider de rango de precio
+
+Se agregó el slider de doble manija que faltaba debajo de los inputs de precio. Confirmado en vivo con `getComputedStyle` sobre `.vtex-slider__base`/`.vtex-slider__selector`: track 4px de alto, gris `#e3e4e6` sin filtro aplicado — pero con **ambas manijas en los extremos** (`left-0`/`right-0`, sin filtro seleccionado) el track queda completamente cubierto de negro (`rgb(0,0,0)`, no verde institucional pese a que el resto de botones del sitio sí lo son). Manijas circulares 12px negras sin borde.
+
+Se maquetó `.sp-price-slider`/`.sp-price-slider-track`/`.sp-price-slider-handle` en `sporting.css` con el track ya en negro (representando el estado "sin filtro", igual al que se vio en vivo) y las 2 manijas en 0%/100%. Es decorativo, sin lógica de arrastre real — consistente con el resto de controles de esta maqueta.
+
+**Nota técnica de esta sesión:** el Browser pane cacheó `sporting.css` entre ediciones — un cambio no se reflejaba hasta forzar la recarga de la hoja de estilos con un query string (`sporting.css?v=...`). Si en una futura sesión un cambio de CSS "no aparece" pese a estar bien guardado en el archivo, probar esto antes de asumir que la edición falló.
+
+Con esto se cierran las 3 tandas de la revisión "que se parezca más a productivo" pedida por el usuario el 2026-08-03.
+
 Se agregó `<h1 class="sp-plp-title">Zapatillas de Hombre</h1>` como primer elemento de `<main>`, entre el breadcrumb y la barra de resultados (contador + orden) — ubicación estándar de PLP. Texto elegido para calzar con la última migaja del breadcrumb ("Hombre") sin repetir "Sporting". Estilo nuevo `.sp-plp-title` en `sporting.css` (20px bold), pensado para no romper el layout real ya confirmado del resto de la página. Se verificó que no hay conflicto con otro `<h1>` en la página (el logo es un `<a>`, no un heading).
 
 ### Corrección 2026-07-16 — PLP mobile
