@@ -212,6 +212,12 @@ Se creó `plp.html` como página estática (sin panel de control modular, a dife
 
 **Pendiente de esta pantalla:** contenido real de los 7 grupos de filtro colapsados, opciones del dropdown de orden, y el estado "sin resultados"/con filtros aplicados (solo se capturó el estado por defecto de la categoría).
 
+### Fix 2026-08-03 — H1 agregado por pedido de SEO (no confirmado contra el sitio real)
+
+El equipo de SEO pidió agregar el H1 de categoría, que faltaba en `plp.html`. **No se navegó en vivo para esto** — a diferencia del resto de las correcciones de este archivo, es una adición por requerimiento de SEO, no una corrección de fidelidad visual. No se verificó si el sitio real tiene un H1 (visualmente oculto o ausente) en esta URL — si en el futuro se confirma contra el sitio real, actualizar esta nota.
+
+Se agregó `<h1 class="sp-plp-title">Zapatillas de Hombre</h1>` como primer elemento de `<main>`, entre el breadcrumb y la barra de resultados (contador + orden) — ubicación estándar de PLP. Texto elegido para calzar con la última migaja del breadcrumb ("Hombre") sin repetir "Sporting". Estilo nuevo `.sp-plp-title` en `sporting.css` (20px bold), pensado para no romper el layout real ya confirmado del resto de la página. Se verificó que no hay conflicto con otro `<h1>` en la página (el logo es un `<a>`, no un heading).
+
 ### Corrección 2026-07-16 — PLP mobile
 
 Se navegó en vivo la misma categoría con viewport forzado a 375x812 (mobile) y scroll incremental completo. Diferencias reales confirmadas contra la versión desktop:
