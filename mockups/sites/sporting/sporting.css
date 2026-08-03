@@ -345,16 +345,18 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
  *
  * Medido en vivo 2026-07-16: gap real entre TODOS los items (incluidos
  * los 2 badges finales) es de 32px parejo, font-size 14px (no 13),
- * alto de fila ~46px. El sitio real centra la lista con
- * `justify-content:center`, pero el centrado queda pisado por varios
- * links ocultos del mega-menú (ancho 0 pero cuentan para el cálculo),
- * lo que corre visualmente el bloque bastante a la izquierda de forma
- * que no se puede reproducir limpio sin arrastrar ese mismo ruido —
- * se optó por alinear a la izquierda con el mismo padding de 32px que
- * el resto del header, más prolijo y consistente que imitar el
- * corrimiento accidental.
+ * alto de fila ~46px.
+ *
+ * Corregido 2026-08-04: se volvió a medir en vivo (`getBoundingClientRect`
+ * del primer y último item del menú real) y hoy el margen izquierdo y
+ * derecho del bloque son EXACTAMENTE iguales (113px cada uno sobre un
+ * contenedor de 1265px) — está centrado de verdad, no el corrimiento
+ * accidental que se había documentado el 2026-07-16 (que asumía que el
+ * link ocultos del mega-menú seguían rompiendo el centrado; puede que
+ * el sitio real lo haya corregido desde entonces, o que la lectura
+ * original estuviera mal). Se vuelve a `justify-content:center`.
  */
-.sp-navbar { display: flex; align-items: center; gap: 32px; padding: 0 32px; border-bottom: 1px solid var(--sp-line); font-size: 14px; font-weight: 400; }
+.sp-navbar { display: flex; align-items: center; justify-content: center; gap: 32px; padding: 0 32px; border-bottom: 1px solid var(--sp-line); font-size: 14px; font-weight: 400; }
 .sp-navbar a { color: var(--sp-text); text-decoration: none; padding: 12px 0; display: inline-block; }
 .sp-navbar a.offers { color: #ff0033; font-weight: 700; }
 .sp-navbar a.novedades { color: var(--sp-green); font-weight: 700; }
@@ -415,9 +417,31 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-mega-banner .sp-btn-outline { width: 100%; background: var(--sp-green); color: #fff; border: none; border-radius: 3px; padding: 13px 0; font-weight: 700; font-size: 15px; cursor: pointer; font-family: 'Poppins', sans-serif; }
 .sp-mega-banner .sp-btn-outline:hover:not(:disabled):not(.ctrl-panel *) { background: var(--sp-green-dark); transform: none; }
 
-.sp-breadcrumb { padding: 12px 28px; font-size: 12px; color: var(--sp-muted); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.sp-breadcrumb a { color: var(--sp-muted); text-decoration: none; }
-.sp-breadcrumb .sep { margin: 0 4px; }
+/*
+ * Corregido 2026-08-04 con inspección en vivo (`vtex-breadcrumb-1-x-container`):
+ * el contenedor real es `display:block` — los links fluyen pegados a la
+ * izquierda, sin espaciarse entre sí. La maqueta tenía
+ * `justify-content:space-between` con cada link/separador como hijo
+ * directo del flex, lo que los desparramaba a lo largo de todo el
+ * ancho de la fila — bug de layout, no fidelidad al sitio real (que
+ * nunca tuvo ese espaciado). También confirmado: todo el texto se ve
+ * en minúsculas (`text-transform:lowercase` vía CSS, el HTML real trae
+ * "SPORTING"/"CALZADO" en mayúsculas pero se fuerza a minúscula) y el
+ * último ítem (página actual) es negro bold, el resto gris normal.
+ *
+ * Se mantiene `display:flex;align-items:center` (en vez de pasar a
+ * `display:block` como el real) para no romper `.sp-breadcrumb-share`,
+ * que en mobile depende de ser un ítem de flex en la misma fila —
+ * ese ícono no se volvió a verificar en esta corrección (es de PDP,
+ * fuera del alcance de este fix puntual de la PLP); si en el futuro
+ * se toca el breadcrumb de PDP mobile, revisar que separar el share
+ * icon en un wrapper propio no sea necesario para reproducir su
+ * posición real.
+ */
+.sp-breadcrumb { padding: 8px 28px; font-size: 12px; color: var(--sp-muted); display: flex; align-items: center; }
+.sp-breadcrumb a { color: var(--sp-muted); text-decoration: none; text-transform: lowercase; padding: 2px 4px; }
+.sp-breadcrumb a.current { color: var(--sp-text); font-weight: 700; }
+.sp-breadcrumb .sep { margin: 0 0 0 4px; color: var(--sp-muted); }
 .sp-breadcrumb-share { display: none; font-size: 16px; color: var(--sp-text); cursor: pointer; flex-shrink: 0; }
 
 /* PDP layout */
@@ -661,16 +685,17 @@ button:disabled:not(.ctrl-panel *) { opacity: .5; transform: none; }
 .sp-discount-badge { background: #cb0900; color: #fff; font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 3px; }
 
 /*
- * Tira de financiación entre navbar y breadcrumb — encontrada en vivo
- * 2026-08-03 en la PLP real, no estaba maquetada (solo se había
- * documentado la versión "tira de cuotas" de tarjetas grandes de la
- * home, que es un componente distinto). Fila compacta de logos de
- * banco + condición, aproximada con placeholders de texto.
+ * Banner informativo entre navbar y breadcrumb — encontrado en vivo
+ * 2026-08-03 en la PLP real, no estaba maquetado. Corregido 2026-08-04:
+ * NO son logos de banco sueltos (así se había maquetado primero) — es
+ * UNA sola imagen (`custom-banner-gallery`, componente carrusel VTEX
+ * con 1 sola slide activa en la sesión de captura), un .gif de
+ * 1920x61px real mostrado a 1265x40px full-width. Se representa como
+ * placeholder gris con sus medidas de display, igual criterio que el
+ * resto de imágenes de contenido gráfico de este archivo.
  */
-.sp-plp-promo-strip { display: flex; align-items: center; gap: 16px; padding: 6px 28px; border-bottom: 1px solid var(--sp-line); flex-wrap: wrap; }
-.sp-plp-promo-strip img { height: 18px; display: block; }
-.sp-plp-promo-item { font-size: 11px; font-weight: 700; color: var(--sp-text); }
-.sp-plp-promo-item.pct { color: #e0392b; }
+.sp-plp-promo-strip { border-bottom: 1px solid var(--sp-line); line-height: 0; }
+.sp-plp-promo-strip img { width: 100%; height: auto; display: block; }
 
 .sp-load-more-row { text-align: center; margin-top: 32px; }
 .sp-load-more-count { font-size: 12.5px; color: var(--sp-muted); margin-bottom: 12px; }

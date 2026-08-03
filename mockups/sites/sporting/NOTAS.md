@@ -260,6 +260,24 @@ Se maquetó `.sp-price-slider`/`.sp-price-slider-track`/`.sp-price-slider-handle
 
 Con esto se cierran las 3 tandas de la revisión "que se parezca más a productivo" pedida por el usuario el 2026-08-03.
 
+### Corrección 2026-08-04 — Banner informativo como imagen única + navbar centrado
+
+El usuario señaló 2 cosas puntuales después de revisar el resultado:
+
+1. **El "banner de financiaciones" es una sola imagen**, no logos de banco sueltos con texto como se había maqueta do en la tanda 1. Se volvió a navegar en vivo y se confirmó: es un componente `custom-banner-gallery` (carrusel VTEX, 1 sola slide activa en esta sesión) con un único `<img>` — un `.gif` (`Sporting_HeaderInformativoJul26_Desktop.gif`) de **1920×61px reales**, mostrado a **1265×40px** full-width (`getBoundingClientRect` confirmado). Se reemplazó `.sp-plp-promo-strip` (que tenía 3 logos + texto) por un único placeholder gris de `1265x40` a ancho completo, mismo criterio que el resto de banners gráficos de esta maqueta (slider principal, etc.) — no se puede reproducir el contenido real (rota con cada campaña), se deja como imagen de referencia con sus medidas.
+2. **El navbar de categorías SÍ está centrado en desktop.** Se había documentado el 2026-07-16 que el centrado real quedaba roto por links ocultos del mega-menú y por eso se optó por alinear a la izquierda. Se volvió a medir en vivo (`getBoundingClientRect` del primer y último item del menú): margen izquierdo y derecho hoy son **exactamente iguales** (113px cada uno sobre 1265px de contenedor) — está centrado de verdad. Corregido `.sp-navbar` a `justify-content:center`. No se investigó si el sitio real corrigió ese bug entre el 16/07 y ahora, o si la lectura original estaba mal — quedó consignado por si alguna vez importa la diferencia.
+
+### Corrección 2026-08-04 — Breadcrumb: bug de espaciado + minúsculas + ítem actual bold
+
+El usuario notó que el breadcrumb "no se veía como en productivo" aunque estaba presente en el DOM. Se navegó en vivo y se encontró la causa real (`vtex-breadcrumb-1-x-container`):
+
+- **El contenedor real es `display:block`** — los links fluyen pegados a la izquierda sin espaciarse entre sí. La maqueta tenía `.sp-breadcrumb` con `display:flex;justify-content:space-between`, y como cada `<a>`/`<span>` es un hijo directo del flex (no un solo grupo), ese `space-between` los desparramaba a lo largo de **todo el ancho de la fila** — un bug de layout propio, nunca existió en el sitio real. Se sacó `justify-content:space-between` y `gap:12px` (se mantuvo `display:flex;align-items:center` en vez de pasar a `block`, para no romper `.sp-breadcrumb-share` de PDP mobile, que depende de ser ítem de flex en la misma fila — ver nota en el CSS, ese ícono queda fuera del alcance de este fix y no se reverificó).
+- **Todo el texto se ve en minúsculas**, confirmado por `getComputedStyle`: el HTML real trae "SPORTING"/"CALZADO" en mayúsculas pero un `text-transform:lowercase` lo fuerza visualmente. Se cambió el HTML de `plp.html` a case natural ("Sporting", "Calzado", "Zapatillas", "Hombre") + `text-transform:lowercase` en el CSS, mismo resultado visual que el real pero manteniendo el texto semánticamente correcto en el markup.
+- **El último ítem (página actual) es negro bold** (`color:#000;font-weight:700`), el resto gris normal — antes todos los links tenían el mismo gris uniforme. Se agregó la clase `.current` al último `<a>` de `plp.html`.
+
+Estilo actualizado en `.sp-breadcrumb`/`.sp-breadcrumb a`/`.sp-breadcrumb a.current`/`.sp-breadcrumb .sep` en `sporting.css`.
+
+
 Se agregó `<h1 class="sp-plp-title">Zapatillas de Hombre</h1>` como primer elemento de `<main>`, entre el breadcrumb y la barra de resultados (contador + orden) — ubicación estándar de PLP. Texto elegido para calzar con la última migaja del breadcrumb ("Hombre") sin repetir "Sporting". Estilo nuevo `.sp-plp-title` en `sporting.css` (20px bold), pensado para no romper el layout real ya confirmado del resto de la página. Se verificó que no hay conflicto con otro `<h1>` en la página (el logo es un `<a>`, no un heading).
 
 ### Corrección 2026-07-16 — PLP mobile
