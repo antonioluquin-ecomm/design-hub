@@ -5,9 +5,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Maqueta — Sporting (PLP: Zapatillas Hombre)</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../../design-system/tokens.css" />
 <link rel="stylesheet" href="sporting.css" />
+<style>
+  /*
+    Esta hoja NO describe el sitio real: es el chrome del panel de control
+    y la regla de on/off de este módulo puntual. Por eso usa
+    design-system/tokens.css, igual criterio que index.html/producto-modular.html
+    — sporting.css sigue sin tokens porque replica la marca del sitio real.
+  */
+  .ctrl-panel {
+    position: fixed; top: 16px; right: 16px; width: 272px;
+    max-height: calc(100vh - 32px); overflow-y: auto; z-index: 100;
+    font-family: var(--font), sans-serif;
+  }
+  .ctrl-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 4px; }
+  .ctrl-panel h2 { font-size: 13px; margin: 0; }
+  .ctrl-collapse-btn { width: auto !important; margin: 0 !important; padding: 4px 8px !important; font-size: 14px !important; line-height: 1; flex-shrink: 0; }
+  .ctrl-panel .ctrl-hint { font-size: 11.5px; color: var(--muted); margin: 0 0 16px; line-height: 1.4; }
+  .ctrl-group { margin-bottom: 4px; }
+  .ctrl-group legend { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); padding: 0 0 8px; }
+  .ctrl-option { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 4px 0; cursor: pointer; }
+  .ctrl-option input { cursor: pointer; }
+  .ctrl-panel.collapsed { width: auto; }
+  .ctrl-panel.collapsed .ctrl-panel-body { display: none; }
+  .ctrl-panel.collapsed .ctrl-panel-head { margin: 0; }
+  .ctrl-panel.collapsed h2 { display: none; }
+  @media (max-width: 1180px) {
+    .ctrl-panel { position: static; width: auto; margin: 16px 28px; max-height: none; }
+    .ctrl-panel.collapsed { margin: 16px 28px; }
+  }
+
+  /* Regla on/off: los globitos de categoría son un módulo que VTEX activa
+     por categoría vía CMS (confirmado en vivo: presente en "Buzos Mujer",
+     ausente en "Zapatillas Hombre", la categoría que maqueta esta página) —
+     no es fijo de toda PLP filtrada, por eso arranca apagado por defecto. */
+  body[data-globitos="off"] .mod-globitos { display: none; }
+</style>
 </head>
-<body>
+<body data-globitos="off">
+
+  <aside class="ctrl-panel card">
+    <div class="ctrl-panel-head">
+      <h2>Panel de control</h2>
+      <button type="button" id="collapseBtn" class="secondary ctrl-collapse-btn" title="Colapsar panel" aria-expanded="true">‹</button>
+    </div>
+    <div class="ctrl-panel-body">
+      <p class="ctrl-hint">"Zapatillas Hombre" (la categoría de esta maqueta) no muestra el módulo de globitos de categoría en el sitio real — es un bloque que VTEX activa por categoría vía CMS (confirmado presente en "Buzos Mujer", por ejemplo). Prendé el toggle para ver cómo quedaría si esta categoría lo tuviera activado.</p>
+      <fieldset class="ctrl-group">
+        <legend>Módulos</legend>
+        <label class="ctrl-option"><input type="checkbox" id="globitosToggle" /> Globitos de categoría</label>
+      </fieldset>
+    </div>
+  </aside>
 
   <div class="sp-topline">
     <a href="#" onclick="return false;">W WOKER</a>
@@ -205,7 +255,7 @@
     </aside>
 
     <main>
-      <div class="sp-plp-category-bubbles">
+      <div class="sp-plp-category-bubbles mod-globitos">
         <a class="sp-plp-bubble" href="#" onclick="return false;"><img src="https://placehold.co/100x100/cccccc/666666?text=100x100" alt="Argentina" /><span>Argentina</span></a>
         <a class="sp-plp-bubble" href="#" onclick="return false;"><img src="https://placehold.co/100x100/cccccc/666666?text=100x100" alt="Zapatillas" /><span>Zapatillas</span></a>
         <a class="sp-plp-bubble" href="#" onclick="return false;"><img src="https://placehold.co/100x100/cccccc/666666?text=100x100" alt="Botines" /><span>Botines</span></a>
@@ -473,6 +523,26 @@
   document.getElementById('closeFiltersBtn').addEventListener('click', closeDrawer);
   document.getElementById('applyFiltersBtn').addEventListener('click', closeDrawer);
   backdrop.addEventListener('click', closeDrawer);
+
+  // Panel de control: toggle único para el módulo de globitos de categoría
+  // (opcional por categoría en el sitio real, ver nota en el <style>).
+  const globitosToggle = document.getElementById('globitosToggle');
+  globitosToggle.addEventListener('change', () => {
+    document.body.setAttribute('data-globitos', globitosToggle.checked ? 'on' : 'off');
+  });
+
+  const CTRL_COLLAPSE_KEY = 'sp-plp-panel-collapsed';
+  const ctrlPanel = document.querySelector('.ctrl-panel');
+  const ctrlCollapseBtn = document.getElementById('collapseBtn');
+  function setCtrlCollapsed(collapsed) {
+    ctrlPanel.classList.toggle('collapsed', collapsed);
+    ctrlCollapseBtn.textContent = collapsed ? '›' : '‹';
+    ctrlCollapseBtn.title = collapsed ? 'Expandir panel' : 'Colapsar panel';
+    ctrlCollapseBtn.setAttribute('aria-expanded', String(!collapsed));
+    localStorage.setItem(CTRL_COLLAPSE_KEY, collapsed ? '1' : '0');
+  }
+  ctrlCollapseBtn.addEventListener('click', () => setCtrlCollapsed(!ctrlPanel.classList.contains('collapsed')));
+  setCtrlCollapsed(localStorage.getItem(CTRL_COLLAPSE_KEY) === '1');
 </script>
 </body>
 </html>

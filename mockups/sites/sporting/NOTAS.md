@@ -293,6 +293,18 @@ Confirmado en vivo (`sportingio-store-components-1-x-slideItem*`): son **9 círc
 
 **Nota de alcance:** esta categoría puntual (`/sporting`, sin filtro) es una PLP distinta de la que ya maqueta este archivo (`/hombre?...zapatillas/hombre`) — no se remidió si el resto de los módulos (filtros, tarjetas) cambian entre una y otra vista; se asume que comparten el mismo chrome ya documentado y que este módulo de categorías simplemente se agrega sin tocar el resto.
 
+### Corrección 2026-08-04 — Globitos: es un módulo opcional por categoría, no fijo — se pasó a toggle
+
+El usuario preguntó si había que corregir el ticket de H1 por este módulo nuevo. Se volvió a navegar en vivo para confirmar el alcance real antes de tocar el ticket:
+
+- **En la categoría exacta que maqueta este archivo ("Zapatillas Hombre")** los globitos **no aparecen** (`0` resultados, re-confirmado dos veces) — de breadcrumb pasa directo a "Filtros"/grilla.
+- **En otras categorías filtradas sí aparecen** — confirmado en `sporting.com.ar/sporting/indumentaria/buzos/mujer` (8 globitos, sin "Argentina" esta vez).
+
+Conclusión: **no es un elemento fijo de toda PLP filtrada ni exclusivo de la PLP general sin filtro** — es un bloque que VTEX activa por categoría vía CMS/merchandising, inconsistente entre categorías. Por eso:
+
+- **El ticket de H1 no necesitó corrección** — en la página real que targetea (Zapatillas Hombre) no hay nada entre breadcrumb y H1, la instrucción original sigue siendo exacta para ese caso.
+- **La maqueta pasó a tener un panel de control** (mismo patrón que `index.html`/`menu.html`: `design-system/tokens.css` + `.ctrl-panel` + reglas on/off vía `data-globitos` en el `<body>`), con el módulo **apagado por defecto** (fiel a la categoría real que representa esta página) y un toggle para prenderlo y ver cómo quedaría si esta categoría lo tuviera activado — igual criterio que otros módulos opcionales de este sitio. Es el primer panel de control de `plp.html`, que hasta ahora era una página estática sin uno (a diferencia de `index.html`/`producto-modular.html`).
+
 **Ajuste 2026-08-04 (mismo día):** las 9 imágenes se habían maquetado primero con texto abreviado por categoría (`Arg`, `Zap`, `Bot`...), mismo criterio que las tarjetas de producto (que sí llevan el nombre del producto de ejemplo en la imagen). Corregido a placeholder gris + medidas (`100x100`), igual criterio que el banner informativo — son fotos de contenido real (no productos de catálogo), y el nombre de cada categoría ya está en el label de texto debajo, así que repetirlo en la imagen era redundante. Criterio general para esta maqueta: **imagen de producto de catálogo → nombre de ejemplo en el placeholder; imagen de contenido/marketing no reproducible → gris + medidas.**
 
 **Ajuste 2026-08-04 (revisión de imágenes restantes):** las 8 imágenes de tarjeta de producto usaban `placehold.co/300x300` como src, un tamaño arbitrario que nunca coincidió con la medida real ya confirmada en este mismo archivo (fix 2026-07-21: **243×243px exactos**, `object-fit:contain`). Se actualizaron las 8 a `243x243` para que el placeholder coincida con la medida real documentada — sin cambios visuales (ya se mostraban escaladas a 243px por CSS), pero ahora el src no queda desalineado con la medida que el resto del archivo da por confirmada.
